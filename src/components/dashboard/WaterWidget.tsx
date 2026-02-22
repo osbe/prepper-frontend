@@ -1,9 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useProducts, useCreateProduct, useAddStockEntry } from '../../hooks/useProducts'
-import Modal from '../ui/Modal'
-import StockEntryForm from '../stock/StockEntryForm'
-import { Link } from 'react-router-dom'
+import { useProducts, useCreateProduct } from '../../hooks/useProducts'
 
 export default function WaterWidget() {
     const { t } = useTranslation()
@@ -12,7 +9,6 @@ export default function WaterWidget() {
 
     const [isSettingUp, setIsSettingUp] = useState(false)
     const [targetLiters, setTargetLiters] = useState('100')
-    const [showAddStock, setShowAddStock] = useState(false)
 
     // If the products are still loading, don't show the setup UI immediately, wait for the actual data.
     if (isLoading) {
@@ -24,7 +20,6 @@ export default function WaterWidget() {
     }
 
     const waterProduct = products.find(p => p.category === 'WATER')
-    const addStock = useAddStockEntry(waterProduct?.id ?? 0)
 
     const handleSetup = async () => {
         setIsSettingUp(true)
@@ -37,15 +32,6 @@ export default function WaterWidget() {
             })
         } finally {
             setIsSettingUp(false)
-        }
-    }
-
-    const handleAddStock = async (payload: Parameters<typeof addStock.mutateAsync>[0]) => {
-        try {
-            await addStock.mutateAsync(payload)
-            setShowAddStock(false)
-        } catch (e) {
-            console.error(e)
         }
     }
 
@@ -78,61 +64,7 @@ export default function WaterWidget() {
         )
     }
 
-    const percentage = Math.min((waterProduct.currentStock / waterProduct.targetQuantity) * 100, 100)
-    const isOk = waterProduct.currentStock >= waterProduct.targetQuantity
-
-    return (
-        <>
-            <div className="bg-blue-900/20 border border-blue-800 rounded-xl p-6 mb-6">
-                <div className="flex items-start justify-between">
-                    <div>
-                        <h2 className="text-xl font-bold text-blue-300 flex items-center gap-2">
-                            💧 {t('water_widget.title')}
-                        </h2>
-                        <Link
-                            to={`/products/${waterProduct.id}`}
-                            className="text-gray-400 hover:text-blue-400 text-sm mt-1 inline-block transition-colors"
-                        >
-                            {t('water_widget.manage_link')} →
-                        </Link>
-                    </div>
-                    <button
-                        onClick={() => setShowAddStock(true)}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                    >
-                        {t('water_widget.add_stock')}
-                    </button>
-                </div>
-
-                <div className="mt-5">
-                    <div className="flex justify-between text-sm mb-1.5">
-                        <span className="text-gray-300 font-medium">
-                            {waterProduct.currentStock} {t('units.LITERS')} {t('water_widget.stored')}
-                        </span>
-                        <span className="text-gray-500">
-                            {t('water_widget.target')}: {waterProduct.targetQuantity} {t('units.LITERS')}
-                        </span>
-                    </div>
-                    <div className="w-full bg-gray-800 rounded-full h-3 border border-gray-700">
-                        <div
-                            className={`h-3 rounded-full transition-all ${isOk ? 'bg-blue-500' : 'bg-blue-400/60'}`}
-                            style={{ width: `${percentage}%` }}
-                        />
-                    </div>
-                </div>
-            </div>
-
-            {showAddStock && (
-                <Modal title={t('water_widget.add_stock')} onClose={() => setShowAddStock(false)}>
-                    <StockEntryForm
-                        unit="LITERS"
-                        onSubmit={handleAddStock}
-                        isLoading={addStock.isPending}
-                        error={null}
-                        hideExpiryDate
-                    />
-                </Modal>
-            )}
-        </>
-    )
+    // The user has set up the water product.
+    // Dashboard only shows notifications now.
+    return null
 }

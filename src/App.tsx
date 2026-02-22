@@ -5,6 +5,8 @@ import DashboardPage from './pages/DashboardPage'
 import ProductListPage from './pages/ProductListPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import ProductFormPage from './pages/ProductFormPage'
+import WaterPage from './pages/WaterPage'
+import WaterEditPage from './pages/WaterEditPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 const queryClient = new QueryClient({
@@ -23,10 +25,12 @@ export default function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<DashboardPage />} />
-            <Route path="products" element={<ProductListPage />} />
-            <Route path="products/new" element={<ProductFormPage />} />
-            <Route path="products/:id" element={<ProductDetailPage />} />
-            <Route path="products/:id/edit" element={<ProductFormPage />} />
+            <Route path="food" element={<ProductListPage />} />
+            <Route path="food/new" element={<ProductFormPage />} />
+            <Route path="food/:id" element={<ProductDetailPage />} />
+            <Route path="food/:id/edit" element={<ProductFormPage />} />
+            <Route path="water" element={<WaterPage />} />
+            <Route path="water/edit" element={<WaterEditPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

@@ -8,10 +8,14 @@ import StockEntryForm from '../components/stock/StockEntryForm'
 import ConfirmDialog from '../components/ui/ConfirmDialog'
 import Modal from '../components/ui/Modal'
 
-export default function ProductDetailPage() {
+interface Props {
+  forceId?: number
+}
+
+export default function ProductDetailPage({ forceId }: Props) {
   const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
-  const productId = Number(id)
+  const productId = forceId ?? Number(id)
   const navigate = useNavigate()
 
   const { data: product, isLoading: pLoading, error: pError } = useProduct(productId)
@@ -31,7 +35,7 @@ export default function ProductDetailPage() {
     return (
       <div className="text-center py-16">
         <p className="text-red-400">{t('products.not_found')}</p>
-        <Link to="/products" className="text-green-400 hover:underline text-sm mt-2 block">
+        <Link to="/food" className="text-green-400 hover:underline text-sm mt-2 block">
           {t('products.back_from_detail')}
         </Link>
       </div>
@@ -40,7 +44,7 @@ export default function ProductDetailPage() {
 
   const handleDeleteProduct = async () => {
     await deleteProduct.mutateAsync(productId)
-    navigate('/products')
+    navigate(product.category === 'WATER' ? '/' : '/food')
   }
 
   const handleAddStock = async (payload: Parameters<typeof addStock.mutateAsync>[0]) => {
@@ -65,11 +69,13 @@ export default function ProductDetailPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <Link to="/products" className="text-gray-400 hover:text-white text-sm transition-colors">
-          {t('products.back')}
-        </Link>
-      </div>
+      {product.category !== 'WATER' && (
+        <div className="mb-6">
+          <Link to="/food" className="text-gray-400 hover:text-white text-sm transition-colors">
+            {t('products.back')}
+          </Link>
+        </div>
+      )}
 
       {/* Product header */}
       <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 mb-6">
@@ -85,7 +91,7 @@ export default function ProductDetailPage() {
           </div>
           <div className="flex gap-2">
             <Link
-              to={`/products/${productId}/edit`}
+              to={product.category === 'WATER' ? '/water/edit' : `/food/${productId}/edit`}
               className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
             >
               {t('common.edit')}
@@ -102,9 +108,8 @@ export default function ProductDetailPage() {
         <div className="mt-4 flex items-center gap-3">
           <div className="flex-1 bg-gray-700 rounded-full h-2.5">
             <div
-              className={`h-2.5 rounded-full transition-all ${
-                product.currentStock >= product.targetQuantity ? 'bg-green-500' : 'bg-red-500'
-              }`}
+              className={`h-2.5 rounded-full transition-all ${product.currentStock >= product.targetQuantity ? 'bg-green-500' : 'bg-red-500'
+                }`}
               style={{
                 width: `${Math.min((product.currentStock / product.targetQuantity) * 100, 100)}%`,
               }}

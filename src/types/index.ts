@@ -20,6 +20,12 @@ export const CATEGORIES: Category[] = [
   'OTHER',
 ]
 
+export const FOOD_CATEGORIES: Category[] = [
+  'PRESERVED_FOOD',
+  'DRY_GOODS',
+  'FREEZE_DRIED',
+]
+
 export const UNITS: Unit[] = ['LITERS', 'KG', 'CANS', 'PIECES', 'GRAMS']
 
 export interface Product {

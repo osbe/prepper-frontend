@@ -1,15 +1,18 @@
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { setLanguage } from '../../i18n'
+import { useProducts } from '../../hooks/useProducts'
 
 export default function Navbar() {
   const { t, i18n } = useTranslation()
+  const { data: products = [] } = useProducts()
+
+  const waterProduct = products.find((p) => p.category === 'WATER')
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-      isActive
-        ? 'bg-green-700 text-white'
-        : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+    `px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive
+      ? 'bg-green-700 text-white'
+      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
     }`
 
   return (
@@ -19,19 +22,23 @@ export default function Navbar() {
         <NavLink to="/" end className={linkClass}>
           {t('nav.dashboard')}
         </NavLink>
-        <NavLink to="/products" className={linkClass}>
+        <NavLink to="/food" className={linkClass}>
           {t('nav.products')}
         </NavLink>
+        {waterProduct && (
+          <NavLink to="/water" className={linkClass}>
+            💧 {t('nav.water')}
+          </NavLink>
+        )}
         <div className="ml-auto flex items-center gap-1 text-sm font-medium">
           {(['sv', 'en'] as const).map((lang) => (
             <button
               key={lang}
               onClick={() => setLanguage(lang)}
-              className={`px-2.5 py-1 rounded-md transition-colors ${
-                i18n.language === lang
-                  ? 'bg-green-700 text-white'
-                  : 'text-gray-400 hover:bg-gray-700 hover:text-white'
-              }`}
+              className={`px-2.5 py-1 rounded-md transition-colors ${i18n.language === lang
+                ? 'bg-green-700 text-white'
+                : 'text-gray-400 hover:bg-gray-700 hover:text-white'
+                }`}
             >
               {t(`lang_label.${lang}`)}
             </button>

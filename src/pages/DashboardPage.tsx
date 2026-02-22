@@ -27,7 +27,7 @@ function StockAlertRow({
       <div className="flex items-start justify-between">
         <div>
           <Link
-            to={`/products/${entry.productId}`}
+            to={product?.category === 'WATER' ? '/water' : `/food/${entry.productId}`}
             className="font-medium text-white hover:text-green-400 transition-colors"
           >
             {product?.name ?? t('dashboard.product_fallback', { id: entry.productId })}
@@ -51,7 +51,7 @@ function LowStockRow({ product }: { product: Product }) {
   return (
     <div className="border-l-4 border-blue-700 bg-gray-800 rounded-r-lg px-4 py-3">
       <Link
-        to={`/products/${product.id}`}
+        to={product.category === 'WATER' ? '/water' : `/food/${product.id}`}
         className="font-medium text-white hover:text-green-400 transition-colors"
       >
         {product.name}

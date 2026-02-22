@@ -5,11 +5,16 @@ import { useProduct, useCreateProduct, useUpdateProduct } from '../hooks/useProd
 import ProductForm from '../components/products/ProductForm'
 import type { ProductPayload } from '../types'
 
-export default function ProductFormPage() {
+interface Props {
+  forceId?: number
+}
+
+export default function ProductFormPage({ forceId }: Props) {
   const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
-  const isEdit = id !== undefined
-  const productId = isEdit ? Number(id) : 0
+  const resolvedId = forceId ?? (id ? Number(id) : undefined)
+  const isEdit = resolvedId !== undefined
+  const productId = isEdit ? resolvedId : 0
   const navigate = useNavigate()
   const [error, setError] = useState<string | null>(null)
 
@@ -22,10 +27,10 @@ export default function ProductFormPage() {
     try {
       if (isEdit) {
         await updateProduct.mutateAsync(payload)
-        navigate(`/products/${productId}`)
+        navigate(payload.category === 'WATER' ? '/water' : `/food/${productId}`)
       } else {
         const created = await createProduct.mutateAsync(payload)
-        navigate(`/products/${created.id}`)
+        navigate(created.category === 'WATER' ? '/water' : `/food/${created.id}`)
       }
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : t('errors.something_went_wrong'))
@@ -36,16 +41,22 @@ export default function ProductFormPage() {
 
   const isMutating = createProduct.isPending || updateProduct.isPending
 
+  const backLink = isEdit
+    ? (existing?.category === 'WATER' ? '/water' : `/food/${productId}`)
+    : '/food'
+
   return (
     <div className="max-w-lg">
-      <div className="mb-6">
-        <Link
-          to={isEdit ? `/products/${productId}` : '/products'}
-          className="text-gray-400 hover:text-white text-sm transition-colors"
-        >
-          {isEdit ? t('product_form.back_to_product') : t('product_form.back_to_products')}
-        </Link>
-      </div>
+      {existing?.category !== 'WATER' && (
+        <div className="mb-6">
+          <Link
+            to={backLink}
+            className="text-gray-400 hover:text-white text-sm transition-colors"
+          >
+            {isEdit ? t('product_form.back_to_product') : t('product_form.back_to_products')}
+          </Link>
+        </div>
+      )}
 
       <h1 className="text-2xl font-bold text-white mb-6">
         {isEdit ? t('product_form.edit_title') : t('product_form.add_title')}

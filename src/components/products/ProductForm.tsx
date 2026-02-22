@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Category, Product, ProductPayload, Unit } from '../../types'
-import { CATEGORIES, UNITS } from '../../types'
+import { FOOD_CATEGORIES, UNITS } from '../../types'
 
 interface Props {
   initial?: Product
@@ -13,8 +13,8 @@ interface Props {
 export default function ProductForm({ initial, onSubmit, isLoading, error }: Props) {
   const { t } = useTranslation()
   const [name, setName] = useState(initial?.name ?? '')
-  const [category, setCategory] = useState<Category>(initial?.category ?? 'WATER')
-  const [unit, setUnit] = useState<Unit>(initial?.unit ?? 'LITERS')
+  const [category, setCategory] = useState<Category>(initial?.category ?? 'PRESERVED_FOOD')
+  const [unit, setUnit] = useState<Unit>(initial?.unit ?? 'PIECES')
   const [targetQuantity, setTargetQuantity] = useState(
     initial?.targetQuantity?.toString() ?? '',
   )
@@ -60,7 +60,7 @@ export default function ProductForm({ initial, onSubmit, isLoading, error }: Pro
           value={category}
           onChange={(e) => setCategory(e.target.value as Category)}
         >
-          {CATEGORIES.filter(c => c !== 'WATER').map((c) => (
+          {FOOD_CATEGORIES.map((c) => (
             <option key={c} value={c}>
               {t(`categories.${c}`)}
             </option>
