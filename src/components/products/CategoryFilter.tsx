@@ -21,7 +21,7 @@ export default function CategoryFilter({ value, onChange }: Props) {
       >
         {t('category_filter.all')}
       </button>
-      {CATEGORIES.map((cat) => (
+      {CATEGORIES.filter(c => c !== 'WATER').map((cat) => (
         <button
           key={cat}
           onClick={() => onChange(cat === value ? undefined : cat)}

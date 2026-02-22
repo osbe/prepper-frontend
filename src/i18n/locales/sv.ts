@@ -96,6 +96,17 @@ const sv = {
   category_filter: {
     all: 'Alla',
   },
+  water_widget: {
+    title: 'Vattenförsörjning',
+    setup_prompt: 'Ställ in din dricksvattenreserv för att säkert spåra din mest kritiska resurs.',
+    target_liters: 'Mål (Liter)',
+    setup_button: 'Börja spåra',
+    default_name: 'Dricksvatten',
+    manage_link: 'Hantera partier',
+    add_stock: 'Lägg till',
+    stored: 'lagrat',
+    target: 'Mål',
+  },
   not_found: {
     message: 'Sidan hittades inte.',
     cta: 'Gå till instrumentpanelen →',

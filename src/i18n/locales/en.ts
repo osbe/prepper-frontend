@@ -96,6 +96,17 @@ const en = {
   category_filter: {
     all: 'All',
   },
+  water_widget: {
+    title: 'Water Supply',
+    setup_prompt: 'Set up your drinking water reserve to track your most critical resource securely.',
+    target_liters: 'Target (Liters)',
+    setup_button: 'Start tracking',
+    default_name: 'Drinking Water',
+    manage_link: 'Manage batches',
+    add_stock: 'Add stock',
+    stored: 'stored',
+    target: 'Target',
+  },
   not_found: {
     message: 'Page not found.',
     cta: 'Go to dashboard →',

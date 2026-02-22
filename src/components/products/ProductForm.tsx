@@ -60,7 +60,7 @@ export default function ProductForm({ initial, onSubmit, isLoading, error }: Pro
           value={category}
           onChange={(e) => setCategory(e.target.value as Category)}
         >
-          {CATEGORIES.map((c) => (
+          {CATEGORIES.filter(c => c !== 'WATER').map((c) => (
             <option key={c} value={c}>
               {t(`categories.${c}`)}
             </option>

@@ -7,17 +7,24 @@ interface Props {
   onSubmit: (payload: StockEntryPayload) => void
   isLoading?: boolean
   error?: string | null
+  hideExpiryDate?: boolean
 }
 
 function today() {
   return new Date().toISOString().slice(0, 10)
 }
 
-export default function StockEntryForm({ unit, onSubmit, isLoading, error }: Props) {
+function getExpiryDate(baseDate: string, monthsToAdd: number) {
+  const d = new Date(baseDate)
+  d.setMonth(d.getMonth() + monthsToAdd)
+  return d.toISOString().slice(0, 10)
+}
+
+export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideExpiryDate }: Props) {
   const { t } = useTranslation()
   const [quantity, setQuantity] = useState('')
   const [purchasedDate, setPurchasedDate] = useState(today())
-  const [expiryDate, setExpiryDate] = useState('')
+  const [expiryDate, setExpiryDate] = useState(hideExpiryDate ? getExpiryDate(today(), 6) : '')
   const [location, setLocation] = useState('')
   const [notes, setNotes] = useState('')
 
@@ -26,7 +33,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error }: Pro
     onSubmit({
       quantity: parseFloat(quantity),
       purchasedDate,
-      expiryDate,
+      expiryDate: hideExpiryDate ? getExpiryDate(purchasedDate, 6) : expiryDate,
       location: location.trim() || null,
       notes: notes.trim() || null,
     })
@@ -70,16 +77,18 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error }: Pro
         />
       </div>
 
-      <div>
-        <label className="block text-sm text-gray-400 mb-1">{t('stock_form.expiry_date_label')}</label>
-        <input
-          className={inputClass}
-          type="date"
-          value={expiryDate}
-          onChange={(e) => setExpiryDate(e.target.value)}
-          required
-        />
-      </div>
+      {!hideExpiryDate && (
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">{t('stock_form.expiry_date_label')}</label>
+          <input
+            className={inputClass}
+            type="date"
+            value={expiryDate}
+            onChange={(e) => setExpiryDate(e.target.value)}
+            required
+          />
+        </div>
+      )}
 
       <div>
         <label className="block text-sm text-gray-400 mb-1">{t('stock_form.location_label')}</label>

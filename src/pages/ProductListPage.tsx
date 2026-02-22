@@ -9,7 +9,9 @@ import CategoryFilter from '../components/products/CategoryFilter'
 export default function ProductListPage() {
   const { t } = useTranslation()
   const [category, setCategory] = useState<Category | undefined>()
-  const { data: products = [], isLoading, error } = useProducts(category)
+  const { data: allProducts = [], isLoading, error } = useProducts(category)
+
+  const products = allProducts.filter(p => p.category !== 'WATER')
 
   return (
     <div>
