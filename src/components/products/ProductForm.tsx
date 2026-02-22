@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { Category, Product, ProductPayload, Unit } from '../../types'
-import { CATEGORIES, CATEGORY_LABELS, UNITS, UNIT_LABELS } from '../../types'
+import { CATEGORIES, UNITS } from '../../types'
 
 interface Props {
   initial?: Product
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function ProductForm({ initial, onSubmit, isLoading, error }: Props) {
+  const { t } = useTranslation()
   const [name, setName] = useState(initial?.name ?? '')
   const [category, setCategory] = useState<Category>(initial?.category ?? 'WATER')
   const [unit, setUnit] = useState<Unit>(initial?.unit ?? 'LITERS')
@@ -41,18 +43,18 @@ export default function ProductForm({ initial, onSubmit, isLoading, error }: Pro
       )}
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1">Name</label>
+        <label className="block text-sm text-gray-400 mb-1">{t('product_form.name_label')}</label>
         <input
           className={inputClass}
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="e.g. Mineral Water"
+          placeholder={t('product_form.name_placeholder')}
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1">Category</label>
+        <label className="block text-sm text-gray-400 mb-1">{t('product_form.category_label')}</label>
         <select
           className={inputClass}
           value={category}
@@ -60,14 +62,14 @@ export default function ProductForm({ initial, onSubmit, isLoading, error }: Pro
         >
           {CATEGORIES.map((c) => (
             <option key={c} value={c}>
-              {CATEGORY_LABELS[c]}
+              {t(`categories.${c}`)}
             </option>
           ))}
         </select>
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1">Unit</label>
+        <label className="block text-sm text-gray-400 mb-1">{t('product_form.unit_label')}</label>
         <select
           className={inputClass}
           value={unit}
@@ -75,14 +77,14 @@ export default function ProductForm({ initial, onSubmit, isLoading, error }: Pro
         >
           {UNITS.map((u) => (
             <option key={u} value={u}>
-              {UNIT_LABELS[u]}
+              {t(`units.${u}`)}
             </option>
           ))}
         </select>
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1">Target quantity</label>
+        <label className="block text-sm text-gray-400 mb-1">{t('product_form.target_qty_label')}</label>
         <input
           className={inputClass}
           type="number"
@@ -90,19 +92,19 @@ export default function ProductForm({ initial, onSubmit, isLoading, error }: Pro
           step="any"
           value={targetQuantity}
           onChange={(e) => setTargetQuantity(e.target.value)}
-          placeholder="e.g. 100"
+          placeholder={t('product_form.target_qty_placeholder')}
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1">Notes (optional)</label>
+        <label className="block text-sm text-gray-400 mb-1">{t('product_form.notes_label')}</label>
         <textarea
           className={`${inputClass} resize-none`}
           rows={3}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          placeholder="Any extra info…"
+          placeholder={t('product_form.notes_placeholder')}
         />
       </div>
 
@@ -111,7 +113,7 @@ export default function ProductForm({ initial, onSubmit, isLoading, error }: Pro
         disabled={isLoading}
         className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white font-medium py-2 rounded-lg transition-colors"
       >
-        {isLoading ? 'Saving…' : 'Save'}
+        {isLoading ? t('common.saving') : t('common.save')}
       </button>
     </form>
   )

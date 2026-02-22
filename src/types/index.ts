@@ -9,23 +9,6 @@ export type Category =
 
 export type Unit = 'LITERS' | 'KG' | 'CANS' | 'PIECES' | 'GRAMS'
 
-export const CATEGORY_LABELS: Record<Category, string> = {
-  WATER: 'Water',
-  PRESERVED_FOOD: 'Preserved Food',
-  DRY_GOODS: 'Dry Goods',
-  FREEZE_DRIED: 'Freeze-Dried',
-  MEDICINE: 'Medicine',
-  FUEL: 'Fuel',
-  OTHER: 'Other',
-}
-
-export const UNIT_LABELS: Record<Unit, string> = {
-  LITERS: 'L',
-  KG: 'kg',
-  CANS: 'cans',
-  PIECES: 'pcs',
-  GRAMS: 'g',
-}
 
 export const CATEGORIES: Category[] = [
   'WATER',

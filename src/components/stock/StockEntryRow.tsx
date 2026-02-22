@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { StockEntry, Unit } from '../../types'
-import { UNIT_LABELS } from '../../types'
+import { useFormatDate } from '../../i18n/useFormatDate'
 
 interface Props {
   entry: StockEntry
@@ -19,6 +20,8 @@ export default function StockEntryRow({
   onDelete,
   isMutating,
 }: Props) {
+  const { t } = useTranslation()
+  const formatDate = useFormatDate()
   const [editing, setEditing] = useState(false)
   const [qty, setQty] = useState(entry.quantity.toString())
 
@@ -41,28 +44,28 @@ export default function StockEntryRow({
     <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
       {isFirst && (
         <span className="inline-block text-xs font-semibold bg-green-800 text-green-200 px-2 py-0.5 rounded-full mb-2">
-          Consume next
+          {t('stock_entry.consume_next')}
         </span>
       )}
 
       <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm mb-3">
         <div>
-          <span className="text-gray-400">Quantity</span>
+          <span className="text-gray-400">{t('stock_entry.quantity_label')}</span>
           <p className="text-white font-medium">
-            {entry.quantity} {UNIT_LABELS[unit]}
+            {entry.quantity} {t(`units.${unit}`)}
           </p>
         </div>
         <div>
-          <span className="text-gray-400">Location</span>
+          <span className="text-gray-400">{t('stock_entry.location_label')}</span>
           <p className="text-white">{entry.location ?? '—'}</p>
         </div>
         <div>
-          <span className="text-gray-400">Purchased</span>
-          <p className="text-white">{entry.purchasedDate}</p>
+          <span className="text-gray-400">{t('stock_entry.purchased_label')}</span>
+          <p className="text-white">{formatDate(entry.purchasedDate)}</p>
         </div>
         <div>
-          <span className="text-gray-400">Expires</span>
-          <p className="text-white">{entry.expiryDate}</p>
+          <span className="text-gray-400">{t('stock_entry.expires_label')}</span>
+          <p className="text-white">{formatDate(entry.expiryDate)}</p>
         </div>
       </div>
 
@@ -87,13 +90,13 @@ export default function StockEntryRow({
             disabled={isMutating}
             className="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors disabled:opacity-50"
           >
-            Save
+            {t('common.save')}
           </button>
           <button
             onClick={() => setEditing(false)}
             className="px-3 py-1.5 bg-gray-600 hover:bg-gray-500 text-white text-sm rounded-lg transition-colors"
           >
-            Cancel
+            {t('common.cancel')}
           </button>
         </div>
       ) : (
@@ -102,14 +105,14 @@ export default function StockEntryRow({
             onClick={() => setEditing(true)}
             className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
           >
-            Update qty
+            {t('stock_entry.update_qty_button')}
           </button>
           <button
             onClick={() => onDelete(entry.id)}
             disabled={isMutating}
             className="px-3 py-1.5 bg-red-800 hover:bg-red-700 text-white text-sm rounded-lg transition-colors disabled:opacity-50"
           >
-            Delete
+            {t('common.delete')}
           </button>
         </div>
       )}

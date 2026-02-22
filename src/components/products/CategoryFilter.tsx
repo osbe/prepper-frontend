@@ -1,5 +1,6 @@
+import { useTranslation } from 'react-i18next'
 import type { Category } from '../../types'
-import { CATEGORIES, CATEGORY_LABELS } from '../../types'
+import { CATEGORIES } from '../../types'
 
 interface Props {
   value: Category | undefined
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export default function CategoryFilter({ value, onChange }: Props) {
+  const { t } = useTranslation()
   return (
     <div className="flex flex-wrap gap-2">
       <button
@@ -17,7 +19,7 @@ export default function CategoryFilter({ value, onChange }: Props) {
             : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
         }`}
       >
-        All
+        {t('category_filter.all')}
       </button>
       {CATEGORIES.map((cat) => (
         <button
@@ -29,7 +31,7 @@ export default function CategoryFilter({ value, onChange }: Props) {
               : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
           }`}
         >
-          {CATEGORY_LABELS[cat]}
+          {t(`categories.${cat}`)}
         </button>
       ))}
     </div>

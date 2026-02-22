@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import type { Product } from '../../types'
-import { CATEGORY_LABELS, UNIT_LABELS } from '../../types'
 import ProgressBar from '../ui/ProgressBar'
 
 interface Props {
@@ -8,8 +8,9 @@ interface Props {
 }
 
 export default function ProductCard({ product }: Props) {
+  const { t } = useTranslation()
   const { id, name, category, unit, currentStock, targetQuantity } = product
-  const unitLabel = UNIT_LABELS[unit]
+  const unitLabel = t(`units.${unit}`)
   const atTarget = currentStock >= targetQuantity
 
   return (
@@ -20,14 +21,14 @@ export default function ProductCard({ product }: Props) {
       <div className="flex items-start justify-between mb-3">
         <div>
           <h3 className="font-semibold text-white">{name}</h3>
-          <span className="text-xs text-gray-400">{CATEGORY_LABELS[category]}</span>
+          <span className="text-xs text-gray-400">{t(`categories.${category}`)}</span>
         </div>
         <span
           className={`text-xs font-medium px-2 py-0.5 rounded-full ${
             atTarget ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'
           }`}
         >
-          {atTarget ? 'OK' : 'Low'}
+          {atTarget ? t('products.ok_badge') : t('products.low_badge')}
         </span>
       </div>
       <ProgressBar current={currentStock} target={targetQuantity} />

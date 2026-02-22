@@ -1,6 +1,6 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { StockEntryPayload, Unit } from '../../types'
-import { UNIT_LABELS } from '../../types'
 
 interface Props {
   unit: Unit
@@ -14,6 +14,7 @@ function today() {
 }
 
 export default function StockEntryForm({ unit, onSubmit, isLoading, error }: Props) {
+  const { t } = useTranslation()
   const [quantity, setQuantity] = useState('')
   const [purchasedDate, setPurchasedDate] = useState(today())
   const [expiryDate, setExpiryDate] = useState('')
@@ -44,7 +45,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error }: Pro
 
       <div>
         <label className="block text-sm text-gray-400 mb-1">
-          Quantity ({UNIT_LABELS[unit]})
+          {t('stock_form.quantity_label', { unit: t(`units.${unit}`) })}
         </label>
         <input
           className={inputClass}
@@ -53,13 +54,13 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error }: Pro
           step="any"
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
-          placeholder="e.g. 40"
+          placeholder={t('stock_form.quantity_placeholder')}
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1">Purchase date</label>
+        <label className="block text-sm text-gray-400 mb-1">{t('stock_form.purchased_date_label')}</label>
         <input
           className={inputClass}
           type="date"
@@ -70,7 +71,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error }: Pro
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1">Expiry date</label>
+        <label className="block text-sm text-gray-400 mb-1">{t('stock_form.expiry_date_label')}</label>
         <input
           className={inputClass}
           type="date"
@@ -81,17 +82,17 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error }: Pro
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1">Location (optional)</label>
+        <label className="block text-sm text-gray-400 mb-1">{t('stock_form.location_label')}</label>
         <input
           className={inputClass}
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          placeholder="e.g. Basement shelf A"
+          placeholder={t('stock_form.location_placeholder')}
         />
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1">Notes (optional)</label>
+        <label className="block text-sm text-gray-400 mb-1">{t('stock_form.notes_label')}</label>
         <textarea
           className={`${inputClass} resize-none`}
           rows={2}
@@ -105,7 +106,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error }: Pro
         disabled={isLoading}
         className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white font-medium py-2 rounded-lg transition-colors"
       >
-        {isLoading ? 'Adding…' : 'Add stock'}
+        {isLoading ? t('stock_form.adding_button') : t('stock_form.add_button')}
       </button>
     </form>
   )
