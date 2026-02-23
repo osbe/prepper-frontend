@@ -2,9 +2,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Layout from './components/layout/Layout'
 import DashboardPage from './pages/DashboardPage'
-import ProductListPage from './pages/ProductListPage'
-import ProductDetailPage from './pages/ProductDetailPage'
-import ProductFormPage from './pages/ProductFormPage'
+import FoodListPage from './pages/FoodListPage'
+import FoodDetailPage from './pages/FoodDetailPage'
+import FoodFormPage from './pages/FoodFormPage'
 import WaterPage from './pages/WaterPage'
 import WaterEditPage from './pages/WaterEditPage'
 import NotFoundPage from './pages/NotFoundPage'
@@ -25,10 +25,10 @@ export default function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<DashboardPage />} />
-            <Route path="food" element={<ProductListPage />} />
-            <Route path="food/new" element={<ProductFormPage />} />
-            <Route path="food/:id" element={<ProductDetailPage />} />
-            <Route path="food/:id/edit" element={<ProductFormPage />} />
+            <Route path="food" element={<FoodListPage />} />
+            <Route path="food/new" element={<FoodFormPage />} />
+            <Route path="food/:id" element={<FoodDetailPage />} />
+            <Route path="food/:id/edit" element={<FoodFormPage />} />
             <Route path="water" element={<WaterPage />} />
             <Route path="water/edit" element={<WaterEditPage />} />
             <Route path="*" element={<NotFoundPage />} />

@@ -12,7 +12,7 @@ interface Props {
   forceId?: number
 }
 
-export default function ProductDetailPage({ forceId }: Props) {
+export default function FoodDetailPage({ forceId }: Props) {
   const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const productId = forceId ?? Number(id)
@@ -44,7 +44,7 @@ export default function ProductDetailPage({ forceId }: Props) {
 
   const handleDeleteProduct = async () => {
     await deleteProduct.mutateAsync(productId)
-    navigate(product.category === 'WATER' ? '/' : '/food')
+    navigate('/food')
   }
 
   const handleAddStock = async (payload: Parameters<typeof addStock.mutateAsync>[0]) => {
@@ -69,13 +69,11 @@ export default function ProductDetailPage({ forceId }: Props) {
 
   return (
     <div>
-      {product.category !== 'WATER' && (
-        <div className="mb-6">
-          <Link to="/food" className="text-gray-400 hover:text-white text-sm transition-colors">
-            {t('products.back')}
-          </Link>
-        </div>
-      )}
+      <div className="mb-6">
+        <Link to="/food" className="text-gray-400 hover:text-white text-sm transition-colors">
+          {t('products.back')}
+        </Link>
+      </div>
 
       {/* Product header */}
       <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 mb-6">
@@ -91,7 +89,7 @@ export default function ProductDetailPage({ forceId }: Props) {
           </div>
           <div className="flex gap-2">
             <Link
-              to={product.category === 'WATER' ? '/water/edit' : `/food/${productId}/edit`}
+              to={`/food/${productId}/edit`}
               className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
             >
               {t('common.edit')}

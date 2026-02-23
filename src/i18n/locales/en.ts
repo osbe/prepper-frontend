@@ -55,6 +55,7 @@ const en = {
     loading_stock: 'Loading stock…',
     no_stock: 'No stock entries yet.',
     delete_title: 'Delete food',
+    delete_water_title: 'Delete water',
     delete_confirm:
       'This will permanently delete "{{name}}" and all {{count}} stock batches. This cannot be undone.',
     ok_badge: 'OK',
@@ -63,6 +64,7 @@ const en = {
   product_form: {
     add_title: 'Add food',
     edit_title: 'Edit food',
+    edit_water_title: 'Edit water',
     back_to_product: '← Back to food',
     back_to_products: '← Back to food',
     name_label: 'Name',
@@ -70,6 +72,7 @@ const en = {
     category_label: 'Category',
     unit_label: 'Unit',
     target_qty_label: 'Target quantity',
+    target_qty_liters_label: 'Target quantity (Liters)',
     target_qty_placeholder: 'e.g. 100',
     notes_label: 'Notes (optional)',
     notes_placeholder: 'Any extra info…',

@@ -55,6 +55,7 @@ const sv = {
     loading_stock: 'Laddar lager…',
     no_stock: 'Inga lagerposter ännu.',
     delete_title: 'Ta bort matvara',
+    delete_water_title: 'Ta bort vatten',
     delete_confirm:
       'Detta tar permanent bort "{{name}}" och alla {{count}} lagerbatchar. Det går inte att ångra.',
     ok_badge: 'OK',
@@ -63,6 +64,7 @@ const sv = {
   product_form: {
     add_title: 'Lägg till mat',
     edit_title: 'Redigera mat',
+    edit_water_title: 'Redigera vatten',
     back_to_product: '← Tillbaka till mat',
     back_to_products: '← Tillbaka till mat',
     name_label: 'Namn',
@@ -70,6 +72,7 @@ const sv = {
     category_label: 'Kategori',
     unit_label: 'Enhet',
     target_qty_label: 'Målkvantitet',
+    target_qty_liters_label: 'Målkvantitet (Liter)',
     target_qty_placeholder: 'ex. 100',
     notes_label: 'Anteckningar (valfritt)',
     notes_placeholder: 'Extra information…',

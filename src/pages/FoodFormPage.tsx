@@ -2,14 +2,14 @@ import { useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useProduct, useCreateProduct, useUpdateProduct } from '../hooks/useProducts'
-import ProductForm from '../components/products/ProductForm'
+import FoodForm from '../components/products/FoodForm'
 import type { ProductPayload } from '../types'
 
 interface Props {
   forceId?: number
 }
 
-export default function ProductFormPage({ forceId }: Props) {
+export default function FoodFormPage({ forceId }: Props) {
   const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const resolvedId = forceId ?? (id ? Number(id) : undefined)
@@ -63,7 +63,7 @@ export default function ProductFormPage({ forceId }: Props) {
       </h1>
 
       <div className="bg-gray-800 border border-gray-700 rounded-xl p-6">
-        <ProductForm
+        <FoodForm
           initial={isEdit ? existing : undefined}
           onSubmit={handleSubmit}
           isLoading={isMutating}

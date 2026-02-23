@@ -10,7 +10,7 @@ interface Props {
   error?: string | null
 }
 
-export default function ProductForm({ initial, onSubmit, isLoading, error }: Props) {
+export default function FoodForm({ initial, onSubmit, isLoading, error }: Props) {
   const { t } = useTranslation()
   const [name, setName] = useState(initial?.name ?? '')
   const [category, setCategory] = useState<Category>(initial?.category ?? 'PRESERVED_FOOD')

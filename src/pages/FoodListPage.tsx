@@ -7,7 +7,7 @@ import { useProducts } from '../hooks/useProducts'
 import ProductCard from '../components/products/ProductCard'
 import CategoryFilter from '../components/products/CategoryFilter'
 
-export default function ProductListPage() {
+export default function FoodListPage() {
   const { t } = useTranslation()
   const [category, setCategory] = useState<Category | undefined>()
   const { data: allProducts = [], isLoading, error } = useProducts(category)

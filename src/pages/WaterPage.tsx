@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { useProducts } from '../hooks/useProducts'
-import ProductDetailPage from './ProductDetailPage'
+import WaterDetailPage from './WaterDetailPage'
 
 export default function WaterPage() {
     const { t } = useTranslation()
@@ -23,5 +23,5 @@ export default function WaterPage() {
         )
     }
 
-    return <ProductDetailPage forceId={waterProduct.id} />
+    return <WaterDetailPage forceId={waterProduct.id} />
 }
