@@ -11,7 +11,6 @@ interface Props {
 
 export default function WaterForm({ initial, onSubmit, isLoading, error }: Props) {
     const { t } = useTranslation()
-    const [name, setName] = useState(initial?.name ?? '')
     const [targetQuantity, setTargetQuantity] = useState(
         initial?.targetQuantity?.toString() ?? '',
     )
@@ -20,7 +19,7 @@ export default function WaterForm({ initial, onSubmit, isLoading, error }: Props
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         onSubmit({
-            name: name.trim(),
+            name: initial?.name || t('categories.WATER'),
             category: 'WATER',
             unit: 'LITERS',
             targetQuantity: parseFloat(targetQuantity),
@@ -39,16 +38,6 @@ export default function WaterForm({ initial, onSubmit, isLoading, error }: Props
                 </p>
             )}
 
-            <div>
-                <label className="block text-sm text-gray-400 mb-1">{t('product_form.name_label')}</label>
-                <input
-                    className={inputClass}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder={t('product_form.name_placeholder')}
-                    required
-                />
-            </div>
 
             <div>
                 <label className="block text-sm text-gray-400 mb-1">{t('product_form.target_qty_liters_label')}</label>
