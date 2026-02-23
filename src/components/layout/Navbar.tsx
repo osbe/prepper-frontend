@@ -18,12 +18,11 @@ export default function Navbar() {
   return (
     <nav className="bg-gray-900 border-b border-gray-700">
       <div className="max-w-5xl mx-auto px-4 flex items-center gap-2 h-14">
-        <span className="text-white font-bold text-lg mr-4">{t('nav.brand')}</span>
-        <NavLink to="/" end className={linkClass}>
-          {t('nav.dashboard')}
+        <NavLink to="/" className="text-white font-bold text-lg mr-4 hover:text-green-500 transition-colors">
+          {t('nav.brand')}
         </NavLink>
         <NavLink to="/food" className={linkClass}>
-          {t('nav.products')}
+          🥫 {t('nav.products')}
         </NavLink>
         {waterProduct && (
           <NavLink to="/water" className={linkClass}>
