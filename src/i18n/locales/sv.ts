@@ -124,6 +124,10 @@ const sv = {
     sv: 'SV',
     en: 'EN',
   },
+  offline: {
+    title: 'Ingen serveranslutning',
+    message: 'Kontrollerar anslutning…',
+  },
 } as const
 
 export default sv

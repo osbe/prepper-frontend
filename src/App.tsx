@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { BackendStatusProvider } from './context/BackendStatusContext'
 import Layout from './components/layout/Layout'
 import DashboardPage from './pages/DashboardPage'
 import FoodListPage from './pages/FoodListPage'
@@ -21,20 +22,22 @@ const queryClient = new QueryClient({
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route index element={<DashboardPage />} />
-            <Route path="food" element={<FoodListPage />} />
-            <Route path="food/new" element={<FoodFormPage />} />
-            <Route path="food/:id" element={<FoodDetailPage />} />
-            <Route path="food/:id/edit" element={<FoodFormPage />} />
-            <Route path="water" element={<WaterPage />} />
-            <Route path="water/edit" element={<WaterEditPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <BackendStatusProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route index element={<DashboardPage />} />
+              <Route path="food" element={<FoodListPage />} />
+              <Route path="food/new" element={<FoodFormPage />} />
+              <Route path="food/:id" element={<FoodDetailPage />} />
+              <Route path="food/:id/edit" element={<FoodFormPage />} />
+              <Route path="water" element={<WaterPage />} />
+              <Route path="water/edit" element={<WaterEditPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </BackendStatusProvider>
     </QueryClientProvider>
   )
 }

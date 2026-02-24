@@ -124,6 +124,10 @@ const en = {
     sv: 'SV',
     en: 'EN',
   },
+  offline: {
+    title: 'Backend unreachable',
+    message: 'Checking connection…',
+  },
 } as const
 
 export default en
