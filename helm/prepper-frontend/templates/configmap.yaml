@@ -11,7 +11,7 @@ data:
         root /usr/share/nginx/html;
         index index.html;
 
-        sub_filter '<base href="/">' '<base href="{{ .Values.basePath | default "/" | trimSuffix "/" }}/">';
+        sub_filter '<base href="/" />' '<base href="{{ .Values.basePath | default "/" | trimSuffix "/" }}/">';
         sub_filter_once on;
 
         location / {

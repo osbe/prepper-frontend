@@ -23,7 +23,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BackendStatusProvider>
-        <BrowserRouter basename={document.querySelector('base')?.getAttribute('href') ?? '/'}>
+        <BrowserRouter basename={(document.querySelector('base')?.getAttribute('href') ?? '/').replace(/\/$/, '') || '/'}>
           <Routes>
             <Route element={<Layout />}>
               <Route index element={<DashboardPage />} />
