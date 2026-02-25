@@ -67,7 +67,7 @@ jobs:
           REPO_OWNER: ${{ github.repository_owner }}
         run: |
           helm package ./helm/prepper-frontend
-          helm push prepper-frontend-*.tgz oci://ghcr.io/"$REPO_OWNER"
+          helm push prepper-frontend-*.tgz oci://ghcr.io/"$REPO_OWNER"/charts
 
       - name: Create GitHub Release
         env:
