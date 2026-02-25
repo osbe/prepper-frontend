@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: prepper-frontend
-  tag: latest
+  tag: ""  # defaults to .Chart.AppVersion
   pullPolicy: IfNotPresent
 
 service:

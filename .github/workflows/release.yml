@@ -1,32 +1,24 @@
 name: Release
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate tag matches Chart.yaml version
+      - name: Extract version from tag
         id: version
-        env:
-          TAG: ${{ github.ref_name }}
-        run: |
-          CHART_VERSION=$(grep '^version:' ./helm/prepper-frontend/Chart.yaml | awk '{print $2}')
-          TAG_VERSION="${TAG#v}"
-          if [ "$CHART_VERSION" != "$TAG_VERSION" ]; then
-            echo "Error: tag $TAG does not match Chart.yaml version $CHART_VERSION" >&2
-            exit 1
-          fi
-          echo "version=$CHART_VERSION" >> $GITHUB_OUTPUT
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -76,3 +68,8 @@ jobs:
         run: |
           helm package ./helm/prepper-frontend
           helm push prepper-frontend-*.tgz oci://ghcr.io/"$REPO_OWNER"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "$GITHUB_REF_NAME" --generate-notes --title "$GITHUB_REF_NAME"
