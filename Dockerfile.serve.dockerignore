@@ -1,0 +1,3 @@
+# Override the dist exclusion from .dockerignore so the pre-built assets
+# from the runner are included in the Docker build context.
+!dist
