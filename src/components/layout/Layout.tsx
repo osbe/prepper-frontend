@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Navbar from './Navbar'
-import { useBackendStatus } from '../../context/BackendStatusContext'
+import { useBackendStatus } from '../../context/useBackendStatus'
 
 export default function Layout() {
   const { t } = useTranslation()
