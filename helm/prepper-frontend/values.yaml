@@ -24,6 +24,10 @@ ingress:
 backend:
   url: http://prepper-backend:8080
 
+# Base path the app is served under (e.g. / or /prepper/).
+# nginx injects this as <base href> at runtime — no rebuild needed.
+basePath: /
+
 resources: {}
 
 nodeSelector: {}

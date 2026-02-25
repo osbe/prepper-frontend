@@ -1,7 +1,8 @@
 import axios from 'axios'
 import i18n from '../i18n'
 
-const client = axios.create({ baseURL: '/api' })
+const base = document.querySelector('base')?.getAttribute('href') ?? '/'
+const client = axios.create({ baseURL: `${base}api` })
 
 client.interceptors.response.use(
   (response) => response,
