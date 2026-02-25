@@ -38,11 +38,11 @@ export default function WaterEditPage() {
 
     return (
         <div className="max-w-lg">
-            <h1 className="text-2xl font-bold text-white mb-6">
+            <h1 className="text-xl sm:text-2xl font-bold text-white mb-6">
                 {t('product_form.edit_water_title')}
             </h1>
 
-            <div className="bg-gray-800 border border-gray-700 rounded-xl p-6">
+            <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 sm:p-6">
                 <WaterForm
                     initial={waterProduct}
                     onSubmit={handleSubmit}

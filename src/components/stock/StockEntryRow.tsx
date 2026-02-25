@@ -76,41 +76,43 @@ export default function StockEntryRow({
       )}
 
       {editing ? (
-        <div className="flex gap-2 mt-2">
+        <div className="flex flex-col sm:flex-row gap-2 mt-2">
           <input
             type="number"
             min="0"
             step="any"
             value={qty}
             onChange={(e) => setQty(e.target.value)}
-            className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-1.5 text-white text-sm focus:outline-none focus:border-green-500"
+            className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-green-500"
           />
-          <button
-            onClick={handlePatch}
-            disabled={isMutating}
-            className="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors disabled:opacity-50"
-          >
-            {t('common.save')}
-          </button>
-          <button
-            onClick={() => setEditing(false)}
-            className="px-3 py-1.5 bg-gray-600 hover:bg-gray-500 text-white text-sm rounded-lg transition-colors"
-          >
-            {t('common.cancel')}
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={handlePatch}
+              disabled={isMutating}
+              className="flex-1 sm:flex-none px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors disabled:opacity-50"
+            >
+              {t('common.save')}
+            </button>
+            <button
+              onClick={() => setEditing(false)}
+              className="flex-1 sm:flex-none px-3 py-2 bg-gray-600 hover:bg-gray-500 text-white text-sm rounded-lg transition-colors"
+            >
+              {t('common.cancel')}
+            </button>
+          </div>
         </div>
       ) : (
         <div className="flex gap-2 mt-2">
           <button
             onClick={() => setEditing(true)}
-            className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
+            className="flex-1 sm:flex-none px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
           >
             {t('stock_entry.update_qty_button')}
           </button>
           <button
             onClick={() => onDelete(entry.id)}
             disabled={isMutating}
-            className="px-3 py-1.5 bg-red-800 hover:bg-red-700 text-white text-sm rounded-lg transition-colors disabled:opacity-50"
+            className="flex-1 sm:flex-none px-3 py-2 bg-red-800 hover:bg-red-700 text-white text-sm rounded-lg transition-colors disabled:opacity-50"
           >
             {t('common.delete')}
           </button>

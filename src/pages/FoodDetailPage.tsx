@@ -76,10 +76,10 @@ export default function FoodDetailPage({ forceId }: Props) {
       </div>
 
       {/* Product header */}
-      <div className="bg-gray-800 border border-gray-700 rounded-xl p-6 mb-6">
-        <div className="flex items-start justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-white">{product.name}</h1>
+      <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 sm:p-6 mb-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-2xl font-bold text-white">{product.name}</h1>
             <p className="text-gray-400 text-sm mt-1">
               {t(`categories.${product.category}`)} · {t('products.target', { qty: product.targetQuantity, unit })}
             </p>
@@ -87,16 +87,16 @@ export default function FoodDetailPage({ forceId }: Props) {
               <p className="text-gray-300 text-sm mt-2">{product.notes}</p>
             )}
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 shrink-0">
             <Link
               to={`/food/${productId}/edit`}
-              className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
+              className="flex-1 sm:flex-none text-center px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
             >
               {t('common.edit')}
             </Link>
             <button
               onClick={() => setShowDeleteProduct(true)}
-              className="px-3 py-1.5 bg-red-800 hover:bg-red-700 text-white text-sm rounded-lg transition-colors"
+              className="flex-1 sm:flex-none px-3 py-2 bg-red-800 hover:bg-red-700 text-white text-sm rounded-lg transition-colors"
             >
               {t('common.delete')}
             </button>
@@ -113,7 +113,7 @@ export default function FoodDetailPage({ forceId }: Props) {
               }}
             />
           </div>
-          <span className="text-sm text-gray-300 whitespace-nowrap">
+          <span className="text-sm text-gray-300 shrink-0">
             {product.currentStock} / {product.targetQuantity} {unit}
           </span>
         </div>
@@ -124,7 +124,7 @@ export default function FoodDetailPage({ forceId }: Props) {
         <h2 className="text-lg font-semibold text-white">{t('products.stock_batches_title')}</h2>
         <button
           onClick={() => setShowAddStock(true)}
-          className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors"
+          className="px-3 py-2 sm:px-4 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors"
         >
           {t('products.add_stock_button')}
         </button>

@@ -22,16 +22,16 @@ export default function ConfirmDialog({
   return (
     <Modal title={title} onClose={onCancel}>
       <p className="text-gray-300 mb-6">{message}</p>
-      <div className="flex justify-end gap-3">
+      <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3">
         <button
           onClick={onCancel}
-          className="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium transition-colors"
+          className="w-full sm:w-auto px-4 py-2.5 sm:py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium transition-colors"
         >
           {t('common.cancel')}
         </button>
         <button
           onClick={onConfirm}
-          className={`px-4 py-2 rounded-lg text-white text-sm font-medium transition-colors ${
+          className={`w-full sm:w-auto px-4 py-2.5 sm:py-2 rounded-lg text-white text-sm font-medium transition-colors ${
             danger ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'
           }`}
         >

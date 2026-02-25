@@ -41,7 +41,7 @@ export default function WaterWidget() {
                 <h2 className="text-xl font-bold text-blue-300 mb-2">{t('water_widget.title')}</h2>
                 <p className="text-gray-400 text-sm mb-4">{t('water_widget.setup_prompt')}</p>
 
-                <div className="flex items-end gap-3 max-w-sm">
+                <div className="flex flex-col sm:flex-row sm:items-end gap-3 max-w-sm">
                     <div className="flex-1">
                         <label className="block text-sm text-gray-400 mb-1">{t('water_widget.target_liters')}</label>
                         <input
@@ -55,7 +55,7 @@ export default function WaterWidget() {
                     <button
                         onClick={handleSetup}
                         disabled={isSettingUp}
-                        className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                        className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg font-medium transition-colors"
                     >
                         {isSettingUp ? t('common.saving') : t('water_widget.setup_button')}
                     </button>
