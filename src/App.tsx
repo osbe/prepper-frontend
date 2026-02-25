@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { BackendStatusProvider } from './context/BackendStatusContext'
+import { BackendStatusProvider } from './context/BackendStatusProvider'
 import Layout from './components/layout/Layout'
 import DashboardPage from './pages/DashboardPage'
 import FoodListPage from './pages/FoodListPage'
