@@ -142,6 +142,7 @@ export default function FoodDetailPage({ forceId }: Props) {
             key={entry.id}
             entry={entry}
             unit={product.unit}
+            category={product.category}
             isFirst={i === 0}
             onPatch={handlePatch}
             onDelete={handleDeleteEntry}

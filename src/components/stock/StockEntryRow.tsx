@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { StockEntry, Unit } from '../../types'
+import type { Category, StockEntry, Unit } from '../../types'
 import { useFormatDate } from '../../i18n/useFormatDate'
 
 interface Props {
   entry: StockEntry
   unit: Unit
+  category: Category
   isFirst: boolean
   onPatch: (id: number, quantity: number) => void
   onDelete: (id: number) => void
@@ -15,6 +16,7 @@ interface Props {
 export default function StockEntryRow({
   entry,
   unit,
+  category,
   isFirst,
   onPatch,
   onDelete,
@@ -34,11 +36,9 @@ export default function StockEntryRow({
   }
 
   const actionColor =
-    entry.recommendedAction
-      ? entry.expiryDate && entry.expiryDate < new Date().toISOString().slice(0, 10)
-        ? 'text-red-400 bg-red-900/20 border border-red-800'
-        : 'text-yellow-400 bg-yellow-900/20 border border-yellow-800'
-      : ''
+    entry.expiryStatus === 'EXPIRED'
+      ? 'text-red-400 bg-red-900/20 border border-red-800'
+      : 'text-yellow-400 bg-yellow-900/20 border border-yellow-800'
 
   return (
     <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
@@ -75,9 +75,9 @@ export default function StockEntryRow({
         </div>
       </div>
 
-      {entry.recommendedAction && (
+      {entry.expiryStatus && (
         <p className={`text-xs rounded-lg px-3 py-2 mb-3 ${actionColor}`}>
-          {entry.recommendedAction}
+          {t(`action.${category}.${entry.expiryStatus}`)}
         </p>
       )}
 

@@ -114,6 +114,36 @@ const en = {
     stored: 'stored',
     target: 'Target',
   },
+  action: {
+    WATER: {
+      APPROACHING: 'Rotate to daily use and refill with fresh stock',
+      EXPIRED: 'Discard and replace immediately — do not consume',
+    },
+    PRESERVED_FOOD: {
+      APPROACHING: 'Move to everyday pantry rotation and repurchase for the stash',
+      EXPIRED: 'Inspect packaging for damage, swelling, or odor before discarding',
+    },
+    DRY_GOODS: {
+      APPROACHING: 'Move to everyday cooking rotation and replace in stash',
+      EXPIRED: 'Inspect for moisture, pests, or off-odor before discarding',
+    },
+    FREEZE_DRIED: {
+      APPROACHING: 'Include in regular meals to rotate — reorder replacement',
+      EXPIRED: 'Check packaging integrity; if sealed and odor-free may still be usable',
+    },
+    MEDICINE: {
+      APPROACHING: 'Consult a pharmacist about replacement; do not let this lapse',
+      EXPIRED: 'Dispose via pharmacy take-back program — do not use',
+    },
+    FUEL: {
+      APPROACHING: 'Use in an equipment or generator test run; refill with fresh stock',
+      EXPIRED: 'Dispose at a hazardous waste facility — do not use in equipment',
+    },
+    OTHER: {
+      APPROACHING: 'Review item condition and plan for rotation',
+      EXPIRED: 'Assess condition and replace if necessary',
+    },
+  },
   not_found: {
     message: 'Page not found.',
     cta: 'Go to dashboard →',

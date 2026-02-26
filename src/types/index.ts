@@ -47,7 +47,7 @@ export interface StockEntry {
   expiryDate: string | null
   location: string | null
   notes: string | null
-  recommendedAction: string | null
+  expiryStatus: 'APPROACHING' | 'EXPIRED' | null
 }
 
 export interface ProductPayload {

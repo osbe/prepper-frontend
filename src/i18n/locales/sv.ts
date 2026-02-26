@@ -114,6 +114,36 @@ const sv = {
     stored: 'lagrat',
     target: 'Mål',
   },
+  action: {
+    WATER: {
+      APPROACHING: 'Rotera till daglig användning och fyll på med nytt förråd',
+      EXPIRED: 'Kassera och ersätt omedelbart — drick inte',
+    },
+    PRESERVED_FOOD: {
+      APPROACHING: 'Flytta till vardagsköket och köp nytt till förrådet',
+      EXPIRED: 'Kontrollera förpackningen för skador, svullnad eller lukt innan kassering',
+    },
+    DRY_GOODS: {
+      APPROACHING: 'Flytta till matlagningsrotation och ersätt i förrådet',
+      EXPIRED: 'Kontrollera för fukt, skadedjur eller dålig lukt innan kassering',
+    },
+    FREEZE_DRIED: {
+      APPROACHING: 'Inkludera i vanliga måltider för rotation — beställ ersättning',
+      EXPIRED: 'Kontrollera förpackningens integritet; om förseglad och luktfri kan den fortfarande vara användbar',
+    },
+    MEDICINE: {
+      APPROACHING: 'Rådfråga apotekare om ersättning; låt inte detta löpa ut',
+      EXPIRED: 'Lämna in på apotek för destruktion — använd inte',
+    },
+    FUEL: {
+      APPROACHING: 'Använd i ett utrustnings- eller generatortest; fyll på med nytt förråd',
+      EXPIRED: 'Lämna till miljöstation för farligt avfall — använd inte i utrustning',
+    },
+    OTHER: {
+      APPROACHING: 'Bedöm skicket och planera för rotation',
+      EXPIRED: 'Bedöm skicket och ersätt vid behov',
+    },
+  },
   not_found: {
     message: 'Sidan hittades inte.',
     cta: 'Gå till instrumentpanelen →',

@@ -36,8 +36,10 @@ function StockAlertRow({
             {entry.quantity} {unit}{entry.expiryDate && ` · ${t('dashboard.expires', { date: formatDate(entry.expiryDate) })}`}
             {entry.location && ` · ${entry.location}`}
           </p>
-          {entry.recommendedAction && (
-            <p className={`text-xs mt-1 ${actionColor}`}>{entry.recommendedAction}</p>
+          {entry.expiryStatus && product && (
+            <p className={`text-xs mt-1 ${actionColor}`}>
+              {t(`action.${product.category}.${entry.expiryStatus}`)}
+            </p>
           )}
         </div>
       </div>

@@ -137,6 +137,7 @@ export default function WaterDetailPage({ forceId }: Props) {
             key={entry.id}
             entry={entry}
             unit={product.unit}
+            category={product.category}
             isFirst={i === 0}
             onPatch={handlePatch}
             onDelete={handleDeleteEntry}
