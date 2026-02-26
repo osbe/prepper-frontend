@@ -4,8 +4,10 @@ import axios from 'axios'
 import client from '../api/client'
 import { BackendStatusContext } from './BackendStatusContext'
 
-function isNetworkError(error: unknown): boolean {
-  return axios.isAxiosError(error) && !error.response
+function isBackendUnreachable(error: unknown): boolean {
+  if (!axios.isAxiosError(error)) return false
+  if (!error.response) return true
+  return error.response.status >= 500
 }
 
 export function BackendStatusProvider({ children }: { children: React.ReactNode }) {
@@ -24,7 +26,7 @@ export function BackendStatusProvider({ children }: { children: React.ReactNode 
     const unsubscribe = queryClient.getQueryCache().subscribe((event) => {
       if (event.type !== 'updated') return
       const { state } = event.query
-      if (state.status === 'error' && isNetworkError(state.error)) {
+      if (state.status === 'error' && isBackendUnreachable(state.error)) {
         setIsOffline(true)
       } else if (state.status === 'success') {
         setIsOffline(false)
