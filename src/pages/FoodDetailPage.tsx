@@ -169,6 +169,7 @@ export default function FoodDetailPage({ forceId }: Props) {
             onSubmit={handleAddStock}
             isLoading={addStock.isPending}
             error={addStockError}
+            showSubType
           />
         </Modal>
       )}

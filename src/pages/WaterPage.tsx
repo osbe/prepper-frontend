@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
 import { useProducts } from '../hooks/useProducts'
 import WaterDetailPage from './WaterDetailPage'
+import WaterWidget from '../components/dashboard/WaterWidget'
 
 export default function WaterPage() {
     const { t } = useTranslation()
@@ -13,14 +13,7 @@ export default function WaterPage() {
     const waterProduct = products.find((p) => p.category === 'WATER')
 
     if (!waterProduct) {
-        return (
-            <div className="text-center py-16">
-                <p className="text-red-400">{t('products.not_found')}</p>
-                <Link to="/" className="text-green-400 hover:underline text-sm mt-2 block">
-                    {t('not_found.cta')}
-                </Link>
-            </div>
-        )
+        return <WaterWidget />
     }
 
     return <WaterDetailPage forceId={waterProduct.id} />

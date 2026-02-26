@@ -81,6 +81,8 @@ const sv = {
     modal_title: 'Lägg till lagerbatch',
     quantity_label: 'Kvantitet ({{unit}})',
     quantity_placeholder: 'ex. 40',
+    sub_type_label: 'Variant (valfritt)',
+    sub_type_placeholder: 'ex. Penne pasta',
     purchased_date_label: 'Inköpsdatum',
     expiry_date_label: 'Utgångsdatum',
     location_label: 'Plats (valfritt)',
@@ -92,6 +94,7 @@ const sv = {
   stock_entry: {
     consume_next: 'Konsumera härnäst',
     quantity_label: 'Kvantitet',
+    sub_type_label: 'Variant',
     location_label: 'Plats',
     purchased_label: 'Inköpt',
     expires_label: 'Utgår',

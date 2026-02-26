@@ -81,6 +81,8 @@ const en = {
     modal_title: 'Add stock batch',
     quantity_label: 'Quantity ({{unit}})',
     quantity_placeholder: 'e.g. 40',
+    sub_type_label: 'Variant (optional)',
+    sub_type_placeholder: 'e.g. Penne pasta',
     purchased_date_label: 'Purchase date',
     expiry_date_label: 'Expiry date',
     location_label: 'Location (optional)',
@@ -92,6 +94,7 @@ const en = {
   stock_entry: {
     consume_next: 'Consume next',
     quantity_label: 'Quantity',
+    sub_type_label: 'Variant',
     location_label: 'Location',
     purchased_label: 'Purchased',
     expires_label: 'Expires',
