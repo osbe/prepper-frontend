@@ -35,7 +35,7 @@ export default function StockEntryRow({
 
   const actionColor =
     entry.recommendedAction
-      ? entry.expiryDate < new Date().toISOString().slice(0, 10)
+      ? entry.expiryDate && entry.expiryDate < new Date().toISOString().slice(0, 10)
         ? 'text-red-400 bg-red-900/20 border border-red-800'
         : 'text-yellow-400 bg-yellow-900/20 border border-yellow-800'
       : ''
@@ -67,11 +67,11 @@ export default function StockEntryRow({
         )}
         <div>
           <span className="text-gray-400">{t('stock_entry.purchased_label')}</span>
-          <p className="text-white">{formatDate(entry.purchasedDate)}</p>
+          <p className="text-white">{entry.purchasedDate ? formatDate(entry.purchasedDate) : '—'}</p>
         </div>
         <div>
           <span className="text-gray-400">{t('stock_entry.expires_label')}</span>
-          <p className="text-white">{formatDate(entry.expiryDate)}</p>
+          <p className="text-white">{entry.expiryDate ? formatDate(entry.expiryDate) : '—'}</p>
         </div>
       </div>
 
