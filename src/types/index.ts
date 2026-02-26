@@ -43,8 +43,8 @@ export interface StockEntry {
   productId: number
   quantity: number
   subType: string | null
-  purchasedDate: string
-  expiryDate: string
+  purchasedDate: string | null
+  expiryDate: string | null
   location: string | null
   notes: string | null
   recommendedAction: string | null
@@ -61,8 +61,8 @@ export interface ProductPayload {
 export interface StockEntryPayload {
   quantity: number
   subType?: string | null
-  purchasedDate: string
-  expiryDate: string
+  purchasedDate?: string | null
+  expiryDate?: string | null
   location?: string | null
   notes?: string | null
 }

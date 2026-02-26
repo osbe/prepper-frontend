@@ -35,8 +35,8 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
     onSubmit({
       quantity: parseFloat(quantity),
       subType: showSubType ? (subType.trim() || null) : undefined,
-      purchasedDate,
-      expiryDate: hideExpiryDate ? getExpiryDate(purchasedDate, 6) : expiryDate,
+      purchasedDate: purchasedDate || null,
+      expiryDate: hideExpiryDate ? getExpiryDate(purchasedDate || today(), 6) : (expiryDate || null),
       location: location.trim() || null,
       notes: notes.trim() || null,
     })
@@ -88,7 +88,6 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
           type="date"
           value={purchasedDate}
           onChange={(e) => setPurchasedDate(e.target.value)}
-          required
         />
       </div>
 
@@ -100,7 +99,6 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
             type="date"
             value={expiryDate}
             onChange={(e) => setExpiryDate(e.target.value)}
-            required
           />
         </div>
       )}

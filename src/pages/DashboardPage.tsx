@@ -33,7 +33,7 @@ function StockAlertRow({
             {product?.name ?? t('dashboard.product_fallback', { id: entry.productId })}
           </Link>
           <p className="text-sm text-gray-400 mt-0.5">
-            {entry.quantity} {unit} · {t('dashboard.expires', { date: formatDate(entry.expiryDate) })}
+            {entry.quantity} {unit}{entry.expiryDate && ` · ${t('dashboard.expires', { date: formatDate(entry.expiryDate) })}`}
             {entry.location && ` · ${entry.location}`}
           </p>
           {entry.recommendedAction && (
