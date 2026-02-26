@@ -42,6 +42,7 @@ export interface StockEntry {
   id: number
   productId: number
   quantity: number
+  subType: string | null
   purchasedDate: string
   expiryDate: string
   location: string | null
@@ -59,6 +60,7 @@ export interface ProductPayload {
 
 export interface StockEntryPayload {
   quantity: number
+  subType?: string | null
   purchasedDate: string
   expiryDate: string
   location?: string | null

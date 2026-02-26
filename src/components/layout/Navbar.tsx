@@ -2,14 +2,10 @@ import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { setLanguage } from '../../i18n'
-import { useProducts } from '../../hooks/useProducts'
 
 export default function Navbar() {
   const { t, i18n } = useTranslation()
-  const { data: products = [] } = useProducts()
   const [menuOpen, setMenuOpen] = useState(false)
-
-  const waterProduct = products.find((p) => p.category === 'WATER')
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive
@@ -37,11 +33,9 @@ export default function Navbar() {
             <NavLink to="/food" className={linkClass}>
               🥫 {t('nav.products')}
             </NavLink>
-            {waterProduct && (
-              <NavLink to="/water" className={linkClass}>
-                💧 {t('nav.water')}
-              </NavLink>
-            )}
+            <NavLink to="/water" className={linkClass}>
+              💧 {t('nav.water')}
+            </NavLink>
           </div>
 
           {/* Language switcher + hamburger */}
@@ -86,11 +80,9 @@ export default function Navbar() {
             <NavLink to="/food" className={mobileLinkClass}>
               🥫 {t('nav.products')}
             </NavLink>
-            {waterProduct && (
-              <NavLink to="/water" className={mobileLinkClass}>
-                💧 {t('nav.water')}
-              </NavLink>
-            )}
+            <NavLink to="/water" className={mobileLinkClass}>
+              💧 {t('nav.water')}
+            </NavLink>
           </div>
         )}
       </div>

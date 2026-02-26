@@ -59,6 +59,12 @@ export default function StockEntryRow({
           <span className="text-gray-400">{t('stock_entry.location_label')}</span>
           <p className="text-white">{entry.location ?? '—'}</p>
         </div>
+        {entry.subType && (
+          <div className="col-span-2">
+            <span className="text-gray-400">{t('stock_entry.sub_type_label')}</span>
+            <p className="text-white">{entry.subType}</p>
+          </div>
+        )}
         <div>
           <span className="text-gray-400">{t('stock_entry.purchased_label')}</span>
           <p className="text-white">{formatDate(entry.purchasedDate)}</p>

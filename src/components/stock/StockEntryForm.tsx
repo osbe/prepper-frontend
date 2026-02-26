@@ -8,6 +8,7 @@ interface Props {
   isLoading?: boolean
   error?: string | null
   hideExpiryDate?: boolean
+  showSubType?: boolean
 }
 
 function today() {
@@ -20,9 +21,10 @@ function getExpiryDate(baseDate: string, monthsToAdd: number) {
   return d.toISOString().slice(0, 10)
 }
 
-export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideExpiryDate }: Props) {
+export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideExpiryDate, showSubType }: Props) {
   const { t } = useTranslation()
   const [quantity, setQuantity] = useState('')
+  const [subType, setSubType] = useState('')
   const [purchasedDate, setPurchasedDate] = useState(today())
   const [expiryDate, setExpiryDate] = useState(hideExpiryDate ? getExpiryDate(today(), 6) : '')
   const [location, setLocation] = useState('')
@@ -32,6 +34,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
     e.preventDefault()
     onSubmit({
       quantity: parseFloat(quantity),
+      subType: showSubType ? (subType.trim() || null) : undefined,
       purchasedDate,
       expiryDate: hideExpiryDate ? getExpiryDate(purchasedDate, 6) : expiryDate,
       location: location.trim() || null,
@@ -65,6 +68,18 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
           required
         />
       </div>
+
+      {showSubType && (
+        <div>
+          <label className="block text-sm text-gray-400 mb-1">{t('stock_form.sub_type_label')}</label>
+          <input
+            className={inputClass}
+            value={subType}
+            onChange={(e) => setSubType(e.target.value)}
+            placeholder={t('stock_form.sub_type_placeholder')}
+          />
+        </div>
+      )}
 
       <div>
         <label className="block text-sm text-gray-400 mb-1">{t('stock_form.purchased_date_label')}</label>
