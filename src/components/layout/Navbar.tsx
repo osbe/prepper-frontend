@@ -38,9 +38,9 @@ export default function Navbar() {
             </NavLink>
           </div>
 
-          {/* Language switcher + hamburger */}
+          {/* Language switcher (desktop only) + hamburger */}
           <div className="ml-auto flex items-center gap-1">
-            <div className="flex items-center gap-1 text-sm font-medium">
+            <div className="hidden sm:flex items-center gap-1 text-sm font-medium">
               {(['sv', 'en'] as const).map((lang) => (
                 <button
                   key={lang}
@@ -83,6 +83,20 @@ export default function Navbar() {
             <NavLink to="/water" className={mobileLinkClass}>
               💧 {t('nav.water')}
             </NavLink>
+            <div className="flex items-center gap-1 px-4 py-2">
+              {(['sv', 'en'] as const).map((lang) => (
+                <button
+                  key={lang}
+                  onClick={(e) => { e.stopPropagation(); setLanguage(lang) }}
+                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${i18n.language === lang
+                    ? 'bg-green-700 text-white'
+                    : 'text-gray-400 hover:bg-gray-700 hover:text-white'
+                    }`}
+                >
+                  {t(`lang_label.${lang}`)}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>

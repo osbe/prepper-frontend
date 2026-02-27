@@ -25,7 +25,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
   const { t } = useTranslation()
   const [quantity, setQuantity] = useState('')
   const [subType, setSubType] = useState('')
-  const [purchasedDate, setPurchasedDate] = useState(today())
+  const [purchasedDate] = useState(today())
   const [expiryDate, setExpiryDate] = useState(hideExpiryDate ? getExpiryDate(today(), 6) : '')
   const [location, setLocation] = useState('')
   const [notes, setNotes] = useState('')
@@ -80,16 +80,6 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
           />
         </div>
       )}
-
-      <div>
-        <label className="block text-sm text-gray-400 mb-1">{t('stock_form.purchased_date_label')}</label>
-        <input
-          className={inputClass}
-          type="date"
-          value={purchasedDate}
-          onChange={(e) => setPurchasedDate(e.target.value)}
-        />
-      </div>
 
       {!hideExpiryDate && (
         <div>

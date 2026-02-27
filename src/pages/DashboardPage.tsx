@@ -21,29 +21,26 @@ function StockAlertRow({
   const unit = product ? t(`units.${product.unit}`) : ''
   const borderColor = color === 'red' ? 'border-red-700' : 'border-yellow-700'
   const actionColor = color === 'red' ? 'text-red-400' : 'text-yellow-400'
+  const href = product?.category === 'WATER' ? '/water' : `/food/${entry.productId}`
 
   return (
-    <div className={`border-l-4 ${borderColor} bg-gray-800 rounded-r-lg px-4 py-3`}>
-      <div className="flex items-start justify-between">
-        <div>
-          <Link
-            to={product?.category === 'WATER' ? '/water' : `/food/${entry.productId}`}
-            className="font-medium text-white hover:text-green-400 transition-colors"
-          >
-            {product?.name ?? t('dashboard.product_fallback', { id: entry.productId })}
-          </Link>
-          <p className="text-sm text-gray-400 mt-0.5">
-            {entry.quantity} {unit}{entry.expiryDate && ` · ${t('dashboard.expires', { date: formatDate(entry.expiryDate) })}`}
-            {entry.location && ` · ${entry.location}`}
-          </p>
-          {entry.expiryStatus && product && (
-            <p className={`text-xs mt-1 ${actionColor}`}>
-              {t(`action.${product.category}.${entry.expiryStatus}`)}
-            </p>
-          )}
-        </div>
-      </div>
-    </div>
+    <Link
+      to={href}
+      className={`block border-l-4 ${borderColor} bg-gray-800 hover:bg-gray-750 rounded-r-lg px-4 py-3 transition-colors`}
+    >
+      <p className="font-medium text-white">
+        {product?.name ?? t('dashboard.product_fallback', { id: entry.productId })}
+      </p>
+      <p className="text-sm text-gray-400 mt-0.5">
+        {entry.quantity} {unit}{entry.expiryDate && ` · ${t('dashboard.expires', { date: formatDate(entry.expiryDate) })}`}
+        {entry.location && ` · ${entry.location}`}
+      </p>
+      {entry.expiryStatus && product && (
+        <p className={`text-xs mt-1 ${actionColor}`}>
+          {t(`action.${product.category}.${entry.expiryStatus}`)}
+        </p>
+      )}
+    </Link>
   )
 }
 
@@ -51,17 +48,15 @@ function LowStockRow({ product }: { product: Product }) {
   const { t } = useTranslation()
   const unit = t(`units.${product.unit}`)
   return (
-    <div className="border-l-4 border-blue-700 bg-gray-800 rounded-r-lg px-4 py-3">
-      <Link
-        to={product.category === 'WATER' ? '/water' : `/food/${product.id}`}
-        className="font-medium text-white hover:text-green-400 transition-colors"
-      >
-        {product.name}
-      </Link>
+    <Link
+      to={product.category === 'WATER' ? '/water' : `/food/${product.id}`}
+      className="block border-l-4 border-blue-700 bg-gray-800 hover:bg-gray-750 rounded-r-lg px-4 py-3 transition-colors"
+    >
+      <p className="font-medium text-white">{product.name}</p>
       <p className="text-sm text-gray-400 mt-0.5">
         {product.currentStock} / {product.targetQuantity} {unit}
       </p>
-    </div>
+    </Link>
   )
 }
 
