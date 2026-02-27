@@ -7,6 +7,24 @@ if [[ ! "$BUMP" =~ ^(patch|minor|major)$ ]]; then
   exit 1
 fi
 
+# Ensure we're on main
+BRANCH=$(git symbolic-ref --short HEAD)
+if [[ "$BRANCH" != "main" ]]; then
+  echo "Error: releases must be made from main (currently on '$BRANCH')" >&2
+  exit 1
+fi
+
+# Ensure local main is in sync with origin/main
+git fetch origin main --quiet
+LOCAL=$(git rev-parse HEAD)
+REMOTE=$(git rev-parse origin/main)
+if [[ "$LOCAL" != "$REMOTE" ]]; then
+  echo "Error: local main is out of sync with origin/main" >&2
+  echo "  local:  $LOCAL" >&2
+  echo "  remote: $REMOTE" >&2
+  exit 1
+fi
+
 CHART="helm/prepper-frontend/Chart.yaml"
 
 CURRENT=$(grep '^version:' "$CHART" | awk '{print $2}')
@@ -19,6 +37,12 @@ case "$BUMP" in
 esac
 
 NEW="$MAJOR.$MINOR.$PATCH"
+
+# Ensure tag doesn't already exist
+if git rev-parse "v$NEW" &>/dev/null 2>&1; then
+  echo "Error: tag 'v$NEW' already exists" >&2
+  exit 1
+fi
 
 sed -i "s/^version: .*/version: $NEW/" "$CHART"
 sed -i "s/^appVersion: .*/appVersion: \"$NEW\"/" "$CHART"
