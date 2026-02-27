@@ -90,6 +90,7 @@ const sv = {
     notes_label: 'Anteckningar (valfritt)',
     add_button: 'Lägg till lager',
     adding_button: 'Lägger till…',
+    optional_details: 'Valfria uppgifter',
   },
   stock_entry: {
     consume_next: 'Konsumera härnäst',

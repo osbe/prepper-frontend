@@ -90,6 +90,7 @@ const en = {
     notes_label: 'Notes (optional)',
     add_button: 'Add stock',
     adding_button: 'Adding…',
+    optional_details: 'Optional details',
   },
   stock_entry: {
     consume_next: 'Consume next',

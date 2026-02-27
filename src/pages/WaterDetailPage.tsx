@@ -6,7 +6,7 @@ import { usePatchStock, useDeleteStock } from '../hooks/useStock'
 import StockEntryRow from '../components/stock/StockEntryRow'
 import StockEntryForm from '../components/stock/StockEntryForm'
 import ConfirmDialog from '../components/ui/ConfirmDialog'
-import Modal from '../components/ui/Modal'
+import BottomSheet from '../components/ui/BottomSheet'
 
 interface Props {
   forceId?: number
@@ -115,14 +115,8 @@ export default function WaterDetailPage({ forceId }: Props) {
       </div>
 
       {/* Stock entries */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="mb-4">
         <h2 className="text-lg font-semibold text-white">{t('products.stock_batches_title')}</h2>
-        <button
-          onClick={() => setShowAddStock(true)}
-          className="px-3 py-2 sm:px-4 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors"
-        >
-          {t('products.add_stock_button')}
-        </button>
       </div>
 
       {sLoading && <p className="text-gray-400 text-sm">{t('products.loading_stock')}</p>}
@@ -159,14 +153,25 @@ export default function WaterDetailPage({ forceId }: Props) {
       )}
 
       {showAddStock && (
-        <Modal title={t('stock_form.modal_title')} onClose={() => setShowAddStock(false)}>
+        <BottomSheet title={t('stock_form.modal_title')} onClose={() => setShowAddStock(false)}>
           <StockEntryForm
             unit={product.unit}
             onSubmit={handleAddStock}
             isLoading={addStock.isPending}
             error={addStockError}
           />
-        </Modal>
+        </BottomSheet>
+      )}
+
+      {/* FAB */}
+      {!showAddStock && (
+        <button
+          onClick={() => setShowAddStock(true)}
+          aria-label={t('products.add_stock_button')}
+          className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-3xl shadow-lg transition-colors flex items-center justify-center"
+        >
+          +
+        </button>
       )}
     </div>
   )
