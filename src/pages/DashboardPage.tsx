@@ -102,7 +102,12 @@ export default function DashboardPage() {
 
       {expired.length > 0 && (
         <section>
-          <h2 className="text-red-400 font-semibold mb-3">
+          <h2 className="text-red-400 font-semibold mb-3 flex items-center gap-2">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 shrink-0">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="15" y1="9" x2="9" y2="15"/>
+              <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
             {t('dashboard.expired_heading', { count: expired.length })}
           </h2>
           <div className="space-y-2">
@@ -115,7 +120,11 @@ export default function DashboardPage() {
 
       {expiring.length > 0 && (
         <section>
-          <h2 className="text-yellow-400 font-semibold mb-3">
+          <h2 className="text-yellow-400 font-semibold mb-3 flex items-center gap-2">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 shrink-0">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
             {t('dashboard.expiring_heading', { count: expiring.length })}
           </h2>
           <div className="space-y-2">
@@ -128,7 +137,11 @@ export default function DashboardPage() {
 
       {low.length > 0 && (
         <section>
-          <h2 className="text-blue-400 font-semibold mb-3">
+          <h2 className="text-blue-400 font-semibold mb-3 flex items-center gap-2">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 shrink-0">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <polyline points="19 12 12 19 5 12"/>
+            </svg>
             {t('dashboard.low_stock_heading', { count: low.length })}
           </h2>
           <div className="space-y-2">

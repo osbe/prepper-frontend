@@ -7,6 +7,7 @@ import StockEntryRow from '../components/stock/StockEntryRow'
 import StockEntryForm from '../components/stock/StockEntryForm'
 import ConfirmDialog from '../components/ui/ConfirmDialog'
 import BottomSheet from '../components/ui/BottomSheet'
+import { EditIcon, TrashIcon } from '../components/ui/icons'
 
 interface Props {
   forceId?: number
@@ -85,14 +86,16 @@ export default function WaterDetailPage({ forceId }: Props) {
           <div className="flex gap-2 shrink-0">
             <Link
               to={`/water/edit`}
-              className="flex-1 sm:flex-none text-center px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
             >
+              <EditIcon />
               {t('common.edit')}
             </Link>
             <button
               onClick={() => setShowDeleteProduct(true)}
-              className="flex-1 sm:flex-none px-3 py-2 bg-red-800 hover:bg-red-700 text-white text-sm rounded-lg transition-colors"
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-red-800 hover:bg-red-700 text-white text-sm rounded-lg transition-colors"
             >
+              <TrashIcon />
               {t('common.delete')}
             </button>
           </div>
