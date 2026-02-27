@@ -2,14 +2,12 @@ import { useTranslation } from 'react-i18next'
 import type { Category } from '../../types'
 import { FOOD_CATEGORIES } from '../../types'
 
-const CATEGORY_ICONS: Record<Category, string> = {
+type FoodCategory = 'PRESERVED_FOOD' | 'DRY_GOODS' | 'FREEZE_DRIED'
+
+const CATEGORY_ICONS: Record<FoodCategory, string> = {
   PRESERVED_FOOD: '🥫',
   DRY_GOODS: '🌾',
   FREEZE_DRIED: '❄️',
-  WATER: '💧',
-  MEDICINE: '💊',
-  FUEL: '⛽',
-  OTHER: '📦',
 }
 
 interface Props {
@@ -39,7 +37,7 @@ export default function CategoryFilter({ value, onChange }: Props) {
               : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
             }`}
         >
-          <span aria-hidden="true">{CATEGORY_ICONS[cat]}</span>
+          <span aria-hidden="true">{CATEGORY_ICONS[cat as FoodCategory]}</span>
           {t(`categories.${cat}`)}
         </button>
       ))}
