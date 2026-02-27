@@ -99,7 +99,10 @@ const en = {
     location_label: 'Location',
     purchased_label: 'Purchased',
     expires_label: 'Expires',
-    update_qty_button: 'Update qty',
+    use_one_button: '− 1',
+    update_qty_button: 'Edit qty',
+    remove_batch_button: 'Remove batch',
+    delete_confirm: 'Remove this batch from storage?',
   },
   category_filter: {
     all: 'All',

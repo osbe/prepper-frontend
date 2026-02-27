@@ -99,7 +99,10 @@ const sv = {
     location_label: 'Plats',
     purchased_label: 'Inköpt',
     expires_label: 'Utgår',
-    update_qty_button: 'Uppdatera kvant.',
+    use_one_button: '− 1',
+    update_qty_button: 'Ändra kvant.',
+    remove_batch_button: 'Ta bort batch',
+    delete_confirm: 'Ta bort den här batchen från lagret?',
   },
   category_filter: {
     all: 'Alla',

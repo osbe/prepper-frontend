@@ -24,14 +24,13 @@ export default function StockEntryRow({
 }: Props) {
   const { t } = useTranslation()
   const formatDate = useFormatDate()
-  const [editing, setEditing] = useState(false)
-  const [qty, setQty] = useState(entry.quantity.toString())
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
-  const handlePatch = () => {
-    const val = parseFloat(qty)
-    if (!isNaN(val)) {
-      onPatch(entry.id, val)
-      setEditing(false)
+  const handleUseOne = () => {
+    if (entry.quantity <= 1) {
+      setConfirmDelete(true)
+    } else {
+      onPatch(entry.id, entry.quantity - 1)
     }
   }
 
@@ -41,7 +40,7 @@ export default function StockEntryRow({
       : 'text-yellow-400 bg-yellow-900/20 border border-yellow-800'
 
   return (
-    <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+    <div className="relative bg-gray-800 border border-gray-700 rounded-lg p-4">
       {isFirst && (
         <span className="inline-block text-xs font-semibold bg-green-800 text-green-200 px-2 py-0.5 rounded-full mb-2">
           {t('stock_entry.consume_next')}
@@ -81,47 +80,34 @@ export default function StockEntryRow({
         </p>
       )}
 
-      {editing ? (
-        <div className="flex flex-col sm:flex-row gap-2 mt-2">
-          <input
-            type="number"
-            min="0"
-            step="any"
-            value={qty}
-            onChange={(e) => setQty(e.target.value)}
-            className="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-green-500"
-          />
-          <div className="flex gap-2">
+      {!confirmDelete && (
+        <button
+          onClick={handleUseOne}
+          disabled={isMutating}
+          className="absolute top-3 right-3 w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-xl font-medium transition-colors flex items-center justify-center disabled:opacity-50 shadow-md"
+        >
+          −
+        </button>
+      )}
+
+      {confirmDelete && (
+        <div className="mt-3 space-y-2">
+          <p className="text-sm text-gray-400 text-center">{t('stock_entry.delete_confirm')}</p>
+          <div className="flex flex-col gap-2">
             <button
-              onClick={handlePatch}
+              onClick={() => onDelete(entry.id)}
               disabled={isMutating}
-              className="flex-1 sm:flex-none px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors disabled:opacity-50"
+              className="w-full py-3 bg-red-700 hover:bg-red-600 active:bg-red-800 text-white text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
             >
-              {t('common.save')}
+              {t('stock_entry.remove_batch_button')}
             </button>
             <button
-              onClick={() => setEditing(false)}
-              className="flex-1 sm:flex-none px-3 py-2 bg-gray-600 hover:bg-gray-500 text-white text-sm rounded-lg transition-colors"
+              onClick={() => setConfirmDelete(false)}
+              className="w-full py-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-sm rounded-lg transition-colors"
             >
               {t('common.cancel')}
             </button>
           </div>
-        </div>
-      ) : (
-        <div className="flex gap-2 mt-2">
-          <button
-            onClick={() => setEditing(true)}
-            className="flex-1 sm:flex-none px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
-          >
-            {t('stock_entry.update_qty_button')}
-          </button>
-          <button
-            onClick={() => onDelete(entry.id)}
-            disabled={isMutating}
-            className="flex-1 sm:flex-none px-3 py-2 bg-red-800 hover:bg-red-700 text-white text-sm rounded-lg transition-colors disabled:opacity-50"
-          >
-            {t('common.delete')}
-          </button>
         </div>
       )}
     </div>

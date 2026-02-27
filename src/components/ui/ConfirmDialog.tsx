@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import Modal from './Modal'
+import BottomSheet from './BottomSheet'
 
 interface Props {
   title: string
@@ -20,24 +20,26 @@ export default function ConfirmDialog({
 }: Props) {
   const { t } = useTranslation()
   return (
-    <Modal title={title} onClose={onCancel}>
+    <BottomSheet title={title} onClose={onCancel}>
       <p className="text-gray-300 mb-6">{message}</p>
-      <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3">
-        <button
-          onClick={onCancel}
-          className="w-full sm:w-auto px-4 py-2.5 sm:py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium transition-colors"
-        >
-          {t('common.cancel')}
-        </button>
+      <div className="flex flex-col gap-3">
         <button
           onClick={onConfirm}
-          className={`w-full sm:w-auto px-4 py-2.5 sm:py-2 rounded-lg text-white text-sm font-medium transition-colors ${
-            danger ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'
+          className={`w-full py-4 rounded-xl text-white font-medium transition-colors ${
+            danger
+              ? 'bg-red-600 hover:bg-red-700 active:bg-red-800'
+              : 'bg-green-600 hover:bg-green-700 active:bg-green-800'
           }`}
         >
           {confirmLabel ?? t('common.confirm')}
         </button>
+        <button
+          onClick={onCancel}
+          className="w-full py-4 rounded-xl bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white font-medium transition-colors"
+        >
+          {t('common.cancel')}
+        </button>
       </div>
-    </Modal>
+    </BottomSheet>
   )
 }
