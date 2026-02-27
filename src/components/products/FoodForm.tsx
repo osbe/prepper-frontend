@@ -111,7 +111,7 @@ export default function FoodForm({ initial, onSubmit, isLoading, error }: Props)
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white font-medium py-2 rounded-lg transition-colors"
+        className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 disabled:opacity-50 text-white font-medium py-4 rounded-xl transition-colors text-lg"
       >
         {isLoading ? t('common.saving') : t('common.save')}
       </button>

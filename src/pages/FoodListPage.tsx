@@ -16,14 +16,8 @@ export default function FoodListPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="mb-6">
         <h1 className="text-xl sm:text-2xl font-bold text-white">{t('products.page_title')}</h1>
-        <Link
-          to="/food/new"
-          className="px-3 py-2 sm:px-4 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors"
-        >
-          {t('products.add_button')}
-        </Link>
       </div>
 
       <div className="mb-6">
@@ -50,6 +44,15 @@ export default function FoodListPage() {
           <ProductCard key={p.id} product={p} />
         ))}
       </div>
+
+      {/* FAB */}
+      <Link
+        to="/food/new"
+        aria-label={t('products.add_button')}
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-3xl shadow-lg transition-colors flex items-center justify-center"
+      >
+        +
+      </Link>
     </div>
   )
 }
