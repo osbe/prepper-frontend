@@ -47,10 +47,16 @@ fi
 sed -i "s/^version: .*/version: $NEW/" "$CHART"
 sed -i "s/^appVersion: .*/appVersion: \"$NEW\"/" "$CHART"
 
-echo "Bumped $CURRENT → $NEW"
+echo "Bumping $CURRENT → $NEW"
 
+echo "Updating $CHART..."
+echo "Committing..."
 git add "$CHART"
-git commit -m "release v$NEW"
+git commit -m "release v$NEW" -q
+echo "Tagging v$NEW..."
 git tag "v$NEW"
-git push
-git push origin "v$NEW"
+echo "Pushing branch..."
+git push -q
+echo "Pushing tag..."
+git push origin "v$NEW" -q
+echo "Done: released v$NEW"
