@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Category, StockEntry, Unit } from '../../types'
 import { useFormatDate } from '../../i18n/useFormatDate'
@@ -24,11 +23,10 @@ export default function StockEntryRow({
 }: Props) {
   const { t } = useTranslation()
   const formatDate = useFormatDate()
-  const [confirmDelete, setConfirmDelete] = useState(false)
 
   const handleUseOne = () => {
     if (entry.quantity <= 1) {
-      setConfirmDelete(true)
+      onDelete(entry.id)
     } else {
       onPatch(entry.id, entry.quantity - 1)
     }
@@ -80,36 +78,13 @@ export default function StockEntryRow({
         </p>
       )}
 
-      {!confirmDelete && (
-        <button
-          onClick={handleUseOne}
-          disabled={isMutating}
-          className="absolute top-3 right-3 w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-xl font-medium transition-colors flex items-center justify-center disabled:opacity-50 shadow-md"
-        >
-          −
-        </button>
-      )}
-
-      {confirmDelete && (
-        <div className="mt-3 space-y-2">
-          <p className="text-sm text-gray-400 text-center">{t('stock_entry.delete_confirm')}</p>
-          <div className="flex flex-col gap-2">
-            <button
-              onClick={() => onDelete(entry.id)}
-              disabled={isMutating}
-              className="w-full py-3 bg-red-700 hover:bg-red-600 active:bg-red-800 text-white text-sm font-medium rounded-lg transition-colors disabled:opacity-50"
-            >
-              {t('stock_entry.remove_batch_button')}
-            </button>
-            <button
-              onClick={() => setConfirmDelete(false)}
-              className="w-full py-3 bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-sm rounded-lg transition-colors"
-            >
-              {t('common.cancel')}
-            </button>
-          </div>
-        </div>
-      )}
+      <button
+        onClick={handleUseOne}
+        disabled={isMutating}
+        className="absolute top-3 right-3 w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-xl font-medium transition-colors flex items-center justify-center disabled:opacity-50 shadow-md"
+      >
+        −
+      </button>
     </div>
   )
 }
