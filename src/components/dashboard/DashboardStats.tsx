@@ -20,6 +20,19 @@ function StatCard({ label, value, sub }: { label: string; value: string | number
   )
 }
 
+const MS_PER_DAY = 86_400_000
+
+// Appending T00:00:00 forces local-time parsing (bare YYYY-MM-DD is parsed as UTC).
+// Returns null if the string is not a valid date.
+function daysUntil(dateString: string): number | null {
+  const expiry = new Date(dateString + 'T00:00:00')
+  if (isNaN(expiry.getTime())) return null
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  expiry.setHours(0, 0, 0, 0)
+  return Math.round((expiry.getTime() - today.getTime()) / MS_PER_DAY)
+}
+
 export default function DashboardStats({ products, expired, expiring, low }: Props) {
   const { t } = useTranslation()
 
@@ -33,29 +46,29 @@ export default function DashboardStats({ products, expired, expiring, low }: Pro
   ])
   const atRisk = atRiskIds.size
 
-  const atRiskDetail = [
-    expired.length > 0 && t('dashboard.stats_n_expired', { count: expired.length }),
-    expiring.length > 0 && t('dashboard.stats_n_expiring', { count: expiring.length }),
-    low.length > 0 && t('dashboard.stats_n_low', { count: low.length }),
-  ].filter(Boolean).join(' · ')
+  const atRiskParts: string[] = []
+  if (expired.length > 0) atRiskParts.push(t('dashboard.stats_n_expired', { count: expired.length }))
+  if (expiring.length > 0) atRiskParts.push(t('dashboard.stats_n_expiring', { count: expiring.length }))
+  if (low.length > 0) atRiskParts.push(t('dashboard.stats_n_low', { count: low.length }))
+  const atRiskDetail = atRiskParts.join(' · ')
 
   const soonestExpiryDate = expiring
     .map((e) => e.expiryDate)
     .filter((d): d is string => d !== null)
     .sort()[0]
 
-  const daysRemaining = soonestExpiryDate ? (() => {
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const expiry = new Date(soonestExpiryDate)
-    expiry.setHours(0, 0, 0, 0)
-    return Math.round((expiry.getTime() - today.getTime()) / 86400000)
-  })() : null
+  const daysRemaining = soonestExpiryDate ? daysUntil(soonestExpiryDate) : null
 
-  const expiryValue = daysRemaining === null ? t('dashboard.stats_expiry_beyond_30d')
-    : daysRemaining === 0 ? t('dashboard.stats_expires_today')
-    : daysRemaining === 1 ? t('dashboard.stats_one_day')
-    : t('dashboard.stats_days_remaining', { count: daysRemaining })
+  let expiryValue: string
+  if (daysRemaining === null) {
+    expiryValue = t('dashboard.stats_expiry_beyond_30d')
+  } else if (daysRemaining <= 0) {
+    expiryValue = t('dashboard.stats_expires_today')
+  } else if (daysRemaining === 1) {
+    expiryValue = t('dashboard.stats_one_day')
+  } else {
+    expiryValue = t('dashboard.stats_days_remaining', { count: daysRemaining })
+  }
 
   return (
     <div className="grid grid-cols-2 gap-3">
@@ -68,13 +81,11 @@ export default function DashboardStats({ products, expired, expiring, low }: Pro
         label={t('dashboard.stats_readiness')}
         value={`${readinessPct}%`}
       />
-      {atRisk > 0 && (
-        <StatCard
-          label={t('dashboard.stats_at_risk')}
-          value={atRisk}
-          sub={atRiskDetail}
-        />
-      )}
+      <StatCard
+        label={t('dashboard.stats_at_risk')}
+        value={atRisk}
+        sub={atRisk > 0 ? atRiskDetail : undefined}
+      />
       <StatCard
         label={t('dashboard.stats_closest_expiry')}
         value={expiryValue}
