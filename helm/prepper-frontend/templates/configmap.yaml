@@ -19,6 +19,11 @@ data:
             try_files $uri =404;
         }
 
+        location = /manifest.webmanifest {
+            add_header Cache-Control "no-store, no-cache, must-revalidate";
+            try_files $uri =404;
+        }
+
         location / {
             try_files $uri $uri/ /index.html;
         }
