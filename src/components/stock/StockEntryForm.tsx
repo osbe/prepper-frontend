@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { StockEntryPayload, Unit } from '../../types'
 
@@ -21,15 +21,38 @@ function getExpiryDate(baseDate: string, monthsToAdd: number) {
   return d.toISOString().slice(0, 10)
 }
 
+function daysInMonth(year: string, month: string): number {
+  if (!year || !month) return 31
+  return new Date(parseInt(year), parseInt(month), 0).getDate()
+}
+
+function getMonthName(month: number, language: string): string {
+  const locale = language.startsWith('sv') ? 'sv-SE' : 'en-GB'
+  return new Intl.DateTimeFormat(locale, { month: 'long' }).format(new Date(2000, month - 1, 1))
+}
+
 export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideExpiryDate, showSubType }: Props) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [quantity, setQuantity] = useState('1')
   const [subType, setSubType] = useState('')
   const [purchasedDate] = useState(today())
-  const [expiryDate, setExpiryDate] = useState(hideExpiryDate ? getExpiryDate(today(), 6) : '')
+  const [expiryYear, setExpiryYear] = useState('')
+  const [expiryMonth, setExpiryMonth] = useState('')
+  const [expiryDay, setExpiryDay] = useState('')
   const [location, setLocation] = useState('')
   const [notes, setNotes] = useState('')
   const [showOptional, setShowOptional] = useState(false)
+
+  // Reset day if it exceeds the days in the selected month/year
+  useEffect(() => {
+    const max = daysInMonth(expiryYear, expiryMonth)
+    if (expiryDay && parseInt(expiryDay) > max) setExpiryDay('')
+  }, [expiryYear, expiryMonth])
+
+  const expiryDateValue =
+    expiryYear && expiryMonth && expiryDay
+      ? `${expiryYear}-${expiryMonth.padStart(2, '0')}-${expiryDay.padStart(2, '0')}`
+      : null
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -37,7 +60,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
       quantity: parseFloat(quantity),
       subType: showSubType ? (subType.trim() || null) : undefined,
       purchasedDate: purchasedDate || null,
-      expiryDate: hideExpiryDate ? getExpiryDate(purchasedDate || today(), 6) : (expiryDate || null),
+      expiryDate: hideExpiryDate ? getExpiryDate(purchasedDate || today(), 6) : expiryDateValue,
       location: location.trim() || null,
       notes: notes.trim() || null,
     })
@@ -48,6 +71,8 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
 
   const inputClass =
     'w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition-colors'
+  const selectClass =
+    'bg-gray-700 border border-gray-600 rounded-lg px-2 py-2 text-white focus:outline-none focus:border-green-500 transition-colors min-w-0'
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
@@ -104,12 +129,38 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
       {!hideExpiryDate && (
         <div>
           <label className="block text-sm text-gray-400 mb-1">{t('stock_form.expiry_date_label')}</label>
-          <input
-            className={inputClass}
-            type="date"
-            value={expiryDate}
-            onChange={(e) => setExpiryDate(e.target.value)}
-          />
+          <div className="flex gap-2">
+            <select
+              className={`${selectClass} w-[5.5rem] shrink-0`}
+              value={expiryYear}
+              onChange={(e) => setExpiryYear(e.target.value)}
+            >
+              <option value="">—</option>
+              {Array.from({ length: 31 }, (_, i) => new Date().getFullYear() + i).map(y => (
+                <option key={y} value={String(y)}>{y}</option>
+              ))}
+            </select>
+            <select
+              className={`${selectClass} flex-1`}
+              value={expiryMonth}
+              onChange={(e) => setExpiryMonth(e.target.value)}
+            >
+              <option value="">—</option>
+              {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
+                <option key={m} value={String(m)}>{getMonthName(m, i18n.language)}</option>
+              ))}
+            </select>
+            <select
+              className={`${selectClass} w-[4.5rem] shrink-0`}
+              value={expiryDay}
+              onChange={(e) => setExpiryDay(e.target.value)}
+            >
+              <option value="">—</option>
+              {Array.from({ length: daysInMonth(expiryYear, expiryMonth) }, (_, i) => i + 1).map(d => (
+                <option key={d} value={String(d)}>{d}</option>
+              ))}
+            </select>
+          </div>
         </div>
       )}
 
