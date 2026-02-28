@@ -40,7 +40,6 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
   const [expiryMonth, setExpiryMonth] = useState('')
   const [expiryDay, setExpiryDay] = useState('')
   const [location, setLocation] = useState('')
-  const [notes, setNotes] = useState('')
   const [showOptional, setShowOptional] = useState(false)
 
   // Reset day if it exceeds the days in the selected month/year
@@ -62,7 +61,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
       purchasedDate: purchasedDate || null,
       expiryDate: hideExpiryDate ? getExpiryDate(purchasedDate || today(), 6) : expiryDateValue,
       location: location.trim() || null,
-      notes: notes.trim() || null,
+      notes: null,
     })
   }
 
@@ -194,15 +193,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
                 placeholder={t('stock_form.location_placeholder')}
               />
             </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-1">{t('stock_form.notes_label')}</label>
-              <textarea
-                className={`${inputClass} resize-none`}
-                rows={2}
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-              />
-            </div>
+
           </div>
         )}
       </div>

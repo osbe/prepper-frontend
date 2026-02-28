@@ -28,7 +28,7 @@ export default function WaterForm({ initial, onSubmit, isLoading, error }: Props
             category: 'WATER',
             unit: 'LITERS',
             targetQuantity: computedLiters ?? 0,
-            notes: initial?.notes ?? null,
+            notes: null,
         })
     }
 

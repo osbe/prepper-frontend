@@ -18,8 +18,6 @@ export default function FoodForm({ initial, onSubmit, isLoading, error }: Props)
   const [targetQuantity, setTargetQuantity] = useState(
     initial?.targetQuantity?.toString() ?? '',
   )
-  const [notes, setNotes] = useState(initial?.notes ?? '')
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onSubmit({
@@ -27,7 +25,7 @@ export default function FoodForm({ initial, onSubmit, isLoading, error }: Props)
       category,
       unit,
       targetQuantity: parseFloat(targetQuantity),
-      notes: notes.trim() || null,
+      notes: null,
     })
   }
 
@@ -94,17 +92,6 @@ export default function FoodForm({ initial, onSubmit, isLoading, error }: Props)
           onChange={(e) => setTargetQuantity(e.target.value)}
           placeholder={t('product_form.target_qty_placeholder')}
           required
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm text-gray-400 mb-1">{t('product_form.notes_label')}</label>
-        <textarea
-          className={`${inputClass} resize-none`}
-          rows={3}
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          placeholder={t('product_form.notes_placeholder')}
         />
       </div>
 

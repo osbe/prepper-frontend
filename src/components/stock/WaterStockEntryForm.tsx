@@ -29,7 +29,6 @@ export default function WaterStockEntryForm({ unit, onSubmit, isLoading, error }
   const [name, setName] = useState('')
   const [quantity, setQuantity] = useState('')
   const [location, setLocation] = useState('')
-  const [notes, setNotes] = useState('')
   const [showOptional, setShowOptional] = useState(false)
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -42,7 +41,7 @@ export default function WaterStockEntryForm({ unit, onSubmit, isLoading, error }
       purchasedDate,
       expiryDate,
       location: location.trim() || null,
-      notes: notes.trim() || null,
+      notes: null,
     })
   }
 
@@ -116,15 +115,7 @@ export default function WaterStockEntryForm({ unit, onSubmit, isLoading, error }
                 placeholder={t('stock_form.location_placeholder')}
               />
             </div>
-            <div>
-              <label className="block text-sm text-gray-400 mb-1">{t('stock_form.notes_label')}</label>
-              <textarea
-                className={`${inputClass} resize-none`}
-                rows={2}
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-              />
-            </div>
+
           </div>
         )}
       </div>
