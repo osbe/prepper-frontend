@@ -83,32 +83,30 @@ export default function FoodDetailPage({ forceId }: Props) {
 
       {/* Product header */}
       <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 sm:p-6 mb-6">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0">
-            <h1 className="text-xl sm:text-2xl font-bold text-white">{product.name}</h1>
-            <p className="text-gray-400 text-sm mt-1">
+        <div>
+          <h1 className="text-xl sm:text-2xl font-bold text-white">{product.name}</h1>
+          <div className="flex items-center gap-2 mt-1">
+            <p className="text-gray-400 text-sm">
               {t(`categories.${product.category}`)} · {t('products.target', { qty: product.targetQuantity, unit })}
             </p>
-            {product.notes && (
-              <p className="text-gray-300 text-sm mt-2">{product.notes}</p>
-            )}
-          </div>
-          <div className="flex gap-2 shrink-0">
             <Link
               to={`/food/${productId}/edit`}
-              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
+              aria-label={t('common.edit')}
+              className="inline-flex items-center justify-center p-1 text-gray-400 hover:text-white transition-colors"
             >
               <EditIcon />
-              {t('common.edit')}
             </Link>
             <button
               onClick={() => setShowDeleteProduct(true)}
-              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-red-800 hover:bg-red-700 text-white text-sm rounded-lg transition-colors"
+              aria-label={t('common.delete')}
+              className="inline-flex items-center justify-center p-1 text-gray-400 hover:text-red-400 transition-colors"
             >
               <TrashIcon />
-              {t('common.delete')}
             </button>
           </div>
+          {product.notes && (
+            <p className="text-gray-300 text-sm mt-2">{product.notes}</p>
+          )}
         </div>
 
         <div className="mt-4 flex items-center gap-3">
