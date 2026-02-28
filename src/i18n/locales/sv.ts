@@ -13,6 +13,7 @@ const sv = {
     delete: 'Ta bort',
     edit: 'Redigera',
     confirm: 'Bekräfta',
+    undo: 'Ångra',
   },
   categories: {
     WATER: 'Vatten',
@@ -103,6 +104,7 @@ const sv = {
     update_qty_button: 'Ändra antal',
     remove_batch_button: 'Ta bort parti',
     delete_confirm: 'Ta bort den här partiet från lagret?',
+    removed: 'Parti borttaget',
   },
   category_filter: {
     all: 'Alla',

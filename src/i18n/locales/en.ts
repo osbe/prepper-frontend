@@ -13,6 +13,7 @@ const en = {
     delete: 'Delete',
     edit: 'Edit',
     confirm: 'Confirm',
+    undo: 'Undo',
   },
   categories: {
     WATER: 'Water',
@@ -103,6 +104,7 @@ const en = {
     update_qty_button: 'Edit qty',
     remove_batch_button: 'Remove batch',
     delete_confirm: 'Remove this batch from storage?',
+    removed: 'Batch removed',
   },
   category_filter: {
     all: 'All',
