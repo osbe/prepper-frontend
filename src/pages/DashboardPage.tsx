@@ -5,6 +5,9 @@ import type { StockEntry, Product } from '../types'
 import { Link } from 'react-router-dom'
 import { useFormatDate } from '../i18n/useFormatDate'
 import WaterWidget from '../components/dashboard/WaterWidget'
+import DashboardStats from '../components/dashboard/DashboardStats'
+import CategoryBreakdown from '../components/dashboard/CategoryBreakdown'
+import ProgressBar from '../components/ui/ProgressBar'
 
 function StockAlertRow({
   entry,
@@ -52,10 +55,13 @@ function LowStockRow({ product }: { product: Product }) {
       to={product.category === 'WATER' ? '/water' : `/food/${product.id}`}
       className="block border-l-4 border-blue-700 bg-gray-800 hover:bg-gray-750 rounded-r-lg px-4 py-3 transition-colors"
     >
-      <p className="font-medium text-white">{product.name}</p>
-      <p className="text-sm text-gray-400 mt-0.5">
-        {product.currentStock} / {product.targetQuantity} {unit}
-      </p>
+      <div className="flex items-center justify-between mb-2">
+        <p className="font-medium text-white">{product.name}</p>
+        <p className="text-sm text-gray-400">
+          {product.currentStock} / {product.targetQuantity} {unit}
+        </p>
+      </div>
+      <ProgressBar current={product.currentStock} target={product.targetQuantity} />
     </Link>
   )
 }
@@ -78,10 +84,6 @@ export default function DashboardPage() {
   if (isEmpty) {
     return (
       <div className="space-y-8">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-white">{t('dashboard.title')}</h1>
-        </div>
-
         <WaterWidget />
 
         <div className="flex flex-col items-center justify-center py-20">
@@ -93,31 +95,21 @@ export default function DashboardPage() {
     )
   }
 
-  if (allGood) {
-    return (
-      <div className="space-y-8">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-white">{t('dashboard.title')}</h1>
-        </div>
+  return (
+    <div className="space-y-8">
+      <DashboardStats products={products} expired={expired} expiring={expiring} low={low} />
 
-        <WaterWidget />
+      <CategoryBreakdown products={products} />
 
-        <div className="flex flex-col items-center justify-center py-20">
+      <WaterWidget />
+
+      {allGood && (
+        <div className="flex flex-col items-center justify-center py-12">
           <div className="text-6xl mb-4">✅</div>
           <h2 className="text-xl font-semibold text-green-400">{t('dashboard.all_good')}</h2>
           <p className="text-gray-400 mt-1">{t('dashboard.all_good_desc')}</p>
         </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">{t('dashboard.title')}</h1>
-      </div>
-
-      <WaterWidget />
+      )}
 
       {expired.length > 0 && (
         <section>
