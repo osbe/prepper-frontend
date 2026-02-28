@@ -4,12 +4,33 @@ React SPA for managing a prepper stash — track food, water, and other supplies
 
 ## Features
 
-- **Dashboard** — at-a-glance alerts for expired stock, items expiring within 30 days, and low stock levels
-- **Food inventory** — create and manage products (preserved food, dry goods, freeze-dried, medicine, fuel, etc.) with target quantities and stock batches
-- **Water tracking** — dedicated water product with batch-level detail
-- **Stock entries** — per-batch quantity, purchase/expiry date, location, and notes
-- **Offline detection** — blocking overlay when the backend is unreachable
-- **i18n** — Swedish (default) and English, persisted in `localStorage`
+### Dashboard
+Central overview with three alert panels:
+- **Expired** — items past their expiry date, highlighted for immediate action
+- **Expiring soon** — items expiring within the next 30 days
+- **Low stock** — products where current quantity falls below the configured target
+- **Water widget** — dedicated water status with total volume and days of supply remaining
+
+### Food inventory
+Organize supplies across categories: preserved food, dry goods, freeze-dried, canned, medicine, fuel, and more. Each product has a name, category, unit, and a **target quantity** so you always know how far off-target you are.
+
+### Stock batches
+Every product holds individual stock entries — one per purchase batch. Each entry tracks:
+- Quantity and unit
+- Purchase date and expiry date
+- Storage location
+- Free-text notes
+
+Add, delete, and review entries from the product detail page. Expiry status is color-coded inline.
+
+### Water tracking
+Water is treated as a first-class product with its own dedicated page and dashboard widget. Batch-level detail (volume, location, expiry) works the same as food.
+
+### Offline detection
+A blocking overlay appears when the backend is unreachable, preventing stale interactions.
+
+### Localization
+Swedish (default) and English, switchable at any time. The selected language persists in `localStorage` and affects date formatting throughout the app.
 
 ## Stack
 
