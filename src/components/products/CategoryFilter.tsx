@@ -18,10 +18,11 @@ interface Props {
 export default function CategoryFilter({ value, onChange }: Props) {
   const { t } = useTranslation()
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex gap-2.5">
       <button
         onClick={() => onChange(undefined)}
-        className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${value === undefined
+        aria-label={t('category_filter.all')}
+        className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${value === undefined
             ? 'bg-green-700 text-white'
             : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
           }`}
@@ -32,13 +33,13 @@ export default function CategoryFilter({ value, onChange }: Props) {
         <button
           key={cat}
           onClick={() => onChange(cat === value ? undefined : cat)}
-          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium transition-colors ${value === cat
-              ? 'bg-green-700 text-white'
-              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+          aria-label={t(`categories.${cat}`)}
+          className={`w-8 h-8 rounded-full text-base flex items-center justify-center transition-colors ${value === cat
+              ? 'bg-green-700'
+              : 'bg-gray-700 hover:bg-gray-600'
             }`}
         >
-          <span aria-hidden="true">{CATEGORY_ICONS[cat as FoodCategory]}</span>
-          {t(`categories.${cat}`)}
+          {CATEGORY_ICONS[cat as FoodCategory]}
         </button>
       ))}
     </div>
