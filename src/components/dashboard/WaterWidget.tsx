@@ -8,7 +8,7 @@ export default function WaterWidget() {
     const createProduct = useCreateProduct()
 
     const [isSettingUp, setIsSettingUp] = useState(false)
-    const [targetLiters, setTargetLiters] = useState('100')
+    const [persons, setPersons] = useState('4')
 
     // If the products are still loading, don't show the setup UI immediately, wait for the actual data.
     if (isLoading) {
@@ -20,6 +20,7 @@ export default function WaterWidget() {
     }
 
     const waterProduct = products.find(p => p.category === 'WATER')
+    const computedLiters = (parseInt(persons) || 0) * 5 * 7
 
     const handleSetup = async () => {
         setIsSettingUp(true)
@@ -28,7 +29,7 @@ export default function WaterWidget() {
                 name: t('water_widget.default_name'),
                 category: 'WATER',
                 unit: 'LITERS',
-                targetQuantity: parseFloat(targetLiters) || 100,
+                targetQuantity: computedLiters,
             })
         } finally {
             setIsSettingUp(false)
@@ -43,18 +44,22 @@ export default function WaterWidget() {
 
                 <div className="flex flex-col sm:flex-row sm:items-end gap-3 max-w-sm">
                     <div className="flex-1">
-                        <label className="block text-sm text-gray-400 mb-1">{t('water_widget.target_liters')}</label>
+                        <label className="block text-sm text-gray-400 mb-1">{t('product_form.persons_label')}</label>
                         <input
                             type="number"
-                            min="0"
+                            min="1"
+                            step="1"
                             className="w-full bg-gray-800 border border-blue-700/50 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
-                            value={targetLiters}
-                            onChange={(e) => setTargetLiters(e.target.value)}
+                            value={persons}
+                            onChange={(e) => setPersons(e.target.value)}
                         />
+                        {computedLiters > 0 && (
+                            <p className="text-gray-500 text-xs mt-1">= {computedLiters} {t('units.LITERS')}</p>
+                        )}
                     </div>
                     <button
                         onClick={handleSetup}
-                        disabled={isSettingUp}
+                        disabled={isSettingUp || computedLiters === 0}
                         className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg font-medium transition-colors"
                     >
                         {isSettingUp ? t('common.saving') : t('water_widget.setup_button')}

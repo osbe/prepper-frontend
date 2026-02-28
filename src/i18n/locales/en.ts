@@ -75,6 +75,8 @@ const en = {
     target_qty_label: 'Target quantity',
     target_qty_liters_label: 'Target quantity (Liters)',
     target_qty_placeholder: 'e.g. 100',
+    persons_label: 'Number of persons',
+    persons_hint: '{{days}} days × {{lpd}} L/person/day',
     notes_label: 'Notes (optional)',
     notes_placeholder: 'Any extra info…',
   },
@@ -94,15 +96,6 @@ const en = {
     optional_details: 'Optional details',
     name_label: 'Name',
     name_placeholder: 'e.g. Blue bottle shelf B',
-    container_material_label: 'Container material',
-    container_material_placeholder: 'Select material…',
-    water_materials: {
-      PET: 'PET / Plastic (6 mo)',
-      HDPE: 'HDPE / Jerry can (12 mo)',
-      GLASS: 'Glass (12 mo)',
-      STAINLESS_STEEL: 'Stainless steel (12 mo)',
-      COMMERCIAL: 'Commercial / Sealed (24 mo)',
-    },
   },
   stock_entry: {
     consume_next: 'Consume next',
@@ -124,7 +117,6 @@ const en = {
   water_widget: {
     title: 'Water Supply',
     setup_prompt: 'Set up your drinking water reserve to track your most critical resource securely.',
-    target_liters: 'Target (Liters)',
     setup_button: 'Start tracking',
     default_name: 'Drinking Water',
     manage_link: 'Manage batches',

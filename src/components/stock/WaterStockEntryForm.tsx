@@ -9,18 +9,6 @@ interface Props {
   error?: string | null
 }
 
-type WaterMaterial = 'PET' | 'HDPE' | 'GLASS' | 'STAINLESS_STEEL' | 'COMMERCIAL'
-
-const MATERIAL_SHELF_MONTHS: Record<WaterMaterial, number> = {
-  PET: 6,
-  HDPE: 12,
-  GLASS: 12,
-  STAINLESS_STEEL: 12,
-  COMMERCIAL: 24,
-}
-
-const MATERIALS: WaterMaterial[] = ['PET', 'HDPE', 'GLASS', 'STAINLESS_STEEL', 'COMMERCIAL']
-
 function today() {
   return new Date().toISOString().slice(0, 10)
 }
@@ -39,7 +27,6 @@ function addMonths(dateStr: string, months: number) {
 export default function WaterStockEntryForm({ unit, onSubmit, isLoading, error }: Props) {
   const { t } = useTranslation()
   const [name, setName] = useState('')
-  const [material, setMaterial] = useState<WaterMaterial | ''>('')
   const [quantity, setQuantity] = useState('')
   const [location, setLocation] = useState('')
   const [notes, setNotes] = useState('')
@@ -48,7 +35,7 @@ export default function WaterStockEntryForm({ unit, onSubmit, isLoading, error }
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     const purchasedDate = today()
-    const expiryDate = material ? addMonths(purchasedDate, MATERIAL_SHELF_MONTHS[material]) : null
+    const expiryDate = addMonths(purchasedDate, 6)
     onSubmit({
       quantity: parseFloat(quantity),
       subType: name.trim() || null,
@@ -69,24 +56,6 @@ export default function WaterStockEntryForm({ unit, onSubmit, isLoading, error }
           {error}
         </p>
       )}
-
-      {/* Container material */}
-      <div>
-        <label className="block text-sm text-gray-400 mb-1">
-          {t('stock_form.container_material_label')}
-        </label>
-        <select
-          className={inputClass}
-          value={material}
-          onChange={(e) => setMaterial(e.target.value as WaterMaterial | '')}
-          required
-        >
-          <option value="" disabled>{t('stock_form.container_material_placeholder')}</option>
-          {MATERIALS.map((m) => (
-            <option key={m} value={m}>{t(`stock_form.water_materials.${m}`)}</option>
-          ))}
-        </select>
-      </div>
 
       {/* Batch name */}
       <div>

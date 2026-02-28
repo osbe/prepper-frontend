@@ -75,6 +75,8 @@ const sv = {
     target_qty_label: 'Målkvantitet',
     target_qty_liters_label: 'Målkvantitet (Liter)',
     target_qty_placeholder: 'ex. 100',
+    persons_label: 'Antal personer',
+    persons_hint: '{{days}} dagar × {{lpd}} L/person/dag',
     notes_label: 'Anteckningar (valfritt)',
     notes_placeholder: 'Extra information…',
   },
@@ -94,15 +96,6 @@ const sv = {
     optional_details: 'Valfria uppgifter',
     name_label: 'Namn',
     name_placeholder: 'ex. Blå flaska hyl B',
-    container_material_label: 'Behållarmaterial',
-    container_material_placeholder: 'Välj material…',
-    water_materials: {
-      PET: 'PET / Plast (6 mån)',
-      HDPE: 'HDPE / Dunk (12 mån)',
-      GLASS: 'Glas (12 mån)',
-      STAINLESS_STEEL: 'Rostfritt stål (12 mån)',
-      COMMERCIAL: 'Kommersiell / Förseglad (24 mån)',
-    },
   },
   stock_entry: {
     consume_next: 'Konsumera härnäst',
@@ -124,7 +117,6 @@ const sv = {
   water_widget: {
     title: 'Vattenförsörjning',
     setup_prompt: 'Ställ in din dricksvattenreserv för att säkert spåra din mest kritiska resurs.',
-    target_liters: 'Mål (Liter)',
     setup_button: 'Börja spåra',
     default_name: 'Dricksvatten',
     manage_link: 'Hantera partier',
