@@ -51,7 +51,7 @@ const sv = {
     back: '← Mat',
     back_from_detail: '← Tillbaka till mat',
     target: 'mål {{qty}} {{unit}}',
-    stock_batches_title: 'Lagerparti',
+    stock_batches_title: 'Lager',
     add_stock_button: '+ Lägg till lager',
     loading_stock: 'Laddar lager…',
     no_stock: 'Inga lagerposter ännu.',

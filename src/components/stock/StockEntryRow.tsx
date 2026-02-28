@@ -85,7 +85,7 @@ export default function StockEntryRow({
       <button
         onClick={handleUseOne}
         disabled={isMutating}
-        className="absolute top-3 right-3 w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-xl font-medium transition-colors flex items-center justify-center disabled:opacity-50 shadow-md"
+        className="absolute top-3 right-3 w-10 h-10 rounded-full bg-red-950 hover:bg-red-900 active:bg-red-800 text-red-300 text-xl font-medium transition-colors flex items-center justify-center disabled:opacity-50 shadow-md"
       >
         −
       </button>
