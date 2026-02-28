@@ -21,6 +21,10 @@ data:
 
         location = /manifest.webmanifest {
             add_header Cache-Control "no-store, no-cache, must-revalidate";
+            default_type application/manifest+json;
+            sub_filter_types application/manifest+json;
+            sub_filter '"start_url":"/"' '"start_url":"{{ .Values.basePath | default "/" | trimSuffix "/" }}/"';
+            sub_filter '"scope":"/"' '"scope":"{{ .Values.basePath | default "/" | trimSuffix "/" }}/"';
             try_files $uri =404;
         }
 

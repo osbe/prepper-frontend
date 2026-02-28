@@ -19,9 +19,6 @@ export default defineConfig({
         theme_color: '#14532d',
         background_color: '#030712',
         display: 'standalone',
-        // Note: scope/start_url are correct for root deployments (basePath: /).
-        // Sub-path deployments (basePath != /) require build-time base configuration —
-        // the nginx sub_filter only rewrites <base href>, not the SW scope or manifest URLs.
         scope: '/',
         start_url: '/',
         icons: [
