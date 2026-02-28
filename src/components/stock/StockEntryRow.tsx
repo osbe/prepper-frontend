@@ -10,6 +10,7 @@ interface Props {
   onPatch: (id: number, quantity: number) => void
   onDelete: (id: number) => void
   isMutating: boolean
+  deleteOnUse?: boolean
 }
 
 export default function StockEntryRow({
@@ -20,12 +21,13 @@ export default function StockEntryRow({
   onPatch,
   onDelete,
   isMutating,
+  deleteOnUse,
 }: Props) {
   const { t } = useTranslation()
   const formatDate = useFormatDate()
 
   const handleUseOne = () => {
-    if (entry.quantity <= 1) {
+    if (deleteOnUse || entry.quantity <= 1) {
       onDelete(entry.id)
     } else {
       onPatch(entry.id, entry.quantity - 1)
@@ -58,7 +60,9 @@ export default function StockEntryRow({
         </div>
         {entry.subType && (
           <div className="col-span-2">
-            <span className="text-gray-400">{t('stock_entry.sub_type_label')}</span>
+            <span className="text-gray-400">
+              {category === 'WATER' ? t('stock_entry.name_label') : t('stock_entry.sub_type_label')}
+            </span>
             <p className="text-white">{entry.subType}</p>
           </div>
         )}
