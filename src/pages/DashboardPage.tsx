@@ -5,7 +5,6 @@ import type { StockEntry, Product } from '../types'
 import { Link } from 'react-router-dom'
 import { useFormatDate } from '../i18n/useFormatDate'
 import WaterWidget from '../components/dashboard/WaterWidget'
-import DashboardStats from '../components/dashboard/DashboardStats'
 import CategoryBreakdown from '../components/dashboard/CategoryBreakdown'
 import ProgressBar from '../components/ui/ProgressBar'
 
@@ -97,8 +96,6 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      <DashboardStats products={products} expired={expired} expiring={expiring} low={low} />
-
       <CategoryBreakdown products={products} />
 
       <WaterWidget />
