@@ -25,8 +25,14 @@ export function useUndoStockDelete(
 
   function handleUndoDelete() {
     if (!deletedEntry) return
-    const { id: _id, productId: _productId, expiryStatus: _expiryStatus, ...payload } = deletedEntry
-    addMutate(payload, {
+    addMutate({
+      quantity: deletedEntry.quantity,
+      subType: deletedEntry.subType,
+      purchasedDate: deletedEntry.purchasedDate,
+      expiryDate: deletedEntry.expiryDate,
+      location: deletedEntry.location,
+      notes: deletedEntry.notes,
+    }, {
       onSuccess: () => setDeletedEntry(null),
       onError: () => {
         setDeletedEntry(null)

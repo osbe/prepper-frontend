@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 
 interface Props {
   message: string
@@ -10,7 +10,9 @@ interface Props {
 
 export default function Toast({ message, actionLabel, onAction, onDismiss, duration = 5000 }: Props) {
   const dismissRef = useRef(onDismiss)
-  dismissRef.current = onDismiss
+  useLayoutEffect(() => {
+    dismissRef.current = onDismiss
+  })
 
   useEffect(() => {
     const timer = setTimeout(() => dismissRef.current(), duration)
