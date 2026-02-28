@@ -17,9 +17,9 @@ const sv = {
   },
   categories: {
     WATER: 'Vatten',
-    PRESERVED_FOOD: 'Konserverad mat',
+    PRESERVED_FOOD: 'Konserver',
     DRY_GOODS: 'Torrvaror',
-    FREEZE_DRIED: 'Frystorkad',
+    FREEZE_DRIED: 'Frystorkat',
     MEDICINE: 'Medicin',
     FUEL: 'Bränsle',
     OTHER: 'Övrigt',
