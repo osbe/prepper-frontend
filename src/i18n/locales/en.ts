@@ -48,7 +48,6 @@ const en = {
     add_button: '+ Add food',
     loading_error: 'Failed to load food.',
     empty: 'No food yet.',
-    empty_cta: 'Add your first food item →',
     not_found: 'Food not found.',
     back: '← Food',
     back_from_detail: '← Back to food',

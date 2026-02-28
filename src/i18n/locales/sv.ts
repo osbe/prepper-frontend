@@ -48,7 +48,6 @@ const sv = {
     add_button: '+ Lägg till mat',
     loading_error: 'Kunde inte ladda mat.',
     empty: 'Ingen mat lagrad ännu.',
-    empty_cta: 'Lägg till din första matvara →',
     not_found: 'Mat hittades inte.',
     back: '← Mat',
     back_from_detail: '← Tillbaka till mat',

@@ -33,9 +33,6 @@ export default function FoodListPage() {
       {!isLoading && !error && products.length === 0 && (
         <div className="text-center py-16 text-gray-500">
           <p className="text-lg">{t('products.empty')}</p>
-          <Link to="/food/new" className="text-green-400 hover:underline text-sm mt-1 block">
-            {t('products.empty_cta')}
-          </Link>
         </div>
       )}
 
