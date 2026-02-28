@@ -5,7 +5,7 @@ import { useProduct, useProductStock, useDeleteProduct, useAddStockEntry } from 
 import { usePatchStock, useDeleteStock } from '../hooks/useStock'
 import { useUndoStockDelete } from '../hooks/useUndoStockDelete'
 import StockEntryRow from '../components/stock/StockEntryRow'
-import StockEntryForm from '../components/stock/StockEntryForm'
+import WaterStockEntryForm from '../components/stock/WaterStockEntryForm'
 import ConfirmDialog from '../components/ui/ConfirmDialog'
 import BottomSheet from '../components/ui/BottomSheet'
 import Toast from '../components/ui/Toast'
@@ -144,6 +144,7 @@ export default function WaterDetailPage({ forceId }: Props) {
             onPatch={handlePatch}
             onDelete={handleDeleteEntry}
             isMutating={patchStock.isPending || deleteStock.isPending || !!deletedEntry}
+            deleteOnUse
           />
         ))}
       </div>
@@ -162,7 +163,7 @@ export default function WaterDetailPage({ forceId }: Props) {
 
       {showAddStock && (
         <BottomSheet title={t('stock_form.modal_title')} onClose={() => setShowAddStock(false)}>
-          <StockEntryForm
+          <WaterStockEntryForm
             unit={product.unit}
             onSubmit={handleAddStock}
             isLoading={addStock.isPending}
