@@ -63,7 +63,7 @@ export default function FoodListPage() {
         <button
           onClick={() => setShowAddProduct(true)}
           aria-label={t('products.add_button')}
-          className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-3xl shadow-lg transition-colors flex items-center justify-center"
+          className="fixed bottom-20 sm:bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-3xl shadow-lg transition-colors flex items-center justify-center"
         >
           +
         </button>

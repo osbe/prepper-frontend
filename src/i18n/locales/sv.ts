@@ -1,7 +1,7 @@
 const sv = {
   nav: {
     brand: 'Prepper',
-    dashboard: 'Instrumentpanel',
+    dashboard: 'Översikt',
     products: 'Mat',
     water: 'Vatten',
   },
