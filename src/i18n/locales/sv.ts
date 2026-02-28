@@ -178,6 +178,7 @@ const sv = {
   offline: {
     title: 'Ingen serveranslutning',
     message: 'Kontrollerar anslutning…',
+    indicator: 'Offline',
   },
 } as const
 

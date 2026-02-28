@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Dark green background -->
+  <rect width="512" height="512" rx="96" fill="#14532d"/>
+  <!-- Shield -->
+  <path d="M256 72 L390 120 L390 252 C390 342 332 408 256 444 C180 408 122 342 122 252 L122 120 Z"
+        fill="#166534" stroke="#4ade80" stroke-width="14" stroke-linejoin="round"/>
+  <!-- Flame body (amber) -->
+  <path d="M272 160 C285 192 306 212 299 244 C292 270 274 284 256 298 C238 284 220 270 213 244 C206 212 229 190 243 160 C246 182 264 192 272 160 Z"
+        fill="#f59e0b"/>
+  <!-- Flame inner highlight -->
+  <path d="M256 200 C265 216 276 226 272 242 C268 254 261 262 256 270 C251 262 244 254 240 242 C236 226 249 216 256 200 Z"
+        fill="#fef9c3"/>
+</svg>
