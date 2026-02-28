@@ -42,6 +42,8 @@ const en = {
     low_stock_heading: 'Low stock ({{count}})',
     product_fallback: 'Product #{{id}}',
     expires: 'Expires {{date}}',
+    category_breakdown: 'By category',
+    category_at_target: '{{count}}/{{total}} at target',
   },
   products: {
     page_title: 'Food',

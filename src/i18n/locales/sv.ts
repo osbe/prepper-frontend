@@ -42,6 +42,8 @@ const sv = {
     low_stock_heading: 'Lågt lager ({{count}})',
     product_fallback: 'Produkt #{{id}}',
     expires: 'Bäst före {{date}}',
+    category_breakdown: 'Per kategori',
+    category_at_target: '{{count}}/{{total}} på mål',
   },
   products: {
     page_title: 'Mat',
