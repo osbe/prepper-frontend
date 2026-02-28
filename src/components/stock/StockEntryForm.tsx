@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { StockEntryPayload, Unit } from '../../types'
 
@@ -42,11 +42,15 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
   const [location, setLocation] = useState('')
   const [showOptional, setShowOptional] = useState(false)
 
-  // Reset day if it exceeds the days in the selected month/year
-  useEffect(() => {
-    const max = daysInMonth(expiryYear, expiryMonth)
-    if (expiryDay && parseInt(expiryDay) > max) setExpiryDay('')
-  }, [expiryYear, expiryMonth])
+  const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setExpiryYear(e.target.value)
+    if (expiryDay && parseInt(expiryDay) > daysInMonth(e.target.value, expiryMonth)) setExpiryDay('')
+  }
+
+  const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setExpiryMonth(e.target.value)
+    if (expiryDay && parseInt(expiryDay) > daysInMonth(expiryYear, e.target.value)) setExpiryDay('')
+  }
 
   const expiryDateValue =
     expiryYear && expiryMonth && expiryDay
@@ -132,7 +136,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
             <select
               className={`${selectClass} w-[5.5rem] shrink-0`}
               value={expiryYear}
-              onChange={(e) => setExpiryYear(e.target.value)}
+              onChange={handleYearChange}
             >
               <option value="">—</option>
               {Array.from({ length: 31 }, (_, i) => new Date().getFullYear() + i).map(y => (
@@ -142,7 +146,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
             <select
               className={`${selectClass} flex-1`}
               value={expiryMonth}
-              onChange={(e) => setExpiryMonth(e.target.value)}
+              onChange={handleMonthChange}
             >
               <option value="">—</option>
               {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
