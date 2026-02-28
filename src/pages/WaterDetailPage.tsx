@@ -3,10 +3,12 @@ import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useProduct, useProductStock, useDeleteProduct, useAddStockEntry } from '../hooks/useProducts'
 import { usePatchStock, useDeleteStock } from '../hooks/useStock'
+import { useUndoStockDelete } from '../hooks/useUndoStockDelete'
 import StockEntryRow from '../components/stock/StockEntryRow'
 import StockEntryForm from '../components/stock/StockEntryForm'
 import ConfirmDialog from '../components/ui/ConfirmDialog'
 import BottomSheet from '../components/ui/BottomSheet'
+import Toast from '../components/ui/Toast'
 import { EditIcon, TrashIcon } from '../components/ui/icons'
 
 interface Props {
@@ -30,6 +32,13 @@ export default function WaterDetailPage({ forceId }: Props) {
   const [showDeleteProduct, setShowDeleteProduct] = useState(false)
   const [showAddStock, setShowAddStock] = useState(false)
   const [addStockError, setAddStockError] = useState<string | null>(null)
+
+  const { deletedEntry, handleDeleteEntry, handleUndoDelete, clearDeletedEntry } = useUndoStockDelete(
+    stock,
+    deleteStock.mutate,
+    addStock.mutate,
+    () => setAddStockError(t('errors.something_went_wrong')),
+  )
 
   if (pLoading) return <p className="text-gray-400 text-sm">{t('common.loading')}</p>
   if (pError || !product) {
@@ -60,10 +69,6 @@ export default function WaterDetailPage({ forceId }: Props) {
 
   const handlePatch = (entryId: number, quantity: number) => {
     patchStock.mutate({ id: entryId, quantity })
-  }
-
-  const handleDeleteEntry = (entryId: number) => {
-    deleteStock.mutate(entryId)
   }
 
   const unit = t(`units.${product.unit}`)
@@ -138,7 +143,7 @@ export default function WaterDetailPage({ forceId }: Props) {
             isFirst={i === 0}
             onPatch={handlePatch}
             onDelete={handleDeleteEntry}
-            isMutating={patchStock.isPending || deleteStock.isPending}
+            isMutating={patchStock.isPending || deleteStock.isPending || !!deletedEntry}
           />
         ))}
       </div>
@@ -175,6 +180,16 @@ export default function WaterDetailPage({ forceId }: Props) {
         >
           +
         </button>
+      )}
+
+      {deletedEntry && (
+        <Toast
+          key={deletedEntry.id}
+          message={t('stock_entry.removed')}
+          actionLabel={t('common.undo')}
+          onAction={handleUndoDelete}
+          onDismiss={clearDeletedEntry}
+        />
       )}
     </div>
   )
