@@ -20,6 +20,7 @@ export function useUndoStockDelete(
     if (!entry) return
     deleteMutate(entryId, {
       onSuccess: () => setDeletedEntry(entry),
+      onError: () => onUndoError(),
     })
   }
 

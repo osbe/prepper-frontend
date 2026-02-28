@@ -32,6 +32,7 @@ export default function WaterDetailPage({ forceId }: Props) {
   const [showDeleteProduct, setShowDeleteProduct] = useState(false)
   const [showAddStock, setShowAddStock] = useState(false)
   const [addStockError, setAddStockError] = useState<string | null>(null)
+  const [mutationError, setMutationError] = useState<string | null>(null)
 
   const { deletedEntry, handleDeleteEntry, handleUndoDelete, clearDeletedEntry } = useUndoStockDelete(
     stock,
@@ -53,8 +54,14 @@ export default function WaterDetailPage({ forceId }: Props) {
   }
 
   const handleDeleteProduct = async () => {
-    await deleteProduct.mutateAsync(productId)
-    navigate('/')
+    setMutationError(null)
+    try {
+      await deleteProduct.mutateAsync(productId)
+      navigate('/')
+    } catch (e: unknown) {
+      setShowDeleteProduct(false)
+      setMutationError(e instanceof Error ? e.message : t('errors.something_went_wrong'))
+    }
   }
 
   const handleAddStock = async (payload: Parameters<typeof addStock.mutateAsync>[0]) => {
@@ -68,7 +75,10 @@ export default function WaterDetailPage({ forceId }: Props) {
   }
 
   const handlePatch = (entryId: number, quantity: number) => {
-    patchStock.mutate({ id: entryId, quantity })
+    setMutationError(null)
+    patchStock.mutate({ id: entryId, quantity }, {
+      onError: () => setMutationError(t('errors.something_went_wrong')),
+    })
   }
 
   const unit = t(`units.${product.unit}`)
@@ -121,6 +131,10 @@ export default function WaterDetailPage({ forceId }: Props) {
           </span>
         </div>
       </div>
+
+      {mutationError && (
+        <p className="text-red-400 text-sm mb-4">{mutationError}</p>
+      )}
 
       {/* Stock entries */}
       <div className="mb-4">
