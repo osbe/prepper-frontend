@@ -83,12 +83,17 @@ export default function FoodDetailPage({ forceId }: Props) {
 
       {/* Product header */}
       <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 sm:p-6 mb-6">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white">{product.name}</h1>
-          <div className="flex items-center gap-2 mt-1">
-            <p className="text-gray-400 text-sm">
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-xl sm:text-2xl font-bold text-white">{product.name}</h1>
+            <p className="text-gray-400 text-sm mt-1">
               {t(`categories.${product.category}`)} · {t('products.target', { qty: product.targetQuantity, unit })}
             </p>
+            {product.notes && (
+              <p className="text-gray-300 text-sm mt-2">{product.notes}</p>
+            )}
+          </div>
+          <div className="flex items-center gap-1 ml-2 shrink-0">
             <Link
               to={`/food/${productId}/edit`}
               aria-label={t('common.edit')}
@@ -104,9 +109,6 @@ export default function FoodDetailPage({ forceId }: Props) {
               <TrashIcon />
             </button>
           </div>
-          {product.notes && (
-            <p className="text-gray-300 text-sm mt-2">{product.notes}</p>
-          )}
         </div>
 
         <div className="mt-4 flex items-center gap-3">
