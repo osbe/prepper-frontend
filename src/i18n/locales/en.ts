@@ -178,6 +178,7 @@ const en = {
   offline: {
     title: 'Backend unreachable',
     message: 'Checking connection…',
+    indicator: 'Offline',
   },
 } as const
 
