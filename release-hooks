@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CHART="helm/prepper-frontend/Chart.yaml"
+
+case $1 in
+  get-version)
+    grep '^version:' "$CHART" | awk '{print $2}'
+    ;;
+  update)
+    NEW=$3
+    sed -i "s/^version: .*/version: $NEW/" "$CHART"
+    sed -i "s/^appVersion: .*/appVersion: \"$NEW\"/" "$CHART"
+    ;;
+  stage)
+    git add "$CHART"
+    ;;
+esac
