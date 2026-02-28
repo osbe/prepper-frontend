@@ -35,6 +35,8 @@ const en = {
     title: 'Dashboard',
     all_good: 'All good!',
     all_good_desc: 'No expired, expiring, or low-stock items.',
+    empty: 'Storage is empty',
+    empty_desc: 'Add food or water to start tracking your prepper stock.',
     expired_heading: 'Expired ({{count}})',
     expiring_heading: 'Expiring soon ({{count}})',
     low_stock_heading: 'Low stock ({{count}})',

@@ -65,13 +65,32 @@ export default function DashboardPage() {
   const { data: expired = [], isLoading: l1 } = useExpiredStock()
   const { data: expiring = [], isLoading: l2 } = useExpiringStock()
   const { data: low = [], isLoading: l3 } = useLowStock()
-  const { data: products = [] } = useProducts()
+  const { data: products = [], isLoading: l4 } = useProducts()
 
-  const isLoading = l1 || l2 || l3
-  const allGood = expired.length === 0 && expiring.length === 0 && low.length === 0
+  const isLoading = l1 || l2 || l3 || l4
+  const isEmpty = products.length === 0
+  const allGood = !isEmpty && expired.length === 0 && expiring.length === 0 && low.length === 0
 
   if (isLoading) {
     return <p className="text-gray-400 text-sm">{t('common.loading')}</p>
+  }
+
+  if (isEmpty) {
+    return (
+      <div className="space-y-8">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-white">{t('dashboard.title')}</h1>
+        </div>
+
+        <WaterWidget />
+
+        <div className="flex flex-col items-center justify-center py-20">
+          <div className="text-6xl mb-4">📦</div>
+          <h2 className="text-xl font-semibold text-gray-300">{t('dashboard.empty')}</h2>
+          <p className="text-gray-400 mt-1">{t('dashboard.empty_desc')}</p>
+        </div>
+      </div>
+    )
   }
 
   if (allGood) {

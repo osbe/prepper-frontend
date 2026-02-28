@@ -35,6 +35,8 @@ const sv = {
     title: 'Översikt',
     all_good: 'Allt bra!',
     all_good_desc: 'Inga utgångna, snart utgångna eller låglagerposter.',
+    empty: 'Lagret är tomt',
+    empty_desc: 'Lägg till mat eller vatten för att börja spåra ditt lager.',
     expired_heading: 'Utgångna ({{count}})',
     expiring_heading: 'Snart utgångna ({{count}})',
     low_stock_heading: 'Lågt lager ({{count}})',

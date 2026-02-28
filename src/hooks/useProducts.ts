@@ -48,7 +48,10 @@ export const useDeleteProduct = () => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (id: number) => deleteProduct(id),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['products'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['products'] })
+      qc.invalidateQueries({ queryKey: ['stock'] })
+    },
   })
 }
 
