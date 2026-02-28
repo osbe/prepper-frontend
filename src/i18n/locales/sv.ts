@@ -157,7 +157,7 @@ const sv = {
   },
   not_found: {
     message: 'Sidan hittades inte.',
-    cta: 'Gå till instrumentpanelen →',
+    cta: 'Gå till översikten →',
   },
   errors: {
     not_found: 'Hittades inte',

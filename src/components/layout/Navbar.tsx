@@ -46,8 +46,8 @@ export default function Navbar() {
                 <span className="hidden sm:inline">{t('offline.indicator')}</span>
               </div>
             )}
-            {/* Language switcher — desktop only */}
-            <div className="hidden sm:flex items-center gap-1 text-sm font-medium">
+            {/* Language switcher */}
+            <div className="flex items-center gap-1 text-sm font-medium">
               {(['sv', 'en'] as const).map((lang) => (
                 <button
                   key={lang}
