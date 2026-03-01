@@ -2,6 +2,14 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { StockEntryPayload, Unit } from '../../types'
 
+interface InitialValues {
+  quantity?: number
+  subType?: string | null
+  purchasedDate?: string | null
+  expiryDate?: string | null
+  location?: string | null
+}
+
 interface Props {
   unit: Unit
   onSubmit: (payload: StockEntryPayload) => void
@@ -9,6 +17,8 @@ interface Props {
   error?: string | null
   hideExpiryDate?: boolean
   showSubType?: boolean
+  initialValues?: InitialValues
+  mode?: 'add' | 'edit'
 }
 
 function today() {
@@ -31,16 +41,23 @@ function getMonthName(month: number, language: string): string {
   return new Intl.DateTimeFormat(locale, { month: 'long' }).format(new Date(2000, month - 1, 1))
 }
 
-export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideExpiryDate, showSubType }: Props) {
+function parseExpiryDate(date: string | null | undefined) {
+  if (!date) return { year: '', month: '', day: '' }
+  const [y, m, d] = date.split('-')
+  return { year: y, month: String(parseInt(m)), day: String(parseInt(d)) }
+}
+
+export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideExpiryDate, showSubType, initialValues, mode = 'add' }: Props) {
   const { t, i18n } = useTranslation()
-  const [quantity, setQuantity] = useState('1')
-  const [subType, setSubType] = useState('')
-  const [purchasedDate] = useState(today())
-  const [expiryYear, setExpiryYear] = useState('')
-  const [expiryMonth, setExpiryMonth] = useState('')
-  const [expiryDay, setExpiryDay] = useState('')
-  const [location, setLocation] = useState('')
-  const [showOptional, setShowOptional] = useState(false)
+  const { year: initYear, month: initMonth, day: initDay } = parseExpiryDate(initialValues?.expiryDate)
+  const [quantity, setQuantity] = useState(String(initialValues?.quantity ?? 1))
+  const [subType, setSubType] = useState(initialValues?.subType ?? '')
+  const [purchasedDate] = useState(initialValues?.purchasedDate ?? today())
+  const [expiryYear, setExpiryYear] = useState(initYear)
+  const [expiryMonth, setExpiryMonth] = useState(initMonth)
+  const [expiryDay, setExpiryDay] = useState(initDay)
+  const [location, setLocation] = useState(initialValues?.location ?? '')
+  const [showOptional, setShowOptional] = useState(!!initialValues?.location)
 
   const handleYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setExpiryYear(e.target.value)
@@ -172,7 +189,10 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
         disabled={isLoading}
         className="w-full bg-green-600 hover:bg-green-700 active:bg-green-800 disabled:opacity-50 text-white font-medium py-4 rounded-xl transition-colors text-lg"
       >
-        {isLoading ? t('stock_form.adding_button') : t('stock_form.add_button')}
+        {mode === 'edit'
+        ? (isLoading ? t('common.saving') : t('common.save'))
+        : (isLoading ? t('stock_form.adding_button') : t('stock_form.add_button'))
+      }
       </button>
 
       {/* Optional details */}

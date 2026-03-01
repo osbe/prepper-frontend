@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import type { Category, StockEntry, Unit } from '../../types'
 import { useFormatDate } from '../../i18n/useFormatDate'
+import { EditIcon, TakeOutIcon } from '../ui/icons'
 
 interface Props {
   entry: StockEntry
@@ -9,6 +10,7 @@ interface Props {
   isFirst: boolean
   onPatch: (id: number, quantity: number) => void
   onDelete: (id: number) => void
+  onEdit?: (id: number) => void
   isMutating: boolean
   deleteOnUse?: boolean
 }
@@ -20,6 +22,7 @@ export default function StockEntryRow({
   isFirst,
   onPatch,
   onDelete,
+  onEdit,
   isMutating,
   deleteOnUse,
 }: Props) {
@@ -40,12 +43,36 @@ export default function StockEntryRow({
       : 'text-yellow-400 bg-yellow-900/20 border border-yellow-800'
 
   return (
-    <div className="relative bg-gray-800 border border-gray-700 rounded-lg p-4">
-      {isFirst && (
-        <span className="inline-block text-xs font-semibold bg-green-800 text-green-200 px-2 py-0.5 rounded-full mb-2">
-          {t('stock_entry.consume_next')}
-        </span>
-      )}
+    <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
+      <div className="flex items-start justify-between mb-2">
+        <div>
+          {isFirst && (
+            <span className="inline-block text-xs font-semibold bg-green-800 text-green-200 px-2 py-0.5 rounded-full">
+              {t('stock_entry.consume_next')}
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-0.5 -mr-1.5 -mt-1 shrink-0 ml-2">
+          {onEdit && (
+            <button
+              onClick={() => onEdit(entry.id)}
+              disabled={isMutating}
+              aria-label={t('common.edit')}
+              className="inline-flex items-center justify-center p-1.5 text-gray-400 hover:text-white transition-colors disabled:opacity-50"
+            >
+              <EditIcon />
+            </button>
+          )}
+          <button
+            onClick={handleUseOne}
+            disabled={isMutating}
+            aria-label={t('stock_entry.use_one_button')}
+            className="inline-flex items-center justify-center p-1.5 text-gray-400 hover:text-amber-400 transition-colors disabled:opacity-50"
+          >
+            <TakeOutIcon />
+          </button>
+        </div>
+      </div>
 
       <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm mb-3">
         <div>
@@ -81,14 +108,6 @@ export default function StockEntryRow({
           {t(`action.${category}.${entry.expiryStatus}`)}
         </p>
       )}
-
-      <button
-        onClick={handleUseOne}
-        disabled={isMutating}
-        className="absolute top-3 right-3 w-10 h-10 rounded-full bg-red-950 hover:bg-red-900 active:bg-red-800 text-red-300 text-xl font-medium transition-colors flex items-center justify-center disabled:opacity-50 shadow-md"
-      >
-        −
-      </button>
     </div>
   )
 }

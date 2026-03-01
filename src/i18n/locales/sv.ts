@@ -85,6 +85,7 @@ const sv = {
   },
   stock_form: {
     modal_title: 'Lägg till lagerparti',
+    edit_modal_title: 'Redigera lagerparti',
     quantity_label: 'Kvantitet ({{unit}})',
     quantity_placeholder: 'ex. 40',
     sub_type_label: 'Variant (valfritt)',

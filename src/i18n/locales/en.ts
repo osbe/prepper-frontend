@@ -85,6 +85,7 @@ const en = {
   },
   stock_form: {
     modal_title: 'Add stock batch',
+    edit_modal_title: 'Edit stock batch',
     quantity_label: 'Quantity ({{unit}})',
     quantity_placeholder: 'e.g. 40',
     sub_type_label: 'Variant (optional)',

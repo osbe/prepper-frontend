@@ -1,5 +1,5 @@
 import client from './client'
-import type { Product, StockEntry } from '../types'
+import type { Product, StockEntry, StockEntryPayload } from '../types'
 
 export const getExpiredStock = () =>
   client.get<StockEntry[]>('/stock/expired').then((r) => r.data)
@@ -12,6 +12,9 @@ export const getLowStock = () =>
 
 export const patchStockEntry = (id: number, quantity: number) =>
   client.patch<StockEntry>(`/stock/${id}`, { quantity }).then((r) => r.data)
+
+export const putStockEntry = (id: number, payload: StockEntryPayload) =>
+  client.put<StockEntry>(`/stock/${id}`, payload).then((r) => r.data)
 
 export const deleteStockEntry = (id: number) =>
   client.delete(`/stock/${id}`)

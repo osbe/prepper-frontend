@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useProduct, useProductStock, useDeleteProduct, useAddStockEntry } from '../hooks/useProducts'
-import { usePatchStock, useDeleteStock } from '../hooks/useStock'
+import { usePatchStock, useDeleteStock, useUpdateStock } from '../hooks/useStock'
+import type { StockEntry } from '../types'
 import { useUndoStockDelete } from '../hooks/useUndoStockDelete'
 import StockEntryRow from '../components/stock/StockEntryRow'
 import StockEntryForm from '../components/stock/StockEntryForm'
@@ -28,10 +29,13 @@ export default function FoodDetailPage({ forceId }: Props) {
   const addStock = useAddStockEntry(productId)
   const patchStock = usePatchStock(productId)
   const deleteStock = useDeleteStock(productId)
+  const updateStock = useUpdateStock(productId)
 
   const [showDeleteProduct, setShowDeleteProduct] = useState(false)
   const [showAddStock, setShowAddStock] = useState(false)
+  const [editingEntry, setEditingEntry] = useState<StockEntry | null>(null)
   const [addStockError, setAddStockError] = useState<string | null>(null)
+  const [editStockError, setEditStockError] = useState<string | null>(null)
   const [mutationError, setMutationError] = useState<string | null>(null)
 
   const { deletedEntry, handleDeleteEntry, handleUndoDelete, clearDeletedEntry } = useUndoStockDelete(
@@ -79,6 +83,17 @@ export default function FoodDetailPage({ forceId }: Props) {
     patchStock.mutate({ id: entryId, quantity }, {
       onError: () => setMutationError(t('errors.something_went_wrong')),
     })
+  }
+
+  const handleEditStock = async (payload: Parameters<typeof addStock.mutateAsync>[0]) => {
+    if (!editingEntry) return
+    setEditStockError(null)
+    try {
+      await updateStock.mutateAsync({ id: editingEntry.id, ...payload })
+      setEditingEntry(null)
+    } catch (e: unknown) {
+      setEditStockError(e instanceof Error ? e.message : t('errors.something_went_wrong'))
+    }
   }
 
   const unit = t(`units.${product.unit}`)
@@ -162,7 +177,11 @@ export default function FoodDetailPage({ forceId }: Props) {
             isFirst={i === 0}
             onPatch={handlePatch}
             onDelete={handleDeleteEntry}
-            isMutating={patchStock.isPending || deleteStock.isPending || !!deletedEntry}
+            onEdit={(id) => {
+              const e = stock.find(s => s.id === id)
+              if (e) setEditingEntry(e)
+            }}
+            isMutating={patchStock.isPending || deleteStock.isPending || updateStock.isPending || !!deletedEntry}
           />
         ))}
       </div>
@@ -191,8 +210,22 @@ export default function FoodDetailPage({ forceId }: Props) {
         </BottomSheet>
       )}
 
+      {editingEntry && (
+        <BottomSheet title={t('stock_form.edit_modal_title')} onClose={() => setEditingEntry(null)}>
+          <StockEntryForm
+            unit={product.unit}
+            initialValues={editingEntry}
+            onSubmit={handleEditStock}
+            isLoading={updateStock.isPending}
+            error={editStockError}
+            showSubType
+            mode="edit"
+          />
+        </BottomSheet>
+      )}
+
       {/* FAB */}
-      {!showAddStock && (
+      {!showAddStock && !editingEntry && (
         <button
           onClick={() => setShowAddStock(true)}
           aria-label={t('products.add_stock_button')}
