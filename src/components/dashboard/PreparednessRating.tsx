@@ -7,6 +7,14 @@ interface Props {
   expired: StockEntry[]
 }
 
+const hintKeys = [
+  'preparedness.hint_add_food',
+  'preparedness.hint_add_water',
+  'preparedness.hint_food_targets',
+  'preparedness.hint_water_half',
+  'preparedness.hint_water_full',
+] as const
+
 export default function PreparednessRating({ products, expired }: Props) {
   const { t } = useTranslation()
 
@@ -23,33 +31,21 @@ export default function PreparednessRating({ products, expired }: Props) {
 
   if (foodProducts.length === 0 && waterProducts.length === 0) return null
 
-  const hasSomeFood = foodProducts.some((p) => nonExpiredStock(p) > 0)
-  const hasSomeWater = waterProducts.some((p) => nonExpiredStock(p) > 0)
-  const allFoodTargetsMet =
-    foodProducts.length > 0 && foodProducts.every((p) => nonExpiredStock(p) >= p.targetQuantity)
+  const totalFoodTarget = foodProducts.reduce((sum, p) => sum + p.targetQuantity, 0)
   const totalWaterTarget = waterProducts.reduce((sum, p) => sum + p.targetQuantity, 0)
   const totalNonExpiredWater = waterProducts.reduce((sum, p) => sum + nonExpiredStock(p), 0)
-  const waterHalfMet =
-    waterProducts.length > 0 && totalWaterTarget > 0 && totalNonExpiredWater >= totalWaterTarget * 0.5
-  const waterFullyMet =
-    waterProducts.length > 0 && totalWaterTarget > 0 && totalNonExpiredWater >= totalWaterTarget
 
-  const starConditions = [hasSomeFood, hasSomeWater, allFoodTargetsMet, waterHalfMet, waterFullyMet]
+  const starConditions = [
+    foodProducts.some((p) => nonExpiredStock(p) > 0),
+    waterProducts.some((p) => nonExpiredStock(p) > 0),
+    foodProducts.length > 0 && totalFoodTarget > 0 && foodProducts.every((p) => nonExpiredStock(p) >= p.targetQuantity),
+    waterProducts.length > 0 && totalWaterTarget > 0 && totalNonExpiredWater >= totalWaterTarget * 0.5,
+    waterProducts.length > 0 && totalWaterTarget > 0 && totalNonExpiredWater >= totalWaterTarget,
+  ]
+
   const firstUnearned = starConditions.findIndex((c) => !c)
   const stars = firstUnearned === -1 ? 5 : firstUnearned
-
-  const hint =
-    !hasSomeFood
-      ? t('preparedness.hint_add_food')
-      : !hasSomeWater
-        ? t('preparedness.hint_add_water')
-        : !allFoodTargetsMet
-          ? t('preparedness.hint_food_targets')
-          : !waterHalfMet
-            ? t('preparedness.hint_water_half')
-            : !waterFullyMet
-              ? t('preparedness.hint_water_full')
-              : t('preparedness.perfect')
+  const hint = firstUnearned === -1 ? t('preparedness.perfect') : t(hintKeys[firstUnearned])
 
   return (
     <section>
@@ -57,14 +53,14 @@ export default function PreparednessRating({ products, expired }: Props) {
         {t('preparedness.title')}
       </h2>
       <div className="bg-gray-800 border border-gray-700 rounded-xl px-4 py-4">
-      <div className="flex mb-3">
-        {Array.from({ length: 5 }, (_, i) => (
-          <span key={i} className={`flex-1 text-center text-5xl leading-none ${i < stars ? 'text-yellow-400' : 'text-gray-600'}`}>
-            {i < stars ? '★' : '☆'}
-          </span>
-        ))}
-      </div>
-      <p className="text-sm text-gray-400 text-center">{hint}</p>
+        <div className="flex mb-3">
+          {Array.from({ length: 5 }, (_, i) => (
+            <span key={i} className={`flex-1 text-center text-5xl leading-none ${i < stars ? 'text-yellow-400' : 'text-gray-600'}`}>
+              {i < stars ? '★' : '☆'}
+            </span>
+          ))}
+        </div>
+        <p className="text-sm text-gray-400 text-center">{hint}</p>
       </div>
     </section>
   )
