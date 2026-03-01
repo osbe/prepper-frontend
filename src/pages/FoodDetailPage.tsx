@@ -113,7 +113,7 @@ export default function FoodDetailPage({ forceId }: Props) {
     })
   }
 
-  const handleEditStock = async (payload: StockEntryPayload, _count: number) => {
+  const handleEditStock = async (payload: StockEntryPayload) => {
     if (!editingGroup) return
     setEditStockError(null)
     try {
