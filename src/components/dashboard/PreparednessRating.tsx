@@ -43,8 +43,8 @@ export default function PreparednessRating({ products, expired }: Props) {
     waterProducts.length > 0 && totalWaterTarget > 0 && totalNonExpiredWater >= totalWaterTarget,
   ]
 
+  const stars = starConditions.filter(Boolean).length
   const firstUnearned = starConditions.findIndex((c) => !c)
-  const stars = firstUnearned === -1 ? 5 : firstUnearned
   const hint = firstUnearned === -1 ? t('preparedness.perfect') : t(hintKeys[firstUnearned])
 
   return (
