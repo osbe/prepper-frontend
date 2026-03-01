@@ -162,8 +162,10 @@ const sv = {
   },
   preparedness: {
     title: 'Beredskap',
+    hint_add_food_or_water: 'Lägg till mat eller vatten för att tjäna din första stjärna',
     hint_add_food: 'Lägg till mat för att tjäna en stjärna',
     hint_add_water: 'Lägg till vatten för att tjäna en stjärna',
+    hint_food_or_water_half: 'Lagra minst hälften av ditt mat- eller vattenmål för att tjäna en stjärna',
     hint_food_half: 'Lagra minst hälften av ditt matmål för att tjäna en stjärna',
     hint_water_half: 'Lagra minst hälften av ditt vattenmål för att tjäna en stjärna',
     hint_full_both: 'Nå både ditt mat- och vattenmål för att tjäna sista stjärnan',
