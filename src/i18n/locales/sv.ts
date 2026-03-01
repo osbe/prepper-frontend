@@ -100,6 +100,8 @@ const sv = {
     optional_details: 'Valfria uppgifter',
     name_label: 'Namn',
     name_placeholder: 'ex. Blå flaska hyl B',
+    multi_mode_label: 'Flera identiska artiklar',
+    count_label: 'Antal',
   },
   stock_entry: {
     consume_next: 'Kortast datum',

@@ -100,6 +100,8 @@ const en = {
     optional_details: 'Optional details',
     name_label: 'Name',
     name_placeholder: 'e.g. Blue bottle shelf B',
+    multi_mode_label: 'Multiple identical items',
+    count_label: 'Count',
   },
   stock_entry: {
     consume_next: 'Consume next',

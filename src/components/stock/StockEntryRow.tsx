@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import type { Category, StockEntry, Unit } from '../../types'
 import { useFormatDate } from '../../i18n/useFormatDate'
 import { EditIcon, TakeOutIcon } from '../ui/icons'
+import { getUnitStep } from './unitStep'
 
 interface Props {
   entry: StockEntry
@@ -13,6 +14,7 @@ interface Props {
   onEdit?: (id: number) => void
   isMutating: boolean
   deleteOnUse?: boolean
+  count?: number
 }
 
 export default function StockEntryRow({
@@ -25,15 +27,17 @@ export default function StockEntryRow({
   onEdit,
   isMutating,
   deleteOnUse,
+  count,
 }: Props) {
   const { t } = useTranslation()
   const formatDate = useFormatDate()
 
   const handleUseOne = () => {
-    if (deleteOnUse || entry.quantity <= 1) {
+    const step = getUnitStep(unit)
+    if (deleteOnUse || entry.quantity <= step) {
       onDelete(entry.id)
     } else {
-      onPatch(entry.id, entry.quantity - 1)
+      onPatch(entry.id, +(entry.quantity - step).toFixed(4))
     }
   }
 
@@ -78,7 +82,7 @@ export default function StockEntryRow({
         <div>
           <span className="text-gray-400">{t('stock_entry.quantity_label')}</span>
           <p className="text-white font-medium">
-            {entry.quantity} {t(`units.${unit}`)}
+            {(count ?? 1) > 1 ? `${count} × ` : ''}{entry.quantity} {t(`units.${unit}`)}
           </p>
         </div>
         <div>

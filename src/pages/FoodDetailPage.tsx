@@ -3,7 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useProduct, useProductStock, useDeleteProduct, useAddStockEntry } from '../hooks/useProducts'
 import { usePatchStock, useDeleteStock, useUpdateStock } from '../hooks/useStock'
-import type { StockEntry } from '../types'
+import type { StockEntry, StockEntryPayload } from '../types'
 import { useUndoStockDelete } from '../hooks/useUndoStockDelete'
 import StockEntryRow from '../components/stock/StockEntryRow'
 import StockEntryForm from '../components/stock/StockEntryForm'
@@ -11,6 +11,32 @@ import ConfirmDialog from '../components/ui/ConfirmDialog'
 import BottomSheet from '../components/ui/BottomSheet'
 import Toast from '../components/ui/Toast'
 import { EditIcon, TrashIcon } from '../components/ui/icons'
+
+interface GroupedEntry {
+  entries: StockEntry[]
+  representative: StockEntry
+  count: number
+}
+
+function groupStockEntries(stock: StockEntry[]): GroupedEntry[] {
+  const map = new Map<string, StockEntry[]>()
+  for (const e of stock) {
+    const key = `${e.quantity}|${e.subType ?? ''}|${e.expiryDate ?? ''}|${e.location ?? ''}`
+    const group = map.get(key) ?? []
+    group.push(e)
+    map.set(key, group)
+  }
+  return Array.from(map.values())
+    .map(entries => ({ entries, representative: entries[0], count: entries.length }))
+    .sort((a, b) => {
+      const dateA = a.representative.expiryDate
+      const dateB = b.representative.expiryDate
+      if (!dateA && !dateB) return 0
+      if (!dateA) return 1
+      if (!dateB) return -1
+      return dateA.localeCompare(dateB)
+    })
+}
 
 interface Props {
   forceId?: number
@@ -33,7 +59,7 @@ export default function FoodDetailPage({ forceId }: Props) {
 
   const [showDeleteProduct, setShowDeleteProduct] = useState(false)
   const [showAddStock, setShowAddStock] = useState(false)
-  const [editingEntry, setEditingEntry] = useState<StockEntry | null>(null)
+  const [editingGroup, setEditingGroup] = useState<GroupedEntry | null>(null)
   const [addStockError, setAddStockError] = useState<string | null>(null)
   const [editStockError, setEditStockError] = useState<string | null>(null)
   const [mutationError, setMutationError] = useState<string | null>(null)
@@ -68,10 +94,12 @@ export default function FoodDetailPage({ forceId }: Props) {
     }
   }
 
-  const handleAddStock = async (payload: Parameters<typeof addStock.mutateAsync>[0]) => {
+  const handleAddStock = async (payload: StockEntryPayload, count: number) => {
     setAddStockError(null)
     try {
-      await addStock.mutateAsync(payload)
+      for (let i = 0; i < count; i++) {
+        await addStock.mutateAsync(payload)
+      }
       setShowAddStock(false)
     } catch (e: unknown) {
       setAddStockError(e instanceof Error ? e.message : t('errors.something_went_wrong'))
@@ -85,12 +113,14 @@ export default function FoodDetailPage({ forceId }: Props) {
     })
   }
 
-  const handleEditStock = async (payload: Parameters<typeof addStock.mutateAsync>[0]) => {
-    if (!editingEntry) return
+  const handleEditStock = async (payload: StockEntryPayload) => {
+    if (!editingGroup) return
     setEditStockError(null)
     try {
-      await updateStock.mutateAsync({ id: editingEntry.id, ...payload })
-      setEditingEntry(null)
+      for (const entry of editingGroup.entries) {
+        await updateStock.mutateAsync({ id: entry.id, ...payload })
+      }
+      setEditingGroup(null)
     } catch (e: unknown) {
       setEditStockError(e instanceof Error ? e.message : t('errors.something_went_wrong'))
     }
@@ -168,20 +198,19 @@ export default function FoodDetailPage({ forceId }: Props) {
       )}
 
       <div className="space-y-3">
-        {stock.map((entry, i) => (
+        {groupStockEntries(stock).map((group, i) => (
           <StockEntryRow
-            key={entry.id}
-            entry={entry}
+            key={group.representative.id}
+            entry={group.representative}
             unit={product.unit}
             category={product.category}
             isFirst={i === 0}
+            count={group.count}
             onPatch={handlePatch}
             onDelete={handleDeleteEntry}
-            onEdit={(id) => {
-              const e = stock.find(s => s.id === id)
-              if (e) setEditingEntry(e)
-            }}
+            onEdit={() => setEditingGroup(group)}
             isMutating={patchStock.isPending || deleteStock.isPending || updateStock.isPending || !!deletedEntry}
+            deleteOnUse={group.count > 1}
           />
         ))}
       </div>
@@ -210,11 +239,11 @@ export default function FoodDetailPage({ forceId }: Props) {
         </BottomSheet>
       )}
 
-      {editingEntry && (
-        <BottomSheet title={t('stock_form.edit_modal_title')} onClose={() => setEditingEntry(null)}>
+      {editingGroup && (
+        <BottomSheet title={t('stock_form.edit_modal_title')} onClose={() => setEditingGroup(null)}>
           <StockEntryForm
             unit={product.unit}
-            initialValues={editingEntry}
+            initialValues={editingGroup.representative}
             onSubmit={handleEditStock}
             isLoading={updateStock.isPending}
             error={editStockError}
@@ -225,7 +254,7 @@ export default function FoodDetailPage({ forceId }: Props) {
       )}
 
       {/* FAB */}
-      {!showAddStock && !editingEntry && (
+      {!showAddStock && !editingGroup && (
         <button
           onClick={() => setShowAddStock(true)}
           aria-label={t('products.add_stock_button')}

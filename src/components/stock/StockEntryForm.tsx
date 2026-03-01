@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { StockEntryPayload, Unit } from '../../types'
+import { getUnitStep } from './unitStep'
 
 interface InitialValues {
   quantity?: number
@@ -12,7 +13,7 @@ interface InitialValues {
 
 interface Props {
   unit: Unit
-  onSubmit: (payload: StockEntryPayload) => void
+  onSubmit: (payload: StockEntryPayload, count: number) => void
   isLoading?: boolean
   error?: string | null
   hideExpiryDate?: boolean
@@ -50,7 +51,9 @@ function parseExpiryDate(date: string | null | undefined) {
 export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideExpiryDate, showSubType, initialValues, mode = 'add' }: Props) {
   const { t, i18n } = useTranslation()
   const { year: initYear, month: initMonth, day: initDay } = parseExpiryDate(initialValues?.expiryDate)
-  const [quantity, setQuantity] = useState(String(initialValues?.quantity ?? 1))
+  const [quantity, setQuantity] = useState(String(initialValues?.quantity ?? getUnitStep(unit)))
+  const [multiMode, setMultiMode] = useState(false)
+  const [count, setCount] = useState(2)
   const [subType, setSubType] = useState(initialValues?.subType ?? '')
   const [purchasedDate] = useState(initialValues?.purchasedDate ?? today())
   const [expiryYear, setExpiryYear] = useState(initYear)
@@ -83,11 +86,12 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
       expiryDate: hideExpiryDate ? getExpiryDate(purchasedDate || today(), 6) : expiryDateValue,
       location: location.trim() || null,
       notes: null,
-    })
+    }, mode === 'add' && multiMode ? count : 1)
   }
 
-  const increment = () => setQuantity(q => String((parseFloat(q) || 0) + 1))
-  const decrement = () => setQuantity(q => String(Math.max(0, (parseFloat(q) || 0) - 1)))
+  const step = getUnitStep(unit)
+  const increment = () => setQuantity(q => String(+((parseFloat(q) || 0) + step).toFixed(4)))
+  const decrement = () => setQuantity(q => String(+(Math.max(0, (parseFloat(q) || 0) - step)).toFixed(4)))
 
   const inputClass =
     'w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition-colors'
@@ -133,6 +137,34 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
           </button>
         </div>
       </div>
+
+      {mode === 'add' && (
+        <div className="space-y-3">
+          <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={multiMode}
+              onChange={e => setMultiMode(e.target.checked)}
+              className="w-4 h-4 rounded accent-green-500"
+            />
+            {t('stock_form.multi_mode_label')}
+          </label>
+          {multiMode && (
+            <div>
+              <label className="block text-sm text-gray-400 mb-1">{t('stock_form.count_label')}</label>
+              <input
+                type="number"
+                min="2"
+                step="1"
+                value={count}
+                onChange={e => setCount(Math.max(2, parseInt(e.target.value) || 2))}
+                required
+                className="w-24 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-green-500 transition-colors"
+              />
+            </div>
+          )}
+        </div>
+      )}
 
       {showSubType && (
         <div>
