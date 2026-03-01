@@ -158,6 +158,15 @@ const sv = {
       EXPIRED: 'Bedöm skicket och ersätt vid behov',
     },
   },
+  preparedness: {
+    title: 'Beredskap',
+    hint_add_food: 'Lägg till mat för att tjäna en stjärna',
+    hint_add_water: 'Lägg till vatten för att tjäna en stjärna',
+    hint_food_targets: 'Nå alla matmål för att tjäna en stjärna',
+    hint_water_half: 'Lagra minst hälften av ditt vattenmål för att tjäna en stjärna',
+    hint_water_full: 'Fyll ditt vattenförråd till målet för att tjäna sista stjärnan',
+    perfect: 'Fullt förberedd!',
+  },
   not_found: {
     message: 'Sidan hittades inte.',
     cta: 'Gå till översikten →',

@@ -21,39 +21,36 @@ export const useExpiringStock = (days = 30) =>
 export const useLowStock = () =>
   useQuery({ queryKey: ['stock', 'low'], queryFn: getLowStock })
 
-export const usePatchStock = (productId: number) => {
+export const usePatchStock = () => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: ({ id, quantity }: { id: number; quantity: number }) =>
       patchStockEntry(id, quantity),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['products', productId, 'stock'] })
-      qc.invalidateQueries({ queryKey: ['products', productId] })
+      qc.invalidateQueries({ queryKey: ['products'] })
       qc.invalidateQueries({ queryKey: ['stock'] })
     },
   })
 }
 
-export const useUpdateStock = (productId: number) => {
+export const useUpdateStock = () => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: ({ id, ...payload }: { id: number } & StockEntryPayload) =>
       putStockEntry(id, payload),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['products', productId, 'stock'] })
-      qc.invalidateQueries({ queryKey: ['products', productId] })
+      qc.invalidateQueries({ queryKey: ['products'] })
       qc.invalidateQueries({ queryKey: ['stock'] })
     },
   })
 }
 
-export const useDeleteStock = (productId: number) => {
+export const useDeleteStock = () => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (id: number) => deleteStockEntry(id),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['products', productId, 'stock'] })
-      qc.invalidateQueries({ queryKey: ['products', productId] })
+      qc.invalidateQueries({ queryKey: ['products'] })
       qc.invalidateQueries({ queryKey: ['stock'] })
     },
   })

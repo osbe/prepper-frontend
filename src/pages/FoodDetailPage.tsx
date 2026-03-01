@@ -27,9 +27,9 @@ export default function FoodDetailPage({ forceId }: Props) {
 
   const deleteProduct = useDeleteProduct()
   const addStock = useAddStockEntry(productId)
-  const patchStock = usePatchStock(productId)
-  const deleteStock = useDeleteStock(productId)
-  const updateStock = useUpdateStock(productId)
+  const patchStock = usePatchStock()
+  const deleteStock = useDeleteStock()
+  const updateStock = useUpdateStock()
 
   const [showDeleteProduct, setShowDeleteProduct] = useState(false)
   const [showAddStock, setShowAddStock] = useState(false)
