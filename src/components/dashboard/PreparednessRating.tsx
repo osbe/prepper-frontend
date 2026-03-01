@@ -58,18 +58,18 @@ export default function PreparednessRating({ products, expired }: Props) {
 
   return (
     <section>
-      <h2 className="text-gray-400 text-sm font-medium uppercase tracking-wide mb-3">
+      <h2 className="text-gray-500 dark:text-gray-400 text-sm font-medium uppercase tracking-wide mb-3">
         {t('preparedness.title')}
       </h2>
-      <div className="bg-gray-800 border border-gray-700 rounded-xl px-4 py-4">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-4">
         <div className="flex mb-3">
           {Array.from({ length: 5 }, (_, i) => (
-            <span key={i} className={`flex-1 text-center text-5xl leading-none ${i < stars ? 'text-yellow-400' : 'text-gray-600'}`}>
+            <span key={i} className={`flex-1 text-center text-5xl leading-none ${i < stars ? 'text-yellow-400' : 'text-gray-300 dark:text-gray-600'}`}>
               {i < stars ? '★' : '☆'}
             </span>
           ))}
         </div>
-        <p className="text-xs text-gray-400 text-center">{hint}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 text-center">{hint}</p>
       </div>
     </section>
   )

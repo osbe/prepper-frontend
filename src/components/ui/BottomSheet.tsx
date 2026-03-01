@@ -19,18 +19,18 @@ export default function BottomSheet({ title, onClose, children }: Props) {
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
 
       {/* Sheet */}
-      <div className="relative bg-gray-800 rounded-t-2xl shadow-xl max-h-[85vh] flex flex-col">
+      <div className="relative bg-white dark:bg-gray-800 rounded-t-2xl shadow-xl max-h-[85vh] flex flex-col">
         {/* Drag handle */}
         <div className="flex justify-center pt-3 pb-1 shrink-0">
-          <div className="w-10 h-1 bg-gray-600 rounded-full" />
+          <div className="w-10 h-1 bg-gray-300 dark:bg-gray-600 rounded-full" />
         </div>
 
         {/* Title row */}
         <div className="flex items-center justify-between px-4 pb-3 shrink-0">
-          <h2 className="text-lg font-semibold text-white">{title}</h2>
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h2>
           <button
             onClick={onClose}
-            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white transition-colors text-2xl leading-none"
+            className="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-2xl leading-none"
           >
             ×
           </button>

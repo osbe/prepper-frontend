@@ -13,8 +13,8 @@ export default function WaterWidget() {
     // If the products are still loading, don't show the setup UI immediately, wait for the actual data.
     if (isLoading) {
         return (
-            <div className="bg-blue-900/20 border border-blue-800 rounded-xl p-6 mb-6">
-                <p className="text-gray-400 text-sm">{t('common.loading')}</p>
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6 mb-6">
+                <p className="text-gray-500 dark:text-gray-400 text-sm">{t('common.loading')}</p>
             </div>
         )
     }
@@ -38,23 +38,23 @@ export default function WaterWidget() {
 
     if (!waterProduct) {
         return (
-            <div className="bg-blue-900/20 border border-blue-800 rounded-xl p-6 mb-6">
-                <h2 className="text-xl font-bold text-blue-300 mb-2">{t('water_widget.title')}</h2>
-                <p className="text-gray-400 text-sm mb-4">{t('water_widget.setup_prompt')}</p>
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6 mb-6">
+                <h2 className="text-xl font-bold text-blue-700 dark:text-blue-300 mb-2">{t('water_widget.title')}</h2>
+                <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">{t('water_widget.setup_prompt')}</p>
 
                 <div className="flex flex-col sm:flex-row sm:items-end gap-3 max-w-sm">
                     <div className="flex-1">
-                        <label className="block text-sm text-gray-400 mb-1">{t('product_form.persons_label')}</label>
+                        <label className="block text-sm text-gray-500 dark:text-gray-400 mb-1">{t('product_form.persons_label')}</label>
                         <input
                             type="number"
                             min="1"
                             step="1"
-                            className="w-full bg-gray-800 border border-blue-700/50 rounded-lg px-3 py-2 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500"
+                            className="w-full bg-white dark:bg-gray-800 border border-blue-300 dark:border-blue-700/50 rounded-lg px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
                             value={persons}
                             onChange={(e) => setPersons(e.target.value)}
                         />
                         {computedLiters > 0 && (
-                            <p className="text-gray-500 text-xs mt-1">= {computedLiters} {t('units.LITERS')}</p>
+                            <p className="text-gray-400 dark:text-gray-500 text-xs mt-1">= {computedLiters} {t('units.LITERS')}</p>
                         )}
                     </div>
                     <button

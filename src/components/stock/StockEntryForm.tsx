@@ -94,28 +94,28 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
   const decrement = () => setQuantity(q => String(+(Math.max(0, (parseFloat(q) || 0) - step)).toFixed(4)))
 
   const inputClass =
-    'w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition-colors'
+    'w-full bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition-colors'
   const selectClass =
-    'bg-gray-700 border border-gray-600 rounded-lg px-2 py-2 text-white focus:outline-none focus:border-green-500 transition-colors min-w-0'
+    'bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-2 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-green-500 transition-colors min-w-0'
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {error && (
-        <p className="text-red-400 text-sm bg-red-900/30 border border-red-800 rounded-lg px-3 py-2">
+        <p className="text-red-600 dark:text-red-400 text-sm bg-red-50 dark:bg-red-900/30 border border-red-300 dark:border-red-800 rounded-lg px-3 py-2">
           {error}
         </p>
       )}
 
       {/* Quantity stepper */}
       <div>
-        <label className="block text-sm text-gray-400 mb-3 text-center">
+        <label className="block text-sm text-gray-500 dark:text-gray-400 mb-3 text-center">
           {t('stock_form.quantity_label', { unit: t(`units.${unit}`) })}
         </label>
         <div className="flex items-center justify-center gap-4">
           <button
             type="button"
             onClick={decrement}
-            className="w-14 h-14 rounded-full bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-2xl font-medium transition-colors flex items-center justify-center"
+            className="w-14 h-14 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 active:bg-gray-400 dark:active:bg-gray-500 text-gray-900 dark:text-white text-2xl font-medium transition-colors flex items-center justify-center"
           >
             −
           </button>
@@ -126,12 +126,12 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
             required
-            className="w-24 text-center text-3xl font-bold bg-transparent text-white border-b-2 border-gray-600 focus:border-green-500 focus:outline-none py-1"
+            className="w-24 text-center text-3xl font-bold bg-transparent text-gray-900 dark:text-white border-b-2 border-gray-300 dark:border-gray-600 focus:border-green-500 focus:outline-none py-1"
           />
           <button
             type="button"
             onClick={increment}
-            className="w-14 h-14 rounded-full bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-2xl font-medium transition-colors flex items-center justify-center"
+            className="w-14 h-14 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 active:bg-gray-400 dark:active:bg-gray-500 text-gray-900 dark:text-white text-2xl font-medium transition-colors flex items-center justify-center"
           >
             +
           </button>
@@ -140,7 +140,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
 
       {mode === 'add' && (
         <div className="space-y-3">
-          <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer select-none">
+          <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer select-none">
             <input
               type="checkbox"
               checked={multiMode}
@@ -151,7 +151,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
           </label>
           {multiMode && (
             <div>
-              <label className="block text-sm text-gray-400 mb-1">{t('stock_form.count_label')}</label>
+              <label className="block text-sm text-gray-500 dark:text-gray-400 mb-1">{t('stock_form.count_label')}</label>
               <input
                 type="number"
                 min="2"
@@ -159,7 +159,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
                 value={count}
                 onChange={e => setCount(Math.max(2, parseInt(e.target.value) || 2))}
                 required
-                className="w-24 bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-green-500 transition-colors"
+                className="w-24 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:border-green-500 transition-colors"
               />
             </div>
           )}
@@ -168,7 +168,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
 
       {showSubType && (
         <div>
-          <label className="block text-sm text-gray-400 mb-1">{t('stock_form.sub_type_label')}</label>
+          <label className="block text-sm text-gray-500 dark:text-gray-400 mb-1">{t('stock_form.sub_type_label')}</label>
           <input
             className={inputClass}
             value={subType}
@@ -180,7 +180,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
 
       {!hideExpiryDate && (
         <div>
-          <label className="block text-sm text-gray-400 mb-1">{t('stock_form.expiry_date_label')}</label>
+          <label className="block text-sm text-gray-500 dark:text-gray-400 mb-1">{t('stock_form.expiry_date_label')}</label>
           <div className="flex gap-2">
             <select
               className={`${selectClass} w-[5.5rem] shrink-0`}
@@ -232,7 +232,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
         <button
           type="button"
           onClick={() => setShowOptional(o => !o)}
-          className="text-sm text-gray-400 hover:text-gray-200 transition-colors flex items-center gap-1.5"
+          className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex items-center gap-1.5"
         >
           {t('stock_form.optional_details')}
           <span className="text-xs">{showOptional ? '▲' : '▼'}</span>
@@ -241,7 +241,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
         {showOptional && (
           <div className="space-y-4 mt-3">
             <div>
-              <label className="block text-sm text-gray-400 mb-1">{t('stock_form.location_label')}</label>
+              <label className="block text-sm text-gray-500 dark:text-gray-400 mb-1">{t('stock_form.location_label')}</label>
               <input
                 className={inputClass}
                 value={location}

@@ -37,7 +37,7 @@ export default function FoodFormPage({ forceId }: Props) {
     }
   }
 
-  if (isEdit && isLoading) return <p className="text-gray-400 text-sm">{t('common.loading')}</p>
+  if (isEdit && isLoading) return <p className="text-gray-500 dark:text-gray-400 text-sm">{t('common.loading')}</p>
 
   const isMutating = createProduct.isPending || updateProduct.isPending
 
@@ -51,18 +51,18 @@ export default function FoodFormPage({ forceId }: Props) {
         <div className="mb-6">
           <Link
             to={backLink}
-            className="text-gray-400 hover:text-white text-sm transition-colors"
+            className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm transition-colors"
           >
             {isEdit ? t('product_form.back_to_product') : t('product_form.back_to_products')}
           </Link>
         </div>
       )}
 
-      <h1 className="text-xl sm:text-2xl font-bold text-white mb-6">
+      <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6">
         {isEdit ? t('product_form.edit_title') : t('product_form.add_title')}
       </h1>
 
-      <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 sm:p-6">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6">
         <FoodForm
           initial={isEdit ? existing : undefined}
           onSubmit={handleSubmit}
