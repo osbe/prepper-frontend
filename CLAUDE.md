@@ -9,9 +9,9 @@ npm run dev      # Start dev server (proxies /api → http://localhost:8080)
 npm run build    # Type-check + Vite production build
 npm run lint     # ESLint (TypeScript + React hooks + React Refresh rules)
 npm run preview  # Serve the production build locally
+npm test         # Run Vitest in watch mode
+npm test -- --run  # Run Vitest once (used in CI)
 ```
-
-No test suite is configured.
 
 ## Architecture
 
