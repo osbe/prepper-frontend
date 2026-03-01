@@ -47,7 +47,14 @@ export default function PreparednessRating({ products, expired }: Props) {
 
   const stars = starConditions.filter(Boolean).length
   const firstUnearned = starConditions.findIndex((c) => !c)
-  const hint = firstUnearned === -1 ? t('preparedness.perfect') : t(hintKeys[firstUnearned])
+  const hint =
+    firstUnearned === -1
+      ? t('preparedness.perfect')
+      : stars === 0
+        ? t('preparedness.hint_add_food_or_water')
+        : firstUnearned === 2 && !starConditions[3]
+          ? t('preparedness.hint_food_or_water_half')
+          : t(hintKeys[firstUnearned])
 
   return (
     <section>
@@ -62,7 +69,7 @@ export default function PreparednessRating({ products, expired }: Props) {
             </span>
           ))}
         </div>
-        <p className="text-sm text-gray-400 text-center">{hint}</p>
+        <p className="text-xs text-gray-400 text-center">{hint}</p>
       </div>
     </section>
   )

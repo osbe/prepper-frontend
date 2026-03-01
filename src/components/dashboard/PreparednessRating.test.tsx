@@ -42,11 +42,11 @@ describe('PreparednessRating', () => {
     expect(container).toBeEmptyDOMElement()
   })
 
-  it('shows 0 filled stars and hint_add_food when no stock', () => {
+  it('shows 0 filled stars and hint_add_food_or_water when no stock', () => {
     const products = [makeProduct({ id: 1, currentStock: 0, targetQuantity: 10 })]
     render(<PreparednessRating products={products} expired={[]} />)
     expect(filledStars()).toBe(0)
-    expect(screen.getByText('preparedness.hint_add_food')).toBeInTheDocument()
+    expect(screen.getByText('preparedness.hint_add_food_or_water')).toBeInTheDocument()
   })
 
   it('shows 5 filled stars and perfect message when all targets are met', () => {
@@ -59,6 +59,16 @@ describe('PreparednessRating', () => {
     expect(screen.getByText('preparedness.perfect')).toBeInTheDocument()
   })
 
+  it('shows hint_food_or_water_half when both half-targets are unearned', () => {
+    const products = [
+      makeProduct({ id: 1, category: 'PRESERVED_FOOD', currentStock: 1, targetQuantity: 10 }),
+      makeProduct({ id: 2, category: 'WATER', currentStock: 1, targetQuantity: 10 }),
+    ]
+    render(<PreparednessRating products={products} expired={[]} />)
+    expect(filledStars()).toBe(2)
+    expect(screen.getByText('preparedness.hint_food_or_water_half')).toBeInTheDocument()
+  })
+
   it('subtracts expired stock when counting stars', () => {
     const product = makeProduct({ id: 1, category: 'PRESERVED_FOOD', currentStock: 2, targetQuantity: 2 })
 
@@ -69,6 +79,6 @@ describe('PreparednessRating', () => {
     // Expire all stock: nonExpiredStock drops to 0 → 0 stars
     rerender(<PreparednessRating products={[product]} expired={[makeExpiredEntry(1, 2)]} />)
     expect(filledStars()).toBe(0)
-    expect(screen.getByText('preparedness.hint_add_food')).toBeInTheDocument()
+    expect(screen.getByText('preparedness.hint_add_food_or_water')).toBeInTheDocument()
   })
 })
