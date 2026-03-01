@@ -158,6 +158,15 @@ const en = {
       EXPIRED: 'Assess condition and replace if necessary',
     },
   },
+  preparedness: {
+    title: 'Preparedness',
+    hint_add_food: 'Add some food to earn a star',
+    hint_add_water: 'Add some water to earn a star',
+    hint_food_targets: 'Meet all food targets to earn a star',
+    hint_water_half: 'Store at least half your water target to earn a star',
+    hint_water_full: 'Fill your water storage to target to earn the final star',
+    perfect: 'Fully prepared!',
+  },
   not_found: {
     message: 'Page not found.',
     cta: 'Go to dashboard →',

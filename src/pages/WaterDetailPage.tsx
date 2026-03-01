@@ -26,8 +26,8 @@ export default function WaterDetailPage({ forceId }: Props) {
 
   const deleteProduct = useDeleteProduct()
   const addStock = useAddStockEntry(productId)
-  const patchStock = usePatchStock(productId)
-  const deleteStock = useDeleteStock(productId)
+  const patchStock = usePatchStock()
+  const deleteStock = useDeleteStock()
 
   const [showDeleteProduct, setShowDeleteProduct] = useState(false)
   const [showAddStock, setShowAddStock] = useState(false)

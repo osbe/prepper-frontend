@@ -60,8 +60,7 @@ export const useAddStockEntry = (productId: number) => {
   return useMutation({
     mutationFn: (payload: StockEntryPayload) => addStockEntry(productId, payload),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['products', productId, 'stock'] })
-      qc.invalidateQueries({ queryKey: ['products', productId] })
+      qc.invalidateQueries({ queryKey: ['products'] })
       qc.invalidateQueries({ queryKey: ['stock'] })
     },
   })
