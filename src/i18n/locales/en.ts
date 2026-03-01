@@ -164,9 +164,9 @@ const en = {
     title: 'Preparedness',
     hint_add_food: 'Add some food to earn a star',
     hint_add_water: 'Add some water to earn a star',
-    hint_food_targets: 'Meet all food targets to earn a star',
+    hint_food_half: 'Store at least half your food target to earn a star',
     hint_water_half: 'Store at least half your water target to earn a star',
-    hint_water_full: 'Fill your water storage to target to earn the final star',
+    hint_full_both: 'Meet both your food and water targets to earn the final star',
     perfect: 'Fully prepared!',
   },
   not_found: {

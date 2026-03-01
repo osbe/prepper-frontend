@@ -10,9 +10,9 @@ interface Props {
 const hintKeys = [
   'preparedness.hint_add_food',
   'preparedness.hint_add_water',
-  'preparedness.hint_food_targets',
+  'preparedness.hint_food_half',
   'preparedness.hint_water_half',
-  'preparedness.hint_water_full',
+  'preparedness.hint_full_both',
 ] as const
 
 export default function PreparednessRating({ products, expired }: Props) {
@@ -33,14 +33,16 @@ export default function PreparednessRating({ products, expired }: Props) {
 
   const totalFoodTarget = foodProducts.reduce((sum, p) => sum + p.targetQuantity, 0)
   const totalWaterTarget = waterProducts.reduce((sum, p) => sum + p.targetQuantity, 0)
+  const totalNonExpiredFood = foodProducts.reduce((sum, p) => sum + nonExpiredStock(p), 0)
   const totalNonExpiredWater = waterProducts.reduce((sum, p) => sum + nonExpiredStock(p), 0)
 
   const starConditions = [
     foodProducts.some((p) => nonExpiredStock(p) > 0),
     waterProducts.some((p) => nonExpiredStock(p) > 0),
-    foodProducts.length > 0 && totalFoodTarget > 0 && foodProducts.every((p) => nonExpiredStock(p) >= p.targetQuantity),
+    foodProducts.length > 0 && totalFoodTarget > 0 && totalNonExpiredFood >= totalFoodTarget * 0.5,
     waterProducts.length > 0 && totalWaterTarget > 0 && totalNonExpiredWater >= totalWaterTarget * 0.5,
-    waterProducts.length > 0 && totalWaterTarget > 0 && totalNonExpiredWater >= totalWaterTarget,
+    foodProducts.length > 0 && foodProducts.every((p) => nonExpiredStock(p) >= p.targetQuantity) &&
+      waterProducts.length > 0 && totalWaterTarget > 0 && totalNonExpiredWater >= totalWaterTarget,
   ]
 
   const stars = starConditions.filter(Boolean).length
