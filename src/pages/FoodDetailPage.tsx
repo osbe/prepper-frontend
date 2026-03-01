@@ -204,6 +204,7 @@ export default function FoodDetailPage({ forceId }: Props) {
             entry={group.representative}
             unit={product.unit}
             category={product.category}
+            productName={product.name}
             isFirst={i === 0}
             count={group.count}
             onPatch={handlePatch}
