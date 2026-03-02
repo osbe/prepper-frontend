@@ -11,8 +11,9 @@ case $1 in
     NEW=$3
     sed -i "s/^version: .*/version: $NEW/" "$CHART"
     sed -i "s/^appVersion: .*/appVersion: \"$NEW\"/" "$CHART"
+    sed -i "s/\"version\": \".*\"/\"version\": \"$NEW\"/" package.json
     ;;
   stage)
-    git add "$CHART"
+    git add "$CHART" package.json
     ;;
 esac
