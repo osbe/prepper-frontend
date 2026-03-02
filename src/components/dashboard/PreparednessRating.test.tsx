@@ -37,9 +37,10 @@ function makeExpiredEntry(productId: number, quantity: number): StockEntry {
 const filledStars = () => screen.queryAllByText('★').length
 
 describe('PreparednessRating', () => {
-  it('renders nothing when product list is empty', () => {
-    const { container } = render(<PreparednessRating products={[]} expired={[]} />)
-    expect(container).toBeEmptyDOMElement()
+  it('shows 0 filled stars and hint_add_food_or_water when product list is empty', () => {
+    render(<PreparednessRating products={[]} expired={[]} />)
+    expect(filledStars()).toBe(0)
+    expect(screen.getByText('preparedness.hint_add_food_or_water')).toBeInTheDocument()
   })
 
   it('shows 0 filled stars and hint_add_food_or_water when no stock', () => {
