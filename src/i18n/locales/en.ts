@@ -77,7 +77,7 @@ const en = {
     back_to_product: '← Back to food',
     back_to_products: '← Back to food',
     name_label: 'Name',
-    name_placeholder: 'e.g. Mineral Water',
+    name_placeholder: 'e.g. Pasta',
     category_label: 'Category',
     unit_label: 'Unit',
     target_qty_label: 'Target quantity',
