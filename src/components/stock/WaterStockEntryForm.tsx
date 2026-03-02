@@ -46,19 +46,19 @@ export default function WaterStockEntryForm({ unit, onSubmit, isLoading, error }
   }
 
   const inputClass =
-    'w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition-colors'
+    'w-full bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition-colors'
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {error && (
-        <p className="text-red-400 text-sm bg-red-900/30 border border-red-800 rounded-lg px-3 py-2">
+        <p className="text-red-600 dark:text-red-400 text-sm bg-red-50 dark:bg-red-900/30 border border-red-300 dark:border-red-800 rounded-lg px-3 py-2">
           {error}
         </p>
       )}
 
       {/* Batch name */}
       <div>
-        <label className="block text-sm text-gray-400 mb-1">{t('stock_form.name_label')}</label>
+        <label className="block text-sm text-gray-500 dark:text-gray-400 mb-1">{t('stock_form.name_label')}</label>
         <input
           className={inputClass}
           value={name}
@@ -70,7 +70,7 @@ export default function WaterStockEntryForm({ unit, onSubmit, isLoading, error }
 
       {/* Quantity */}
       <div>
-        <label className="block text-sm text-gray-400 mb-1">
+        <label className="block text-sm text-gray-500 dark:text-gray-400 mb-1">
           {t('stock_form.quantity_label', { unit: t(`units.${unit}`) })}
         </label>
         <input
@@ -98,7 +98,7 @@ export default function WaterStockEntryForm({ unit, onSubmit, isLoading, error }
         <button
           type="button"
           onClick={() => setShowOptional((o) => !o)}
-          className="text-sm text-gray-400 hover:text-gray-200 transition-colors flex items-center gap-1.5"
+          className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors flex items-center gap-1.5"
         >
           {t('stock_form.optional_details')}
           <span className="text-xs">{showOptional ? '▲' : '▼'}</span>
@@ -107,7 +107,7 @@ export default function WaterStockEntryForm({ unit, onSubmit, isLoading, error }
         {showOptional && (
           <div className="space-y-4 mt-3">
             <div>
-              <label className="block text-sm text-gray-400 mb-1">{t('stock_form.location_label')}</label>
+              <label className="block text-sm text-gray-500 dark:text-gray-400 mb-1">{t('stock_form.location_label')}</label>
               <input
                 className={inputClass}
                 value={location}

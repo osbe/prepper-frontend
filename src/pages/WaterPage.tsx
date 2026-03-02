@@ -7,8 +7,8 @@ export default function WaterPage() {
     const { t } = useTranslation()
     const { data: products = [], isLoading, error } = useProducts()
 
-    if (isLoading) return <p className="text-gray-400 text-sm p-4">{t('common.loading')}</p>
-    if (error) return <p className="text-red-400 text-sm p-4">{t('errors.something_went_wrong')}</p>
+    if (isLoading) return <p className="text-gray-500 dark:text-gray-400 text-sm p-4">{t('common.loading')}</p>
+    if (error) return <p className="text-red-600 dark:text-red-400 text-sm p-4">{t('errors.something_went_wrong')}</p>
 
     const waterProduct = products.find((p) => p.category === 'WATER')
 

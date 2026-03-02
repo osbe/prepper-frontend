@@ -4,6 +4,11 @@ const en = {
     dashboard: 'Dashboard',
     products: 'Food',
     water: 'Water',
+    menu: 'Menu',
+    language: 'Language',
+    theme: 'Theme',
+    theme_light: 'Light',
+    theme_dark: 'Dark',
   },
   common: {
     loading: 'Loading…',

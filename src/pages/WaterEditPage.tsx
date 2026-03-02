@@ -24,12 +24,12 @@ export default function WaterEditPage() {
         }
     }
 
-    if (pLoading) return <p className="text-gray-400 text-sm p-4">{t('common.loading')}</p>
+    if (pLoading) return <p className="text-gray-500 dark:text-gray-400 text-sm p-4">{t('common.loading')}</p>
     if (pError || !waterProduct) {
         return (
             <div className="text-center py-16">
-                <p className="text-red-400">{t('products.not_found')}</p>
-                <Link to="/" className="text-green-400 hover:underline text-sm mt-2 block">
+                <p className="text-red-600 dark:text-red-400">{t('products.not_found')}</p>
+                <Link to="/" className="text-green-600 dark:text-green-400 hover:underline text-sm mt-2 block">
                     {t('not_found.cta')}
                 </Link>
             </div>
@@ -38,11 +38,11 @@ export default function WaterEditPage() {
 
     return (
         <div className="max-w-lg">
-            <h1 className="text-xl sm:text-2xl font-bold text-white mb-6">
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6">
                 {t('product_form.edit_water_title')}
             </h1>
 
-            <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 sm:p-6">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6">
                 <WaterForm
                     initial={waterProduct}
                     onSubmit={handleSubmit}

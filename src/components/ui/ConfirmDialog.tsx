@@ -21,7 +21,7 @@ export default function ConfirmDialog({
   const { t } = useTranslation()
   return (
     <BottomSheet title={title} onClose={onCancel}>
-      <p className="text-gray-300 mb-6">{message}</p>
+      <p className="text-gray-600 dark:text-gray-300 mb-6">{message}</p>
       <div className="flex flex-col gap-3">
         <button
           onClick={onConfirm}
@@ -35,7 +35,7 @@ export default function ConfirmDialog({
         </button>
         <button
           onClick={onCancel}
-          className="w-full py-4 rounded-xl bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white font-medium transition-colors"
+          className="w-full py-4 rounded-xl bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 active:bg-gray-300 dark:active:bg-gray-500 text-gray-900 dark:text-white font-medium transition-colors"
         >
           {t('common.cancel')}
         </button>

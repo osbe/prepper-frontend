@@ -4,6 +4,11 @@ const sv = {
     dashboard: 'Översikt',
     products: 'Mat',
     water: 'Vatten',
+    menu: 'Meny',
+    language: 'Språk',
+    theme: 'Tema',
+    theme_light: 'Ljust',
+    theme_dark: 'Mörkt',
   },
   common: {
     loading: 'Laddar…',

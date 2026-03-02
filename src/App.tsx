@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BackendStatusProvider } from './context/BackendStatusProvider'
+import { ThemeProvider } from './context/ThemeProvider'
 import Layout from './components/layout/Layout'
 import DashboardPage from './pages/DashboardPage'
 import FoodListPage from './pages/FoodListPage'
@@ -21,6 +22,7 @@ const queryClient = new QueryClient({
 
 export default function App() {
   return (
+    <ThemeProvider>
     <QueryClientProvider client={queryClient}>
       <BackendStatusProvider>
         <BrowserRouter basename={(document.querySelector('base')?.getAttribute('href') ?? '/').replace(/\/$/, '') || '/'}>
@@ -39,5 +41,6 @@ export default function App() {
         </BrowserRouter>
       </BackendStatusProvider>
     </QueryClientProvider>
+    </ThemeProvider>
   )
 }

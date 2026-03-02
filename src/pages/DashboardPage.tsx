@@ -20,19 +20,19 @@ function StockAlertRow({
   const formatDate = useFormatDate()
   const product = products.find((p) => p.id === entry.productId)
   const unit = product ? t(`units.${product.unit}`) : ''
-  const borderColor = color === 'red' ? 'border-red-700' : 'border-yellow-700'
-  const actionColor = color === 'red' ? 'text-red-400' : 'text-yellow-400'
+  const borderColor = color === 'red' ? 'border-red-500' : 'border-yellow-500'
+  const actionColor = color === 'red' ? 'text-red-600 dark:text-red-400' : 'text-yellow-600 dark:text-yellow-400'
   const href = product?.category === 'WATER' ? '/water' : `/food/${entry.productId}`
 
   return (
     <Link
       to={href}
-      className={`block border-l-4 ${borderColor} bg-gray-800 hover:bg-gray-750 rounded-r-lg px-4 py-3 transition-colors`}
+      className={`block border-l-4 ${borderColor} bg-white dark:bg-gray-800 hover:bg-gray-50 rounded-r-lg px-4 py-3 transition-colors`}
     >
-      <p className="font-medium text-white">
+      <p className="font-medium text-gray-900 dark:text-white">
         {product?.name ?? t('dashboard.product_fallback', { id: entry.productId })}
       </p>
-      <p className="text-sm text-gray-400 mt-0.5">
+      <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
         {entry.quantity} {unit}{entry.expiryDate && ` · ${t('dashboard.expires', { date: formatDate(entry.expiryDate) })}`}
         {entry.location && ` · ${entry.location}`}
       </p>
@@ -51,11 +51,11 @@ function LowStockRow({ product }: { product: Product }) {
   return (
     <Link
       to={product.category === 'WATER' ? '/water' : `/food/${product.id}`}
-      className="block border-l-4 border-blue-700 bg-gray-800 hover:bg-gray-750 rounded-r-lg px-4 py-3 transition-colors"
+      className="block border-l-4 border-blue-500 bg-white dark:bg-gray-800 hover:bg-gray-50 rounded-r-lg px-4 py-3 transition-colors"
     >
       <div className="flex items-center justify-between mb-2">
-        <p className="font-medium text-white">{product.name}</p>
-        <p className="text-sm text-gray-400">
+        <p className="font-medium text-gray-900 dark:text-white">{product.name}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
           {product.currentStock} / {product.targetQuantity} {unit}
         </p>
       </div>
@@ -75,7 +75,7 @@ export default function DashboardPage() {
   const isEmpty = products.length === 0
 
   if (isLoading) {
-    return <p className="text-gray-400 text-sm">{t('common.loading')}</p>
+    return <p className="text-gray-500 dark:text-gray-400 text-sm">{t('common.loading')}</p>
   }
 
   if (isEmpty) {
@@ -85,7 +85,7 @@ export default function DashboardPage() {
 
         <div className="flex flex-col items-center justify-center py-20">
           <div className="text-6xl mb-4">📦</div>
-          <h2 className="text-xl font-semibold text-gray-300">{t('dashboard.empty')}</h2>
+          <h2 className="text-xl font-semibold text-gray-600 dark:text-gray-300">{t('dashboard.empty')}</h2>
         </div>
       </div>
     )

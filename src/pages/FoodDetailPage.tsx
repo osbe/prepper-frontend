@@ -71,12 +71,12 @@ export default function FoodDetailPage({ forceId }: Props) {
     () => setAddStockError(t('errors.something_went_wrong')),
   )
 
-  if (pLoading) return <p className="text-gray-400 text-sm">{t('common.loading')}</p>
+  if (pLoading) return <p className="text-gray-500 dark:text-gray-400 text-sm">{t('common.loading')}</p>
   if (pError || !product) {
     return (
       <div className="text-center py-16">
-        <p className="text-red-400">{t('products.not_found')}</p>
-        <Link to="/food" className="text-green-400 hover:underline text-sm mt-2 block">
+        <p className="text-red-600 dark:text-red-400">{t('products.not_found')}</p>
+        <Link to="/food" className="text-green-600 dark:text-green-400 hover:underline text-sm mt-2 block">
           {t('products.back_from_detail')}
         </Link>
       </div>
@@ -131,35 +131,35 @@ export default function FoodDetailPage({ forceId }: Props) {
   return (
     <div>
       <div className="mb-6">
-        <Link to="/food" className="text-gray-400 hover:text-white text-sm transition-colors">
+        <Link to="/food" className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm transition-colors">
           {t('products.back')}
         </Link>
       </div>
 
       {/* Product header */}
-      <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 sm:p-6 mb-6">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6 mb-6">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-white">{product.name}</h1>
-            <p className="text-gray-400 text-sm mt-1">
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{product.name}</h1>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
               {t(`categories.${product.category}`)} · {t('products.target', { qty: product.targetQuantity, unit })}
             </p>
             {product.notes && (
-              <p className="text-gray-300 text-sm mt-2">{product.notes}</p>
+              <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">{product.notes}</p>
             )}
           </div>
           <div className="flex items-center gap-1 ml-2 shrink-0">
             <Link
               to={`/food/${productId}/edit`}
               aria-label={t('common.edit')}
-              className="inline-flex items-center justify-center p-1 text-gray-400 hover:text-white transition-colors"
+              className="inline-flex items-center justify-center p-1 text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
               <EditIcon />
             </Link>
             <button
               onClick={() => setShowDeleteProduct(true)}
               aria-label={t('common.delete')}
-              className="inline-flex items-center justify-center p-1 text-gray-400 hover:text-red-400 transition-colors"
+              className="inline-flex items-center justify-center p-1 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
             >
               <TrashIcon />
             </button>
@@ -167,7 +167,7 @@ export default function FoodDetailPage({ forceId }: Props) {
         </div>
 
         <div className="mt-4 flex items-center gap-3">
-          <div className="flex-1 bg-gray-700 rounded-full h-2.5">
+          <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
             <div
               className={`h-2.5 rounded-full transition-all ${product.currentStock >= product.targetQuantity ? 'bg-green-500' : 'bg-red-500'
                 }`}
@@ -176,25 +176,25 @@ export default function FoodDetailPage({ forceId }: Props) {
               }}
             />
           </div>
-          <span className="text-sm text-gray-300 shrink-0">
+          <span className="text-sm text-gray-600 dark:text-gray-300 shrink-0">
             {product.currentStock} / {product.targetQuantity} {unit}
           </span>
         </div>
       </div>
 
       {mutationError && (
-        <p className="text-red-400 text-sm mb-4">{mutationError}</p>
+        <p className="text-red-600 dark:text-red-400 text-sm mb-4">{mutationError}</p>
       )}
 
       {/* Stock entries */}
       <div className="mb-4">
-        <h2 className="text-lg font-semibold text-white">{t('products.stock_batches_title')}</h2>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">{t('products.stock_batches_title')}</h2>
       </div>
 
-      {sLoading && <p className="text-gray-400 text-sm">{t('products.loading_stock')}</p>}
+      {sLoading && <p className="text-gray-500 dark:text-gray-400 text-sm">{t('products.loading_stock')}</p>}
 
       {!sLoading && stock.length === 0 && (
-        <p className="text-gray-500 text-sm">{t('products.no_stock')}</p>
+        <p className="text-gray-400 dark:text-gray-500 text-sm">{t('products.no_stock')}</p>
       )}
 
       <div className="space-y-3">

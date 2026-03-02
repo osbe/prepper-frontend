@@ -33,21 +33,21 @@ export default function FoodListPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-xl sm:text-2xl font-bold text-white">{t('products.page_title')}</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{t('products.page_title')}</h1>
       </div>
 
       <div className="mb-6">
         <CategoryFilter value={category} onChange={setCategory} />
       </div>
 
-      {isLoading && <p className="text-gray-400 text-sm">{t('common.loading')}</p>}
+      {isLoading && <p className="text-gray-500 dark:text-gray-400 text-sm">{t('common.loading')}</p>}
 
       {error && (
-        <p className="text-red-400 text-sm">{t('products.loading_error')}</p>
+        <p className="text-red-600 dark:text-red-400 text-sm">{t('products.loading_error')}</p>
       )}
 
       {!isLoading && !error && products.length === 0 && (
-        <div className="text-center py-16 text-gray-500">
+        <div className="text-center py-16 text-gray-400 dark:text-gray-500">
           <p className="text-lg">{t('products.empty')}</p>
         </div>
       )}
