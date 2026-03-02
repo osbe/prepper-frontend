@@ -29,8 +29,6 @@ export default function PreparednessRating({ products, expired }: Props) {
   const foodProducts = products.filter((p) => FOOD_CATEGORIES.includes(p.category))
   const waterProducts = products.filter((p) => p.category === 'WATER')
 
-  if (foodProducts.length === 0 && waterProducts.length === 0) return null
-
   const totalFoodTarget = foodProducts.reduce((sum, p) => sum + p.targetQuantity, 0)
   const totalWaterTarget = waterProducts.reduce((sum, p) => sum + p.targetQuantity, 0)
   const totalNonExpiredFood = foodProducts.reduce((sum, p) => sum + nonExpiredStock(p), 0)

@@ -4,7 +4,6 @@ import { useProducts } from '../hooks/useProducts'
 import type { StockEntry, Product } from '../types'
 import { Link } from 'react-router-dom'
 import { useFormatDate } from '../i18n/useFormatDate'
-import WaterWidget from '../components/dashboard/WaterWidget'
 import PreparednessRating from '../components/dashboard/PreparednessRating'
 import ProgressBar from '../components/ui/ProgressBar'
 
@@ -74,7 +73,6 @@ export default function DashboardPage() {
 
   const isLoading = l1 || l2 || l3 || l4
   const isEmpty = products.length === 0
-  const allGood = !isEmpty && expired.length === 0 && expiring.length === 0 && low.length === 0
 
   if (isLoading) {
     return <p className="text-gray-400 text-sm">{t('common.loading')}</p>
@@ -83,12 +81,11 @@ export default function DashboardPage() {
   if (isEmpty) {
     return (
       <div className="space-y-8">
-        <WaterWidget />
+        <PreparednessRating products={products} expired={expired} />
 
         <div className="flex flex-col items-center justify-center py-20">
           <div className="text-6xl mb-4">📦</div>
           <h2 className="text-xl font-semibold text-gray-300">{t('dashboard.empty')}</h2>
-          <p className="text-gray-400 mt-1">{t('dashboard.empty_desc')}</p>
         </div>
       </div>
     )
@@ -97,16 +94,6 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       <PreparednessRating products={products} expired={expired} />
-
-      <WaterWidget />
-
-      {allGood && (
-        <div className="flex flex-col items-center justify-center py-12">
-          <div className="text-6xl mb-4">✅</div>
-          <h2 className="text-xl font-semibold text-green-400">{t('dashboard.all_good')}</h2>
-          <p className="text-gray-400 mt-1">{t('dashboard.all_good_desc')}</p>
-        </div>
-      )}
 
       {expired.length > 0 && (
         <section>
