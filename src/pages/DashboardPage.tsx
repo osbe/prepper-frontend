@@ -27,7 +27,7 @@ function StockAlertRow({
   return (
     <Link
       to={href}
-      className={`block border-l-4 ${borderColor} bg-white dark:bg-gray-800 hover:bg-gray-50 rounded-r-lg px-4 py-3 transition-colors`}
+      className={`block border-l-4 ${borderColor} bg-white dark:bg-gray-800 rounded-r-lg px-4 py-3`}
     >
       <p className="font-medium text-gray-900 dark:text-white">
         {product?.name ?? t('dashboard.product_fallback', { id: entry.productId })}
@@ -51,7 +51,7 @@ function LowStockRow({ product }: { product: Product }) {
   return (
     <Link
       to={product.category === 'WATER' ? '/water' : `/food/${product.id}`}
-      className="block border-l-4 border-blue-500 bg-white dark:bg-gray-800 hover:bg-gray-50 rounded-r-lg px-4 py-3 transition-colors"
+      className="block border-l-4 border-blue-500 bg-white dark:bg-gray-800 rounded-r-lg px-4 py-3"
     >
       <div className="flex items-center justify-between mb-2">
         <p className="font-medium text-gray-900 dark:text-white">{product.name}</p>

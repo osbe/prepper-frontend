@@ -16,7 +16,7 @@ export default function ProductCard({ product }: Props) {
   return (
     <Link
       to={category === 'WATER' ? '/water' : `/food/${id}`}
-      className="block bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-750 border border-gray-200 dark:border-gray-700 rounded-xl p-4 transition-colors hover:border-gray-300 dark:hover:border-gray-600"
+      className="block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4"
     >
       <div className="flex items-start justify-between mb-3">
         <div>

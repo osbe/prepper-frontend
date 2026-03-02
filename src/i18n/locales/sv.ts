@@ -25,6 +25,7 @@ const sv = {
     PRESERVED_FOOD: 'Konserver',
     DRY_GOODS: 'Torrvaror',
     FREEZE_DRIED: 'Frystorkat',
+    STAPLES: 'Basvaror',
     MEDICINE: 'Medicin',
     FUEL: 'Bränsle',
     OTHER: 'Övrigt',
@@ -151,6 +152,10 @@ const sv = {
     FREEZE_DRIED: {
       APPROACHING: 'Inkludera i vanliga måltider för rotation — beställ ersättning',
       EXPIRED: 'Kontrollera förpackningens integritet; om förseglad och luktfri kan den fortfarande vara användbar',
+    },
+    STAPLES: {
+      APPROACHING: 'Rotera till vardagsmatlagning och fyll på lagret',
+      EXPIRED: 'Kontrollera för härskenhet, fukt eller dålig lukt innan kassering',
     },
     MEDICINE: {
       APPROACHING: 'Rådfråga apotekare om ersättning; låt inte detta löpa ut',

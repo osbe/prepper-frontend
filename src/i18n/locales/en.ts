@@ -25,6 +25,7 @@ const en = {
     PRESERVED_FOOD: 'Preserved Food',
     DRY_GOODS: 'Dry Goods',
     FREEZE_DRIED: 'Freeze-Dried',
+    STAPLES: 'Staples',
     MEDICINE: 'Medicine',
     FUEL: 'Fuel',
     OTHER: 'Other',
@@ -151,6 +152,10 @@ const en = {
     FREEZE_DRIED: {
       APPROACHING: 'Include in regular meals to rotate — reorder replacement',
       EXPIRED: 'Check packaging integrity; if sealed and odor-free may still be usable',
+    },
+    STAPLES: {
+      APPROACHING: 'Rotate into everyday cooking and replenish stock',
+      EXPIRED: 'Inspect for rancidity, moisture, or off-odor before discarding',
     },
     MEDICINE: {
       APPROACHING: 'Consult a pharmacist about replacement; do not let this lapse',

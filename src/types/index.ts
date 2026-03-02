@@ -3,6 +3,7 @@ export type Category =
   | 'PRESERVED_FOOD'
   | 'DRY_GOODS'
   | 'FREEZE_DRIED'
+  | 'STAPLES'
   | 'MEDICINE'
   | 'FUEL'
   | 'OTHER'
@@ -15,6 +16,7 @@ export const CATEGORIES: Category[] = [
   'PRESERVED_FOOD',
   'DRY_GOODS',
   'FREEZE_DRIED',
+  'STAPLES',
   'MEDICINE',
   'FUEL',
   'OTHER',
@@ -24,6 +26,7 @@ export const FOOD_CATEGORIES: Category[] = [
   'PRESERVED_FOOD',
   'DRY_GOODS',
   'FREEZE_DRIED',
+  'STAPLES',
 ]
 
 export const UNITS: Unit[] = ['LITERS', 'KG', 'CANS', 'PIECES', 'GRAMS']

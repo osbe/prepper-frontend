@@ -2,12 +2,13 @@ import { useTranslation } from 'react-i18next'
 import type { Category } from '../../types'
 import { FOOD_CATEGORIES } from '../../types'
 
-type FoodCategory = 'PRESERVED_FOOD' | 'DRY_GOODS' | 'FREEZE_DRIED'
+type FoodCategory = 'PRESERVED_FOOD' | 'DRY_GOODS' | 'FREEZE_DRIED' | 'STAPLES'
 
 const CATEGORY_ICONS: Record<FoodCategory, string> = {
   PRESERVED_FOOD: '🥫',
   DRY_GOODS: '🌾',
   FREEZE_DRIED: '❄️',
+  STAPLES: '🧂',
 }
 
 interface Props {
