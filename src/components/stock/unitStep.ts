@@ -1,5 +1,9 @@
 import type { Unit } from '../../types'
 
+export function formatNumber(n: number): string {
+  return parseFloat(n.toFixed(2)).toString()
+}
+
 export function getUnitStep(unit: Unit): number {
   switch (unit) {
     case 'LITERS':  return 0.5

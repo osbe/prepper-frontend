@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { useFormatDate } from '../i18n/useFormatDate'
 import PreparednessRating from '../components/dashboard/PreparednessRating'
 import ProgressBar from '../components/ui/ProgressBar'
+import { formatNumber } from '../components/stock/unitStep'
 
 function StockAlertRow({
   entry,
@@ -33,7 +34,7 @@ function StockAlertRow({
         {product?.name ?? t('dashboard.product_fallback', { id: entry.productId })}
       </p>
       <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-        {entry.quantity} {unit}{entry.expiryDate && ` · ${t('dashboard.expires', { date: formatDate(entry.expiryDate) })}`}
+        {formatNumber(entry.quantity)} {unit}{entry.expiryDate && ` · ${t('dashboard.expires', { date: formatDate(entry.expiryDate) })}`}
         {entry.location && ` · ${entry.location}`}
       </p>
       {entry.expiryStatus && product && (
@@ -56,7 +57,7 @@ function LowStockRow({ product }: { product: Product }) {
       <div className="flex items-center justify-between mb-2">
         <p className="font-medium text-gray-900 dark:text-white">{product.name}</p>
         <p className="text-sm text-gray-500 dark:text-gray-400">
-          {product.currentStock} / {product.targetQuantity} {unit}
+          {formatNumber(product.currentStock)} / {formatNumber(product.targetQuantity)} {unit}
         </p>
       </div>
       <ProgressBar current={product.currentStock} target={product.targetQuantity} />

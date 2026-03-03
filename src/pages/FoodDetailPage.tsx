@@ -6,6 +6,7 @@ import { usePatchStock, useDeleteStock, useUpdateStock } from '../hooks/useStock
 import type { StockEntry, StockEntryPayload } from '../types'
 import { useUndoStockDelete } from '../hooks/useUndoStockDelete'
 import StockEntryRow from '../components/stock/StockEntryRow'
+import { formatNumber } from '../components/stock/unitStep'
 import StockEntryForm from '../components/stock/StockEntryForm'
 import ConfirmDialog from '../components/ui/ConfirmDialog'
 import BottomSheet from '../components/ui/BottomSheet'
@@ -142,7 +143,7 @@ export default function FoodDetailPage({ forceId }: Props) {
           <div>
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{product.name}</h1>
             <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
-              {t(`categories.${product.category}`)} · {t('products.target', { qty: product.targetQuantity, unit })}
+              {t(`categories.${product.category}`)} · {t('products.target', { qty: formatNumber(product.targetQuantity), unit })}
             </p>
             {product.notes && (
               <p className="text-gray-600 dark:text-gray-300 text-sm mt-2">{product.notes}</p>
@@ -177,7 +178,7 @@ export default function FoodDetailPage({ forceId }: Props) {
             />
           </div>
           <span className="text-sm text-gray-600 dark:text-gray-300 shrink-0">
-            {product.currentStock} / {product.targetQuantity} {unit}
+            {formatNumber(product.currentStock)} / {formatNumber(product.targetQuantity)} {unit}
           </span>
         </div>
       </div>
