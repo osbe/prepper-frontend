@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BackendStatusProvider } from './context/BackendStatusProvider'
+import { SyncProvider } from './context/SyncProvider'
 import { ThemeProvider } from './context/ThemeProvider'
 import Layout from './components/layout/Layout'
 import DashboardPage from './pages/DashboardPage'
@@ -25,20 +26,22 @@ export default function App() {
     <ThemeProvider>
     <QueryClientProvider client={queryClient}>
       <BackendStatusProvider>
-        <BrowserRouter basename={(document.querySelector('base')?.getAttribute('href') ?? '/').replace(/\/$/, '') || '/'}>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route index element={<DashboardPage />} />
-              <Route path="food" element={<FoodListPage />} />
-              <Route path="food/new" element={<FoodFormPage />} />
-              <Route path="food/:id" element={<FoodDetailPage />} />
-              <Route path="food/:id/edit" element={<FoodFormPage />} />
-              <Route path="water" element={<WaterPage />} />
-              <Route path="water/edit" element={<WaterEditPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <SyncProvider>
+          <BrowserRouter basename={(document.querySelector('base')?.getAttribute('href') ?? '/').replace(/\/$/, '') || '/'}>
+            <Routes>
+              <Route element={<Layout />}>
+                <Route index element={<DashboardPage />} />
+                <Route path="food" element={<FoodListPage />} />
+                <Route path="food/new" element={<FoodFormPage />} />
+                <Route path="food/:id" element={<FoodDetailPage />} />
+                <Route path="food/:id/edit" element={<FoodFormPage />} />
+                <Route path="water" element={<WaterPage />} />
+                <Route path="water/edit" element={<WaterEditPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </SyncProvider>
       </BackendStatusProvider>
     </QueryClientProvider>
     </ThemeProvider>
