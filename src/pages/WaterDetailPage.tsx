@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useProduct, useProductStock, useDeleteProduct, useAddStockEntry } from '../hooks/useProducts'
 import { usePatchStock, useDeleteStock } from '../hooks/useStock'
 import { useUndoStockDelete } from '../hooks/useUndoStockDelete'
+import { usePendingOps } from '../hooks/usePendingOps'
 import StockEntryRow from '../components/stock/StockEntryRow'
 import { formatNumber } from '../components/stock/unitStep'
 import WaterStockEntryForm from '../components/stock/WaterStockEntryForm'
@@ -34,6 +35,8 @@ export default function WaterDetailPage({ forceId }: Props) {
   const [showAddStock, setShowAddStock] = useState(false)
   const [addStockError, setAddStockError] = useState<string | null>(null)
   const [mutationError, setMutationError] = useState<string | null>(null)
+
+  const { pendingEntryIds, discard } = usePendingOps(productId)
 
   const { deletedEntry, handleDeleteEntry, handleUndoDelete, clearDeletedEntry } = useUndoStockDelete(
     stock,
@@ -159,8 +162,10 @@ export default function WaterDetailPage({ forceId }: Props) {
             isFirst={i === 0}
             onPatch={handlePatch}
             onDelete={handleDeleteEntry}
+            onDiscard={pendingEntryIds.has(entry.id) ? () => discard(entry.id) : undefined}
             isMutating={patchStock.isPending || deleteStock.isPending || !!deletedEntry}
             deleteOnUse
+            isPending={pendingEntryIds.has(entry.id)}
           />
         ))}
       </div>

@@ -5,6 +5,7 @@ import { useProduct, useProductStock, useDeleteProduct, useAddStockEntry } from 
 import { usePatchStock, useDeleteStock, useUpdateStock } from '../hooks/useStock'
 import type { StockEntry, StockEntryPayload } from '../types'
 import { useUndoStockDelete } from '../hooks/useUndoStockDelete'
+import { usePendingOps } from '../hooks/usePendingOps'
 import StockEntryRow from '../components/stock/StockEntryRow'
 import { formatNumber } from '../components/stock/unitStep'
 import StockEntryForm from '../components/stock/StockEntryForm'
@@ -64,6 +65,8 @@ export default function FoodDetailPage({ forceId }: Props) {
   const [addStockError, setAddStockError] = useState<string | null>(null)
   const [editStockError, setEditStockError] = useState<string | null>(null)
   const [mutationError, setMutationError] = useState<string | null>(null)
+
+  const { pendingEntryIds, discard } = usePendingOps(productId)
 
   const { deletedEntry, handleDeleteEntry, handleUndoDelete, clearDeletedEntry } = useUndoStockDelete(
     stock,
@@ -209,22 +212,27 @@ export default function FoodDetailPage({ forceId }: Props) {
       )}
 
       <div className="space-y-3">
-        {groupStockEntries(stock).map((group, i) => (
-          <StockEntryRow
-            key={group.representative.id}
-            entry={group.representative}
-            unit={product.unit}
-            category={product.category}
-            productName={product.name}
-            isFirst={i === 0}
-            count={group.count}
-            onPatch={handlePatch}
-            onDelete={handleDeleteEntry}
-            onEdit={() => setEditingGroup(group)}
-            isMutating={patchStock.isPending || deleteStock.isPending || updateStock.isPending || !!deletedEntry}
-            deleteOnUse={group.count > 1}
-          />
-        ))}
+        {groupStockEntries(stock).map((group, i) => {
+          const groupIsPending = group.entries.some((e) => pendingEntryIds.has(e.id))
+          return (
+            <StockEntryRow
+              key={group.representative.id}
+              entry={group.representative}
+              unit={product.unit}
+              category={product.category}
+              productName={product.name}
+              isFirst={i === 0}
+              count={group.count}
+              onPatch={handlePatch}
+              onDelete={handleDeleteEntry}
+              onEdit={() => setEditingGroup(group)}
+              onDiscard={groupIsPending ? () => Promise.all(group.entries.map((e) => discard(e.id))) : undefined}
+              isMutating={patchStock.isPending || deleteStock.isPending || updateStock.isPending || !!deletedEntry}
+              deleteOnUse={group.count > 1}
+              isPending={groupIsPending}
+            />
+          )
+        })}
       </div>
 
       {/* Modals */}

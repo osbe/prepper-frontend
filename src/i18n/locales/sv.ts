@@ -122,6 +122,8 @@ const sv = {
     remove_batch_button: 'Ta bort parti',
     delete_confirm: 'Ta bort den här partiet från lagret?',
     removed: 'Parti borttaget',
+    pending_badge: 'Osynkad',
+    discard_pending: 'Kasta',
   },
   category_filter: {
     all: 'Alla',

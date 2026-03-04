@@ -122,6 +122,8 @@ const en = {
     remove_batch_button: 'Remove batch',
     delete_confirm: 'Remove this batch from storage?',
     removed: 'Batch removed',
+    pending_badge: 'Unsynced',
+    discard_pending: 'Discard',
   },
   category_filter: {
     all: 'All',
