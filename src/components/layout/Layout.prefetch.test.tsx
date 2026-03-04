@@ -37,7 +37,7 @@ vi.mock('../../offline/db', () => ({
 
 // --- helpers ---
 
-function product(id: number, category: Product['category'] = 'CANNED'): Product {
+function product(id: number, category: Product['category'] = 'PRESERVED_FOOD'): Product {
   return { id, name: `Product ${id}`, category, unit: 'KG', targetQuantity: 10, currentStock: 5, notes: null }
 }
 
