@@ -13,6 +13,7 @@ import { useBackendStatus } from '../context/useBackendStatus'
 import { isBackendUnreachable } from '../api/client'
 import { db } from '../offline/db'
 import { applyOpsToCache } from '../offline/applyOpsToCache'
+import { saveQueryCache } from '../offline/queryPersister'
 
 export const useProducts = (category?: Category) => {
   const qc = useQueryClient()
@@ -94,7 +95,10 @@ export const useCreateProduct = () => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (payload: ProductPayload) => createProduct(payload),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['products'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['products'] })
+      saveQueryCache()
+    },
   })
 }
 
@@ -102,7 +106,10 @@ export const useUpdateProduct = (id: number) => {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (payload: ProductPayload) => updateProduct(id, payload),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['products'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['products'] })
+      saveQueryCache()
+    },
   })
 }
 
@@ -113,6 +120,7 @@ export const useDeleteProduct = () => {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['products'] })
       qc.invalidateQueries({ queryKey: ['stock'] })
+      saveQueryCache()
     },
   })
 }
@@ -153,6 +161,7 @@ export const useAddStockEntry = (productId: number) => {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['products'] })
       qc.invalidateQueries({ queryKey: ['stock'] })
+      saveQueryCache()
     },
   })
 }

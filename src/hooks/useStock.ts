@@ -12,6 +12,7 @@ import type { Product, StockEntry, StockEntryPayload } from '../types'
 import { useBackendStatus } from '../context/useBackendStatus'
 import { isBackendUnreachable } from '../api/client'
 import { db } from '../offline/db'
+import { saveQueryCache } from '../offline/queryPersister'
 
 export const useExpiredStock = () => {
   const qc = useQueryClient()
@@ -86,6 +87,7 @@ export const usePatchStock = () => {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['products'] })
       qc.invalidateQueries({ queryKey: ['stock'] })
+      saveQueryCache()
     },
   })
 }
@@ -118,6 +120,7 @@ export const useUpdateStock = () => {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['products'] })
       qc.invalidateQueries({ queryKey: ['stock'] })
+      saveQueryCache()
     },
   })
 }
@@ -150,6 +153,7 @@ export const useDeleteStock = () => {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['products'] })
       qc.invalidateQueries({ queryKey: ['stock'] })
+      saveQueryCache()
     },
   })
 }

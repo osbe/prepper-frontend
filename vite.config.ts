@@ -34,6 +34,11 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webmanifest}'],
         runtimeCaching: [
           {
+            // Health check: always hit the network, never serve from cache
+            urlPattern: ({ url }) => url.pathname.startsWith('/api/') && url.searchParams.has('__nc'),
+            handler: 'NetworkOnly',
+          },
+          {
             urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
             handler: 'NetworkFirst',
             options: {

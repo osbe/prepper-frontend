@@ -6,6 +6,7 @@ import BottomTabBar from './BottomTabBar'
 import { getProducts } from '../../api/products'
 import { makeProductStockQueryFn } from '../../hooks/useProducts'
 import { useSync } from '../../context/useSync'
+import { saveQueryCache } from '../../offline/queryPersister'
 import type { Product } from '../../types'
 
 export default function Layout() {
@@ -29,6 +30,7 @@ export default function Layout() {
       )
     }).finally(() => {
       setPrefetching(false)
+      saveQueryCache()
     })
   }, [qc, setPrefetching])
 

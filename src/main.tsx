@@ -4,6 +4,7 @@ import { registerSW } from 'virtual:pwa-register'
 import './i18n'
 import './index.css'
 import App from './App.tsx'
+import { restoreQueryCache } from './offline/queryPersister'
 
 registerSW({
   onRegisterError(error) {
@@ -11,8 +12,10 @@ registerSW({
   },
 })
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+restoreQueryCache().then(() => {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  )
+})

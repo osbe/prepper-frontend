@@ -9,7 +9,7 @@ export function BackendStatusProvider({ children }: { children: React.ReactNode 
 
   useQuery({
     queryKey: ['__health__'],
-    queryFn: () => client.get('/products'),
+    queryFn: () => client.get('/products', { params: { __nc: '1' } }),
     refetchInterval: 15_000,
     retry: 0,
     staleTime: 0,

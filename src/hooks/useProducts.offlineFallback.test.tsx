@@ -29,6 +29,11 @@ vi.mock('../offline/db', () => ({
       add: vi.fn(),
       count: vi.fn(() => Promise.resolve(0)),
     },
+    queryCache: {
+      put: vi.fn(() => Promise.resolve()),
+      get: vi.fn(() => Promise.resolve(undefined)),
+      delete: vi.fn(() => Promise.resolve()),
+    },
   },
 }))
 
