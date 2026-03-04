@@ -8,6 +8,9 @@ import type { PendingOp } from '../../offline/db'
 
 vi.mock('./Navbar', () => ({ default: () => null }))
 vi.mock('./BottomTabBar', () => ({ default: () => null }))
+vi.mock('../../context/useSync', () => ({
+  useSync: () => ({ setPrefetching: vi.fn() }),
+}))
 
 const mocks = vi.hoisted(() => ({
   getProducts: vi.fn(),
