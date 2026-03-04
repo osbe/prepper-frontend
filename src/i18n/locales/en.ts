@@ -199,6 +199,12 @@ const en = {
     message: 'Checking connection…',
     indicator: 'Offline',
   },
+  sync: {
+    pending_one: '{{count}} pending',
+    pending_other: '{{count}} pending',
+    syncing: 'Syncing…',
+    synced: 'Synced',
+  },
 } as const
 
 export default en

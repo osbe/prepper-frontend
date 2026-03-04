@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { setLanguage } from '../../i18n'
 import { useOnlineStatus } from '../../hooks/useOnlineStatus'
 import { useTheme } from '../../context/useTheme'
+import SyncStatusBadge from './SyncStatusBadge'
 
 export default function Navbar() {
   const { t, i18n } = useTranslation()
@@ -55,6 +56,7 @@ export default function Navbar() {
           </div>
 
           <div className="ml-auto flex items-center gap-2">
+            <SyncStatusBadge />
             {!isOnline && (
               <div className="flex items-center gap-1 px-2 py-0.5 bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 text-xs font-medium rounded-full border border-amber-300 dark:border-amber-700/50">
                 <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

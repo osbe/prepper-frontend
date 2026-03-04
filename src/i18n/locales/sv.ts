@@ -199,6 +199,12 @@ const sv = {
     message: 'Kontrollerar anslutning…',
     indicator: 'Offline',
   },
+  sync: {
+    pending_one: '{{count}} väntande',
+    pending_other: '{{count}} väntande',
+    syncing: 'Synkar…',
+    synced: 'Synkat',
+  },
 } as const
 
 export default sv
