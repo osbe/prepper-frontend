@@ -5,25 +5,32 @@ import Navbar from './Navbar'
 import BottomTabBar from './BottomTabBar'
 import { getProducts } from '../../api/products'
 import { makeProductStockQueryFn } from '../../hooks/useProducts'
+import { useSync } from '../../context/useSync'
 import type { Product } from '../../types'
 
 export default function Layout() {
   const qc = useQueryClient()
+  const { setPrefetching } = useSync()
 
   useEffect(() => {
+    setPrefetching(true)
     qc.prefetchQuery({
       queryKey: ['products', null],
       queryFn: () => getProducts(),
     }).then(() => {
       const products = qc.getQueryData<Product[]>(['products', null]) ?? []
-      for (const p of products) {
-        qc.prefetchQuery({
-          queryKey: ['products', p.id, 'stock'],
-          queryFn: makeProductStockQueryFn(p.id, qc),
-        })
-      }
+      return Promise.all(
+        products.map((p) =>
+          qc.prefetchQuery({
+            queryKey: ['products', p.id, 'stock'],
+            queryFn: makeProductStockQueryFn(p.id, qc),
+          })
+        )
+      )
+    }).finally(() => {
+      setPrefetching(false)
     })
-  }, [qc])
+  }, [qc, setPrefetching])
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">

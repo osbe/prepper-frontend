@@ -202,6 +202,7 @@ const sv = {
   sync: {
     pending_one: '{{count}} väntande',
     pending_other: '{{count}} väntande',
+    loading: 'Laddar…',
     syncing: 'Synkar…',
     synced: 'Synkat',
   },

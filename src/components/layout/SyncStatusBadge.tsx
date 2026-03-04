@@ -3,20 +3,20 @@ import { useSync } from '../../context/useSync'
 
 export default function SyncStatusBadge() {
   const { t } = useTranslation()
-  const { status, pendingCount, sync } = useSync()
+  const { status, pendingCount, prefetching, sync } = useSync()
 
-  if (status === 'idle') return null
-
-  if (status === 'syncing') {
+  if (prefetching || status === 'syncing') {
     return (
       <div className="flex items-center gap-1 px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 text-xs font-medium rounded-full border border-blue-300 dark:border-blue-700/50">
         <svg className="w-3.5 h-3.5 shrink-0 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M21 12a9 9 0 1 1-6.219-8.56" />
         </svg>
-        <span className="hidden sm:inline">{t('sync.syncing')}</span>
+        <span className="hidden sm:inline">{prefetching ? t('sync.loading') : t('sync.syncing')}</span>
       </div>
     )
   }
+
+  if (status === 'idle') return null
 
   if (status === 'synced') {
     return (

@@ -20,6 +20,7 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
   const [pendingCount, setPendingCount] = useState(0)
   const [isSyncing, setIsSyncing] = useState(false)
   const [justSynced, setJustSynced] = useState(false)
+  const [isPrefetching, setIsPrefetching] = useState(false)
   const syncInProgress = useRef(false)
 
   const status: SyncStatus = isSyncing
@@ -105,7 +106,7 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
   }, [isOnline, isBackendOffline])
 
   return (
-    <SyncContext.Provider value={{ status, pendingCount, sync }}>
+    <SyncContext.Provider value={{ status, pendingCount, prefetching: isPrefetching, setPrefetching: setIsPrefetching, sync }}>
       {children}
     </SyncContext.Provider>
   )

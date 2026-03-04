@@ -202,6 +202,7 @@ const en = {
   sync: {
     pending_one: '{{count}} pending',
     pending_other: '{{count}} pending',
+    loading: 'Loading…',
     syncing: 'Syncing…',
     synced: 'Synced',
   },
