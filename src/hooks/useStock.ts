@@ -8,22 +8,55 @@ import {
   patchStockEntry,
   putStockEntry,
 } from '../api/stock'
-import type { StockEntry, StockEntryPayload } from '../types'
+import type { Product, StockEntry, StockEntryPayload } from '../types'
 import { useBackendStatus } from '../context/useBackendStatus'
 import { isBackendUnreachable } from '../api/client'
 import { db } from '../offline/db'
 
-export const useExpiredStock = () =>
-  useQuery({ queryKey: ['stock', 'expired'], queryFn: getExpiredStock })
-
-export const useExpiringStock = (days = 30) =>
-  useQuery({
-    queryKey: ['stock', 'expiring', days],
-    queryFn: () => getExpiringStock(days),
+export const useExpiredStock = () => {
+  const qc = useQueryClient()
+  return useQuery({
+    queryKey: ['stock', 'expired'],
+    queryFn: async () => {
+      try {
+        return await getExpiredStock()
+      } catch (e) {
+        if (!isBackendUnreachable(e)) throw e
+        return qc.getQueryData<StockEntry[]>(['stock', 'expired']) ?? []
+      }
+    },
   })
+}
 
-export const useLowStock = () =>
-  useQuery({ queryKey: ['stock', 'low'], queryFn: getLowStock })
+export const useExpiringStock = (days = 30) => {
+  const qc = useQueryClient()
+  return useQuery({
+    queryKey: ['stock', 'expiring', days],
+    queryFn: async () => {
+      try {
+        return await getExpiringStock(days)
+      } catch (e) {
+        if (!isBackendUnreachable(e)) throw e
+        return qc.getQueryData<StockEntry[]>(['stock', 'expiring', days]) ?? []
+      }
+    },
+  })
+}
+
+export const useLowStock = () => {
+  const qc = useQueryClient()
+  return useQuery({
+    queryKey: ['stock', 'low'],
+    queryFn: async () => {
+      try {
+        return await getLowStock()
+      } catch (e) {
+        if (!isBackendUnreachable(e)) throw e
+        return qc.getQueryData<Product[]>(['stock', 'low']) ?? []
+      }
+    },
+  })
+}
 
 export const usePatchStock = () => {
   const qc = useQueryClient()
