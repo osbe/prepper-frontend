@@ -49,7 +49,7 @@ export default function FoodDetailPage({ forceId }: Props) {
   const productId = forceId ?? Number(id)
   const navigate = useNavigate()
 
-  const { data: product, isLoading: pLoading } = useProduct(productId)
+  const { data: product, isLoading: pLoading, isError: pError } = useProduct(productId)
   const { data: stock = [], isLoading: sLoading } = useProductStock(productId)
 
   const deleteProduct = useDeleteProduct()
@@ -73,6 +73,16 @@ export default function FoodDetailPage({ forceId }: Props) {
   )
 
   if (pLoading) return <p className="text-gray-500 dark:text-gray-400 text-sm">{t('common.loading')}</p>
+  if (pError) {
+    return (
+      <div className="text-center py-16">
+        <p className="text-red-600 dark:text-red-400">{t('errors.something_went_wrong')}</p>
+        <Link to="/food" className="text-green-600 dark:text-green-400 hover:underline text-sm mt-2 block">
+          {t('products.back_from_detail')}
+        </Link>
+      </div>
+    )
+  }
   if (!product) {
     return (
       <div className="text-center py-16">

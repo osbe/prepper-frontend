@@ -3,5 +3,9 @@ import { SyncContext } from './SyncContext'
 import type { SyncContextValue } from './SyncContext'
 
 export function useSync(): SyncContextValue {
-  return useContext(SyncContext)
+  const ctx = useContext(SyncContext)
+  if (ctx === null) {
+    throw new Error('useSync must be used within a SyncProvider')
+  }
+  return ctx
 }

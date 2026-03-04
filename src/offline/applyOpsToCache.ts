@@ -45,6 +45,8 @@ export function applyOpsToCache(entries: StockEntry[], ops: PendingOp[]): StockE
       )
     } else if (op.type === 'DELETE' && op.entryId !== null) {
       result = result.filter((e) => e.id !== op.entryId)
+    } else {
+      console.error('[applyOpsToCache] Unrecognised or malformed op, skipping', op)
     }
   }
 

@@ -34,9 +34,11 @@ export const useProductStock = (id: number) => {
       let serverData: StockEntry[]
       try {
         serverData = await getProductStock(id)
-      } catch {
+      } catch (e) {
+        if (!isBackendUnreachable(e)) throw e
         // Backend unreachable — fall back to last known server state, stripping
         // pending-op-derived entries (negative IDs) to avoid double-applying ops
+        console.warn('[useProductStock] backend unreachable, using stale cache', id)
         const prev = qc.getQueryData<StockEntry[]>(['products', id, 'stock']) ?? []
         serverData = prev.filter((e) => e.id > 0)
       }

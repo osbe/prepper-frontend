@@ -37,7 +37,9 @@ export const usePatchStock = () => {
           if (!isBackendUnreachable(e)) throw e
         }
       }
-      const productId = findProductIdInCache(qc, id) ?? 0
+      const foundProductId = findProductIdInCache(qc, id)
+      if (foundProductId === null) console.warn('[usePatchStock] productId not found in cache for entryId', id)
+      const productId = foundProductId ?? 0
       await db.pendingOps.add({
         type: 'PATCH',
         productId,
@@ -67,7 +69,9 @@ export const useUpdateStock = () => {
           if (!isBackendUnreachable(e)) throw e
         }
       }
-      const productId = findProductIdInCache(qc, id) ?? 0
+      const foundProductId = findProductIdInCache(qc, id)
+      if (foundProductId === null) console.warn('[useUpdateStock] productId not found in cache for entryId', id)
+      const productId = foundProductId ?? 0
       await db.pendingOps.add({
         type: 'UPDATE',
         productId,
@@ -98,7 +102,9 @@ export const useDeleteStock = () => {
           if (!isBackendUnreachable(e)) throw e
         }
       }
-      const productId = findProductIdInCache(qc, id) ?? 0
+      const foundProductId = findProductIdInCache(qc, id)
+      if (foundProductId === null) console.warn('[useDeleteStock] productId not found in cache for entryId', id)
+      const productId = foundProductId ?? 0
       await db.pendingOps.add({
         type: 'DELETE',
         productId,

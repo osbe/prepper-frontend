@@ -32,11 +32,24 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
 
   // Keep pendingCount in sync with Dexie table via liveQuery observable
   useEffect(() => {
-    const subscription = liveQuery(() => db.pendingOps.count()).subscribe({
-      next: (count) => setPendingCount(count),
-      error: (err) => console.error('[SyncProvider] liveQuery failed', err),
-    })
-    return () => subscription.unsubscribe()
+    let subscription: { unsubscribe(): void }
+    let retryTimer: ReturnType<typeof setTimeout>
+
+    function subscribe() {
+      subscription = liveQuery(() => db.pendingOps.count()).subscribe({
+        next: (count) => setPendingCount(count),
+        error: (err) => {
+          console.error('[SyncProvider] liveQuery failed, resubscribing in 5s', err)
+          retryTimer = setTimeout(subscribe, 5000)
+        },
+      })
+    }
+
+    subscribe()
+    return () => {
+      clearTimeout(retryTimer)
+      subscription.unsubscribe()
+    }
   }, [])
 
   const sync = useCallback(async () => {
@@ -53,14 +66,18 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
       // Maps temp IDs (negative ints from offline ADDs) to real server IDs
       const tempIdMap = new Map<number, number>()
 
+      let aborted = false
       for (const op of ops) {
-        await processSingleOp(op, tempIdMap)
+        const ok = await processSingleOp(op, tempIdMap)
+        if (!ok) { aborted = true; break }
       }
 
       await qc.invalidateQueries({ queryKey: ['products'] })
       await qc.invalidateQueries({ queryKey: ['stock'] })
-      setJustSynced(true)
-      setTimeout(() => setJustSynced(false), 2000)
+      if (!aborted) {
+        setJustSynced(true)
+        setTimeout(() => setJustSynced(false), 2000)
+      }
     } finally {
       syncInProgress.current = false
       setIsSyncing(false)
@@ -94,7 +111,7 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-async function processSingleOp(op: PendingOp, tempIdMap: Map<number, number>) {
+async function processSingleOp(op: PendingOp, tempIdMap: Map<number, number>): Promise<boolean> {
   // Resolve any temp IDs that were mapped to real IDs by earlier ops in this sync session
   const resolvedEntryId =
     op.entryId !== null ? (tempIdMap.get(op.entryId) ?? op.entryId) : null
@@ -111,14 +128,21 @@ async function processSingleOp(op: PendingOp, tempIdMap: Map<number, number>) {
       await deleteStockEntry(resolvedEntryId!)
     }
     await db.pendingOps.delete(op.id!)
+    return true
   } catch (e) {
-    // 404 means the target resource is gone and the op can never succeed — discard it
+    // 404 means the target resource is gone and the op can never succeed — discard it,
+    // unless the entryId is still a negative tempId (ADD hasn't synced yet — don't discard)
     if (e instanceof NotFoundError) {
+      if (resolvedEntryId !== null && resolvedEntryId < 0) {
+        console.error('[SyncProvider] op references unresolved tempId, aborting sync', resolvedEntryId, op)
+        return false
+      }
       await db.pendingOps.delete(op.id!)
       console.warn('[SyncProvider] op discarded (resource not found)', op)
-      return
+      return true
     }
     // Transient error: leave the op in the queue so it can be retried on the next sync
     console.error('[SyncProvider] op failed, will retry on next sync', op)
+    return false
   }
 }

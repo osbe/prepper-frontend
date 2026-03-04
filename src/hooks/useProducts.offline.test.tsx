@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, waitFor, act } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import axios from 'axios'
 import type { ReactNode } from 'react'
 import { useProductStock, useAddStockEntry } from './useProducts'
 import type { StockEntry, StockEntryPayload } from '../types'
@@ -95,7 +96,7 @@ describe('useProductStock — offline fallback', () => {
     // Cache holds a real entry and the temp entry from an earlier offline ADD
     qc.setQueryData(['products', 1, 'stock'], [entry(1, 5), entry(-100, 3)])
 
-    mocks.getProductStock.mockRejectedValue(new Error('ECONNREFUSED'))
+    mocks.getProductStock.mockRejectedValue(new axios.AxiosError('Network Error', 'ECONNREFUSED'))
     // Dexie still holds the ADD op (not synced yet)
     mocks.dbWhere.mockReturnValue(dbWhereChain([
       op({ type: 'ADD', tempId: -100, payload: { quantity: 3 } }),
@@ -114,7 +115,7 @@ describe('useProductStock — offline fallback', () => {
 
   it('returns only the pending ops when backend is unreachable and cache is empty', async () => {
     const qc = makeQc()
-    mocks.getProductStock.mockRejectedValue(new Error('ECONNREFUSED'))
+    mocks.getProductStock.mockRejectedValue(new axios.AxiosError('Network Error', 'ECONNREFUSED'))
     mocks.dbWhere.mockReturnValue(dbWhereChain([
       op({ type: 'ADD', tempId: -200, payload: { quantity: 7 } }),
     ]))
@@ -130,7 +131,7 @@ describe('useProductStock — offline fallback', () => {
     const qc = makeQc()
     qc.setQueryData(['products', 1, 'stock'], [entry(1), entry(-100, 3)])
 
-    mocks.getProductStock.mockRejectedValue(new Error('ECONNREFUSED'))
+    mocks.getProductStock.mockRejectedValue(new axios.AxiosError('Network Error', 'ECONNREFUSED'))
     mocks.dbWhere.mockReturnValue(dbWhereChain([
       op({ type: 'ADD', tempId: -100, payload: { quantity: 3 } }),
     ]))

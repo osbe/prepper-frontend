@@ -8,8 +8,4 @@ export interface SyncContextValue {
   sync: () => Promise<void>
 }
 
-export const SyncContext = createContext<SyncContextValue>({
-  status: 'idle',
-  pendingCount: 0,
-  sync: async () => {},
-})
+export const SyncContext = createContext<SyncContextValue | null>(null)

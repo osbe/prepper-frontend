@@ -4,7 +4,8 @@ import i18n from '../i18n'
 export function isBackendUnreachable(error: unknown): boolean {
   if (!axios.isAxiosError(error)) return false
   if (!error.response) return true
-  return error.response.status >= 500
+  const status = error.response.status
+  return status === 502 || status === 503 || status === 504
 }
 
 export class NotFoundError extends Error {
