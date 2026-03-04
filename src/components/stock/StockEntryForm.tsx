@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { StockEntryPayload, Unit } from '../../types'
+import { NO_EXPIRY_DATE } from '../../types'
 import { getUnitStep } from './unitStep'
 
 interface InitialValues {
@@ -43,7 +44,7 @@ function getMonthName(month: number, language: string): string {
 }
 
 function parseExpiryDate(date: string | null | undefined) {
-  if (!date) return { year: '', month: '', day: '' }
+  if (!date || date === NO_EXPIRY_DATE) return { year: '', month: '', day: '' }
   const [y, m, d] = date.split('-')
   return { year: y, month: String(parseInt(m)), day: String(parseInt(d)) }
 }
@@ -83,7 +84,7 @@ export default function StockEntryForm({ unit, onSubmit, isLoading, error, hideE
       quantity: parseFloat(quantity),
       subType: showSubType ? (subType.trim() || null) : undefined,
       purchasedDate: purchasedDate || null,
-      expiryDate: hideExpiryDate ? getExpiryDate(purchasedDate || today(), 6) : expiryDateValue,
+      expiryDate: hideExpiryDate ? getExpiryDate(purchasedDate || today(), 6) : (expiryDateValue ?? NO_EXPIRY_DATE),
       location: location.trim() || null,
       notes: null,
     }, mode === 'add' && multiMode ? count : 1)

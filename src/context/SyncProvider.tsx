@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { liveQuery } from 'dexie'
-import { NotFoundError } from '../api/client'
+import { NotFoundError, ClientError } from '../api/client'
 import { SyncContext } from './SyncContext'
 import type { SyncStatus } from './SyncContext'
 import { useBackendStatus } from './useBackendStatus'
@@ -140,6 +140,12 @@ async function processSingleOp(op: PendingOp, tempIdMap: Map<number, number>): P
       }
       await db.pendingOps.delete(op.id!)
       console.warn('[SyncProvider] op discarded (resource not found)', op)
+      return true
+    }
+    // Permanent client error (bad data): discard the op so it doesn't block the queue forever
+    if (e instanceof ClientError) {
+      await db.pendingOps.delete(op.id!)
+      console.error('[SyncProvider] op discarded (bad request, data invalid)', op)
       return true
     }
     // Transient error: leave the op in the queue so it can be retried on the next sync

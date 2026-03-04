@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import type { Category, StockEntry, Unit } from '../../types'
+import { NO_EXPIRY_DATE } from '../../types'
 import { useFormatDate } from '../../i18n/useFormatDate'
 import { ClockIcon, EditIcon, TakeOutIcon } from '../ui/icons'
 import { formatNumber, getUnitStep } from './unitStep'
@@ -91,7 +92,7 @@ export default function StockEntryRow({
               entry.expiryStatus === 'APPROACHING' ? 'text-yellow-600 dark:text-yellow-400 font-medium' :
               'text-gray-900 dark:text-white'
             }>
-              {entry.expiryDate ? formatDate(entry.expiryDate) : '—'}
+              {entry.expiryDate && entry.expiryDate !== NO_EXPIRY_DATE ? formatDate(entry.expiryDate) : '—'}
             </p>
           </div>
         </div>

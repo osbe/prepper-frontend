@@ -61,6 +61,8 @@ export interface ProductPayload {
   notes?: string | null
 }
 
+export const NO_EXPIRY_DATE = '9999-12-31'
+
 export interface StockEntryPayload {
   quantity: number
   subType?: string | null

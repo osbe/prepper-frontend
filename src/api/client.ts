@@ -15,6 +15,13 @@ export class NotFoundError extends Error {
   }
 }
 
+export class ClientError extends Error {
+  constructor(message?: string) {
+    super(message ?? i18n.t('errors.client_error'))
+    this.name = 'ClientError'
+  }
+}
+
 const base = document.querySelector('base')?.getAttribute('href') ?? '/'
 const client = axios.create({ baseURL: `${base}api` })
 
@@ -27,7 +34,7 @@ client.interceptors.response.use(
         return Promise.reject(new NotFoundError())
       }
       if (status && status >= 400 && status < 500) {
-        return Promise.reject(new Error(i18n.t('errors.client_error')))
+        return Promise.reject(new ClientError())
       }
     }
     return Promise.reject(error)

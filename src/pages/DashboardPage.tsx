@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useExpiredStock, useExpiringStock, useLowStock } from '../hooks/useStock'
 import { useProducts } from '../hooks/useProducts'
 import type { StockEntry, Product } from '../types'
+import { NO_EXPIRY_DATE } from '../types'
 import { Link } from 'react-router-dom'
 import { useFormatDate } from '../i18n/useFormatDate'
 import PreparednessRating from '../components/dashboard/PreparednessRating'
@@ -34,7 +35,7 @@ function StockAlertRow({
         {product?.name ?? t('dashboard.product_fallback', { id: entry.productId })}
       </p>
       <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-        {formatNumber(entry.quantity)} {unit}{entry.expiryDate && ` · ${t('dashboard.expires', { date: formatDate(entry.expiryDate) })}`}
+        {formatNumber(entry.quantity)} {unit}{entry.expiryDate && entry.expiryDate !== NO_EXPIRY_DATE && ` · ${t('dashboard.expires', { date: formatDate(entry.expiryDate) })}`}
         {entry.location && ` · ${entry.location}`}
       </p>
       {entry.expiryStatus && product && (
