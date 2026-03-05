@@ -8,7 +8,7 @@ import { useBackendStatus } from './useBackendStatus'
 import { useOnlineStatus } from '../hooks/useOnlineStatus'
 import { db } from '../offline/db'
 import type { PendingOp } from '../offline/db'
-import type { StockEntryPayload } from '../types'
+import type { StockEntry, StockEntryPayload } from '../types'
 import { addStockEntry } from '../api/products'
 import { patchStockEntry, putStockEntry, deleteStockEntry } from '../api/stock'
 
@@ -135,7 +135,7 @@ async function processSingleOp(
 
         // Update the query cache directly to switch the tempId to the real ID.
         // This ensures optimistic UI doesn't lose the item if a later fetch fails.
-        qc.setQueryData<any[]>(['products', op.productId, 'stock'], (old) => {
+        qc.setQueryData<StockEntry[]>(['products', op.productId, 'stock'], (old) => {
           if (!old) return old
           return old.map(entry => entry.id === op.tempId ? { ...entry, id: result.id } : entry)
         })
