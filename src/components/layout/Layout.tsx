@@ -3,8 +3,7 @@ import { Outlet } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import Navbar from './Navbar'
 import BottomTabBar from './BottomTabBar'
-import { getProducts } from '../../api/products'
-import { makeProductStockQueryFn } from '../../hooks/useProducts'
+import { makeProductsQueryFn, makeProductStockQueryFn } from '../../hooks/useProducts'
 import { useSync } from '../../context/useSync'
 import { saveQueryCache } from '../../offline/queryPersister'
 import type { Product } from '../../types'
@@ -17,7 +16,7 @@ export default function Layout() {
     setPrefetching(true)
     qc.prefetchQuery({
       queryKey: ['products', null],
-      queryFn: () => getProducts(),
+      queryFn: makeProductsQueryFn(undefined, qc),
     }).then(() => {
       const products = qc.getQueryData<Product[]>(['products', null]) ?? []
       return Promise.all(

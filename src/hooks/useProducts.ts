@@ -15,27 +15,31 @@ import { db } from '../offline/db'
 import { applyOpsToCache } from '../offline/applyOpsToCache'
 import { saveQueryCache } from '../offline/queryPersister'
 
+export function makeProductsQueryFn(category: Category | undefined, qc: ReturnType<typeof useQueryClient>) {
+  return async () => {
+    try {
+      return await getProducts(category)
+    } catch (e) {
+      if (!isBackendUnreachable(e)) throw e
+      const prev = qc.getQueryData<Product[]>(['products', category ?? null])
+      if (prev) return prev
+      // Scan all product list caches and filter by category
+      const allQueries = qc.getQueriesData<Product[]>({ queryKey: ['products'] })
+      for (const [, data] of allQueries) {
+        if (Array.isArray(data) && data.length > 0) {
+          return category ? data.filter((p) => p.category === category) : data
+        }
+      }
+      return []
+    }
+  }
+}
+
 export const useProducts = (category?: Category) => {
   const qc = useQueryClient()
   return useQuery({
     queryKey: ['products', category ?? null],
-    queryFn: async () => {
-      try {
-        return await getProducts(category)
-      } catch (e) {
-        if (!isBackendUnreachable(e)) throw e
-        const prev = qc.getQueryData<Product[]>(['products', category ?? null])
-        if (prev) return prev
-        // Scan all product list caches and filter by category
-        const allQueries = qc.getQueriesData<Product[]>({ queryKey: ['products'] })
-        for (const [, data] of allQueries) {
-          if (Array.isArray(data) && data.length > 0) {
-            return category ? data.filter((p) => p.category === category) : data
-          }
-        }
-        return []
-      }
-    },
+    queryFn: makeProductsQueryFn(category, qc),
   })
 }
 

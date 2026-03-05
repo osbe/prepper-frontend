@@ -69,7 +69,7 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
 
       let aborted = false
       for (const op of ops) {
-        const ok = await processSingleOp(op, tempIdMap)
+        const ok = await processSingleOp(op, tempIdMap, qc)
         if (!ok) { aborted = true; break }
       }
 
@@ -112,7 +112,11 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-async function processSingleOp(op: PendingOp, tempIdMap: Map<number, number>): Promise<boolean> {
+async function processSingleOp(
+  op: PendingOp,
+  tempIdMap: Map<number, number>,
+  qc: ReturnType<typeof useQueryClient>
+): Promise<boolean> {
   // Resolve any temp IDs that were mapped to real IDs by earlier ops in this sync session
   const resolvedEntryId =
     op.entryId !== null ? (tempIdMap.get(op.entryId) ?? op.entryId) : null
@@ -120,7 +124,22 @@ async function processSingleOp(op: PendingOp, tempIdMap: Map<number, number>): P
   try {
     if (op.type === 'ADD') {
       const result = await addStockEntry(op.productId, op.payload as StockEntryPayload)
-      if (op.tempId !== null) tempIdMap.set(op.tempId, result.id)
+      if (op.tempId !== null) {
+        tempIdMap.set(op.tempId, result.id)
+
+        // Find dependent ops and update their entryId from tempId to the new result.id
+        const dependentOps = await db.pendingOps.where('entryId').equals(op.tempId).toArray()
+        for (const dop of dependentOps) {
+          await db.pendingOps.update(dop.id!, { entryId: result.id })
+        }
+
+        // Update the query cache directly to switch the tempId to the real ID.
+        // This ensures optimistic UI doesn't lose the item if a later fetch fails.
+        qc.setQueryData<any[]>(['products', op.productId, 'stock'], (old) => {
+          if (!old) return old
+          return old.map(entry => entry.id === op.tempId ? { ...entry, id: result.id } : entry)
+        })
+      }
     } else if (op.type === 'PATCH') {
       await patchStockEntry(resolvedEntryId!, (op.payload as { quantity: number }).quantity)
     } else if (op.type === 'UPDATE') {
@@ -131,13 +150,8 @@ async function processSingleOp(op: PendingOp, tempIdMap: Map<number, number>): P
     await db.pendingOps.delete(op.id!)
     return true
   } catch (e) {
-    // 404 means the target resource is gone and the op can never succeed — discard it,
-    // unless the entryId is still a negative tempId (ADD hasn't synced yet — don't discard)
+    // 404 means the target resource is gone and the op can never succeed — discard it.
     if (e instanceof NotFoundError) {
-      if (resolvedEntryId !== null && resolvedEntryId < 0) {
-        console.error('[SyncProvider] op references unresolved tempId, aborting sync', resolvedEntryId, op)
-        return false
-      }
       await db.pendingOps.delete(op.id!)
       console.warn('[SyncProvider] op discarded (resource not found)', op)
       return true
