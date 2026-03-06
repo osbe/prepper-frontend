@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import type { Category, ProductPayload } from '../types'
 import { FOOD_CATEGORIES } from '../types'
 import { useProducts, useCreateProduct } from '../hooks/useProducts'
+import { useBackendStatus } from '../context/useBackendStatus'
 import ProductCard from '../components/products/ProductCard'
 import CategoryFilter from '../components/products/CategoryFilter'
 import BottomSheet from '../components/ui/BottomSheet'
@@ -15,6 +16,7 @@ export default function FoodListPage() {
   const [category, setCategory] = useState<Category | undefined>()
   const [showAddProduct, setShowAddProduct] = useState(false)
   const [addError, setAddError] = useState<string | null>(null)
+  const isOffline = useBackendStatus()
   const { data: allProducts = [], isLoading, error } = useProducts(category)
   const createProduct = useCreateProduct()
 
@@ -62,8 +64,9 @@ export default function FoodListPage() {
       {!showAddProduct && (
         <button
           onClick={() => setShowAddProduct(true)}
+          disabled={isOffline}
           aria-label={t('products.add_button')}
-          className="fixed bottom-20 sm:bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-green-600 hover:bg-green-700 active:bg-green-800 text-white text-3xl shadow-lg transition-colors flex items-center justify-center"
+          className="fixed bottom-20 sm:bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-green-600 hover:bg-green-700 active:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-green-600 text-white text-3xl shadow-lg transition-colors flex items-center justify-center"
         >
           +
         </button>

@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useProducts, useCreateProduct } from '../../hooks/useProducts'
+import { useBackendStatus } from '../../context/useBackendStatus'
 
 export default function WaterWidget() {
     const { t } = useTranslation()
     const { data: products = [], isLoading } = useProducts()
     const createProduct = useCreateProduct()
+    const isOffline = useBackendStatus()
 
     const [isSettingUp, setIsSettingUp] = useState(false)
     const [persons, setPersons] = useState('4')
@@ -59,8 +61,8 @@ export default function WaterWidget() {
                     </div>
                     <button
                         onClick={handleSetup}
-                        disabled={isSettingUp || computedLiters === 0}
-                        className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+                        disabled={isSettingUp || computedLiters === 0 || isOffline}
+                        className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
                     >
                         {isSettingUp ? t('common.saving') : t('water_widget.setup_button')}
                     </button>
