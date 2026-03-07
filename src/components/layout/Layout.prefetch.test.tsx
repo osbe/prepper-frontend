@@ -9,7 +9,7 @@ import type { PendingOp } from '../../offline/db'
 vi.mock('./Navbar', () => ({ default: () => null }))
 vi.mock('./BottomTabBar', () => ({ default: () => null }))
 vi.mock('../../context/useSync', () => ({
-  useSync: () => ({ setPrefetching: vi.fn() }),
+  useSync: () => ({ setPrefetching: vi.fn(), conflicts: [], clearConflicts: vi.fn() }),
 }))
 
 const mocks = vi.hoisted(() => ({
@@ -32,6 +32,7 @@ vi.mock('../../offline/db', () => ({
   db: {
     pendingOps: {
       where: mocks.dbWhere,
+      filter: vi.fn(() => ({ sortBy: vi.fn(() => Promise.resolve([])) })),
       add: vi.fn(),
       count: vi.fn(() => Promise.resolve(0)),
     },

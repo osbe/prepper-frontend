@@ -2,11 +2,12 @@ import Dexie, { type Table } from 'dexie'
 
 export interface PendingOp {
   id?: number
-  type: 'ADD' | 'PATCH' | 'UPDATE' | 'DELETE'
-  productId: number    // for hydration — which cache key to update
+  type: 'ADD' | 'PATCH' | 'UPDATE' | 'DELETE' | 'CREATE_PRODUCT' | 'UPDATE_PRODUCT' | 'DELETE_PRODUCT'
+  productId: number    // for hydration — which cache key to update; also the temp product ID for CREATE_PRODUCT ops
   entryId: number | null  // server ID or temp ID for subsequent ops on offline-added entries
-  tempId: number | null   // negative int assigned to ADD ops, resolved to real ID during sync
-  payload: unknown     // StockEntryPayload | { quantity: number } | null
+  tempId: number | null   // negative int: for ADD ops = stock entry tempId, for CREATE_PRODUCT = product tempId
+  payload: unknown     // StockEntryPayload | ProductPayload | { quantity: number } | null
+  beforeSnapshot?: unknown  // snapshot of entity at time of queuing, used for conflict detection on UPDATE ops
   createdAt: number
 }
 

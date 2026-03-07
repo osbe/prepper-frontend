@@ -50,6 +50,7 @@ const en = {
     expires: 'Expires {{date}}',
     category_breakdown: 'By category',
     category_at_target: '{{count}}/{{total}} at target',
+    offline_notice: 'Status data (expired, stock levels etc.) may be outdated while offline.',
   },
   products: {
     page_title: 'Food',
@@ -207,6 +208,9 @@ const en = {
     loading: 'Loading…',
     syncing: 'Syncing…',
     synced: 'Synced',
+    conflict_one: 'Sync conflict — your changes were saved over a newer version',
+    conflict_other: '{{count}} sync conflicts — your changes were saved over newer versions',
+    conflict: 'Sync conflict — your changes were saved over a newer version',
   },
 } as const
 

@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { useExpiredStock, useExpiringStock, useLowStock } from '../hooks/useStock'
 import { useProducts } from '../hooks/useProducts'
+import { useBackendStatus } from '../context/useBackendStatus'
 import type { StockEntry, Product } from '../types'
 import { NO_EXPIRY_DATE } from '../types'
 import { Link } from 'react-router-dom'
@@ -68,6 +69,7 @@ function LowStockRow({ product }: { product: Product }) {
 
 export default function DashboardPage() {
   const { t } = useTranslation()
+  const isOffline = useBackendStatus()
   const { data: expired = [], isLoading: l1 } = useExpiredStock()
   const { data: expiring = [], isLoading: l2 } = useExpiringStock()
   const { data: low = [], isLoading: l3 } = useLowStock()
@@ -95,6 +97,16 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
+      {isOffline && (
+        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-700 dark:text-amber-400 text-sm">
+          <svg aria-hidden="true" className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          {t('dashboard.offline_notice')}
+        </div>
+      )}
       <PreparednessRating products={products} expired={expired} />
 
       {expired.length > 0 && (

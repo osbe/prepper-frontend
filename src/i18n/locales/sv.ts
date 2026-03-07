@@ -50,6 +50,7 @@ const sv = {
     expires: 'Bäst före {{date}}',
     category_breakdown: 'Per kategori',
     category_at_target: '{{count}}/{{total}} på mål',
+    offline_notice: 'Statusdata (utgångna, lagernivåer m.m.) kan vara inaktuell i offlineläge.',
   },
   products: {
     page_title: 'Mat',
@@ -207,6 +208,9 @@ const sv = {
     loading: 'Laddar…',
     syncing: 'Synkar…',
     synced: 'Synkat',
+    conflict_one: 'Synkkonflikt — dina ändringar sparades över en nyare version',
+    conflict_other: '{{count}} synkkonflikter — dina ändringar sparades över nyare versioner',
+    conflict: 'Synkkonflikt — dina ändringar sparades över en nyare version',
   },
 } as const
 

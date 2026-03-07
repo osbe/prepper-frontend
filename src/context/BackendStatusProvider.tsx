@@ -2,9 +2,14 @@ import { useEffect, useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import client, { isBackendUnreachable } from '../api/client'
 import { BackendStatusContext } from './BackendStatusContext'
+import { useOnlineStatus } from '../hooks/useOnlineStatus'
 
 export function BackendStatusProvider({ children }: { children: React.ReactNode }) {
-  const [isOffline, setIsOffline] = useState(false)
+  // Tracks whether the backend is unreachable based on query/health-check failures.
+  // The context value also incorporates navigator.onLine so that mutations can skip
+  // the network attempt immediately when the device has no connectivity at all.
+  const [isBackendQueryOffline, setIsBackendQueryOffline] = useState(false)
+  const isOnline = useOnlineStatus()
   const queryClient = useQueryClient()
 
   useQuery({
@@ -20,16 +25,16 @@ export function BackendStatusProvider({ children }: { children: React.ReactNode 
       if (event.type !== 'updated') return
       const { state } = event.query
       if (state.status === 'error' && isBackendUnreachable(state.error)) {
-        setIsOffline(true)
+        setIsBackendQueryOffline(true)
       } else if (state.status === 'success' && event.query.queryKey[0] === '__health__') {
-        setIsOffline(false)
+        setIsBackendQueryOffline(false)
       }
     })
     return unsubscribe
   }, [queryClient])
 
   return (
-    <BackendStatusContext.Provider value={isOffline}>
+    <BackendStatusContext.Provider value={isBackendQueryOffline || !isOnline}>
       {children}
     </BackendStatusContext.Provider>
   )

@@ -1,4 +1,4 @@
-import type { StockEntry, StockEntryPayload } from '../types'
+import type { Product, ProductPayload, StockEntry, StockEntryPayload } from '../types'
 import type { PendingOp } from './db'
 
 /**
@@ -47,6 +47,43 @@ export function applyOpsToCache(entries: StockEntry[], ops: PendingOp[]): StockE
       result = result.filter((e) => e.id !== op.entryId)
     } else {
       console.error('[applyOpsToCache] Unrecognised or malformed op, skipping', op)
+    }
+  }
+
+  return result
+}
+
+/**
+ * Applies pending offline product ops to a cached product array, producing the locally-correct view.
+ * Used in useProducts query fns so offline-created/edited/deleted products are immediately visible.
+ */
+export function applyProductOpsToCache(products: Product[], ops: PendingOp[]): Product[] {
+  let result = [...products]
+
+  for (const op of ops) {
+    if (op.type === 'CREATE_PRODUCT' && op.tempId !== null) {
+      const p = op.payload as ProductPayload
+      result = [
+        ...result,
+        {
+          id: op.tempId,
+          name: p.name,
+          category: p.category,
+          unit: p.unit,
+          targetQuantity: p.targetQuantity,
+          currentStock: 0,
+          notes: p.notes ?? null,
+        },
+      ]
+    } else if (op.type === 'UPDATE_PRODUCT') {
+      const p = op.payload as ProductPayload
+      result = result.map((product) =>
+        product.id === op.productId
+          ? { ...product, name: p.name, category: p.category, unit: p.unit, targetQuantity: p.targetQuantity, notes: p.notes ?? null }
+          : product,
+      )
+    } else if (op.type === 'DELETE_PRODUCT') {
+      result = result.filter((product) => product.id !== op.productId)
     }
   }
 
