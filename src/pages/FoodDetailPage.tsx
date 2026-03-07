@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useProduct, useProductStock, useDeleteProduct, useAddStockEntry } from '../hooks/useProducts'
@@ -6,6 +6,7 @@ import { usePatchStock, useDeleteStock, useUpdateStock } from '../hooks/useStock
 import type { StockEntry, StockEntryPayload } from '../types'
 import { useUndoStockDelete } from '../hooks/useUndoStockDelete'
 import { usePendingOps } from '../hooks/usePendingOps'
+import { useSync } from '../context/useSync'
 import StockEntryRow from '../components/stock/StockEntryRow'
 import { formatNumber } from '../components/stock/unitStep'
 import StockEntryForm from '../components/stock/StockEntryForm'
@@ -49,6 +50,16 @@ export default function FoodDetailPage({ forceId }: Props) {
   const { id } = useParams<{ id: string }>()
   const productId = forceId ?? Number(id)
   const navigate = useNavigate()
+
+  const { resolvedProductIds } = useSync()
+
+  // When a temp-ID product is synced, redirect to the real URL
+  useEffect(() => {
+    if (productId < 0) {
+      const realId = resolvedProductIds.get(productId)
+      if (realId !== undefined) navigate(`/food/${realId}`, { replace: true })
+    }
+  }, [productId, resolvedProductIds, navigate])
 
   const { data: product, isLoading: pLoading, isError: pError } = useProduct(productId)
   const { data: stock = [], isLoading: sLoading } = useProductStock(productId)

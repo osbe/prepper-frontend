@@ -26,6 +26,7 @@ vi.mock('../offline/db', () => ({
   db: {
     pendingOps: {
       where: mocks.dbWhere,
+      filter: vi.fn(() => ({ sortBy: vi.fn(() => Promise.resolve([])) })),
       add: vi.fn(),
       count: vi.fn(() => Promise.resolve(0)),
     },

@@ -1,16 +1,19 @@
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import Navbar from './Navbar'
 import BottomTabBar from './BottomTabBar'
+import Toast from '../ui/Toast'
 import { makeProductsQueryFn, makeProductStockQueryFn } from '../../hooks/useProducts'
 import { useSync } from '../../context/useSync'
 import { saveQueryCache } from '../../offline/queryPersister'
 import type { Product } from '../../types'
 
 export default function Layout() {
+  const { t } = useTranslation()
   const qc = useQueryClient()
-  const { setPrefetching } = useSync()
+  const { setPrefetching, conflicts, clearConflicts } = useSync()
 
   useEffect(() => {
     setPrefetching(true)
@@ -51,6 +54,15 @@ export default function Layout() {
         <Outlet />
       </main>
       <BottomTabBar />
+      {conflicts.length > 0 && (
+        <Toast
+          message={t('sync.conflict', { count: conflicts.length })}
+          actionLabel={t('common.confirm')}
+          onAction={clearConflicts}
+          onDismiss={clearConflicts}
+          duration={8000}
+        />
+      )}
     </div>
   )
 }
