@@ -33,6 +33,17 @@ export default function Layout() {
     })
   }, [qc, setPrefetching])
 
+  // Persist the query cache whenever the app is backgrounded (e.g. user switches apps
+  // on mobile). TanStack Query background refetches keep the in-memory cache fresh but
+  // do not trigger saveQueryCache(), so without this the Dexie snapshot can be stale.
+  useEffect(() => {
+    const save = () => {
+      if (document.visibilityState === 'hidden') void saveQueryCache()
+    }
+    document.addEventListener('visibilitychange', save)
+    return () => document.removeEventListener('visibilitychange', save)
+  }, [])
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
       <Navbar />

@@ -35,11 +35,16 @@ export default defineConfig({
         runtimeCaching: [
           {
             // Health check: always hit the network, never serve from cache
-            urlPattern: ({ url }) => url.pathname.startsWith('/api/') && url.searchParams.has('__nc'),
+            urlPattern: ({ url, request }) =>
+              url.pathname.startsWith('/api/') && url.searchParams.has('__nc') && request.method === 'GET',
             handler: 'NetworkOnly',
           },
           {
-            urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
+            // Only cache GET responses — mutations (POST/PATCH/PUT/DELETE) must not be
+            // subject to the networkTimeoutSeconds delay, as there is no cached response
+            // to fall back to and the 10 s timeout would freeze the UI in poor connectivity.
+            urlPattern: ({ url, request }) =>
+              url.pathname.startsWith('/api/') && request.method === 'GET',
             handler: 'NetworkFirst',
             options: {
               cacheName: 'api-cache',
