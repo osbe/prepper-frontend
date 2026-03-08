@@ -78,8 +78,10 @@ export function SyncProvider({ children }: { children: React.ReactNode }) {
         if (!ok) { aborted = true; break }
       }
 
-      await qc.invalidateQueries({ queryKey: ['products'] })
-      await qc.invalidateQueries({ queryKey: ['stock'] })
+      if (!aborted) {
+        await qc.invalidateQueries({ queryKey: ['products'] })
+        await qc.invalidateQueries({ queryKey: ['stock'] })
+      }
 
       if (tempProductIdMap.size > 0) {
         setResolvedProductIds((prev) => new Map([...prev, ...tempProductIdMap]))
