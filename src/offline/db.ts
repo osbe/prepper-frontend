@@ -32,3 +32,10 @@ class PrepperDB extends Dexie {
 }
 
 export const db = new PrepperDB()
+
+/**
+ * IDs of pending ops that are currently being sent to the server.
+ * Used by applyOpsToCache to skip ops in-flight, preventing duplication
+ * when a query refetch sees server data + the not-yet-deleted pending op simultaneously.
+ */
+export const syncingOpIds = new Set<number>()

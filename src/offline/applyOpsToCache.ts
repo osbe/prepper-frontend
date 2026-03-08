@@ -1,4 +1,5 @@
 import type { Product, ProductPayload, StockEntry, StockEntryPayload } from '../types'
+import { syncingOpIds } from './db'
 import type { PendingOp } from './db'
 
 /**
@@ -9,6 +10,11 @@ export function applyOpsToCache(entries: StockEntry[], ops: PendingOp[]): StockE
   let result = [...entries]
 
   for (const op of ops) {
+    // Skip ops currently being sent to the server — they're handled by sync directly.
+    // This prevents duplication when a refetch sees server data (entry already created)
+    // alongside a pending op that hasn't been deleted from Dexie yet.
+    if (op.id !== undefined && syncingOpIds.has(op.id)) continue
+
     if (op.type === 'ADD' && op.tempId !== null) {
       const p = op.payload as StockEntryPayload
       result = [
@@ -61,6 +67,8 @@ export function applyProductOpsToCache(products: Product[], ops: PendingOp[]): P
   let result = [...products]
 
   for (const op of ops) {
+    if (op.id !== undefined && syncingOpIds.has(op.id)) continue
+
     if (op.type === 'CREATE_PRODUCT' && op.tempId !== null) {
       const p = op.payload as ProductPayload
       result = [

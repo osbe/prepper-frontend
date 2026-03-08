@@ -6,7 +6,7 @@ import { SyncContext } from './SyncContext'
 import type { ConflictInfo, SyncStatus } from './SyncContext'
 import { useBackendStatus } from './useBackendStatus'
 import { useOnlineStatus } from '../hooks/useOnlineStatus'
-import { db } from '../offline/db'
+import { db, syncingOpIds } from '../offline/db'
 import type { PendingOp } from '../offline/db'
 import type { Product, StockEntry, StockEntryPayload, ProductPayload } from '../types'
 import { addStockEntry, createProduct, getProduct, updateProduct, deleteProduct } from '../api/products'
@@ -148,6 +148,10 @@ async function processSingleOp(
   const resolvedEntryId =
     op.entryId !== null ? (tempIdMap.get(op.entryId) ?? op.entryId) : null
 
+  // Mark as in-flight so applyOpsToCache skips it during concurrent query refetches,
+  // preventing duplication when the server already has the entry but the op isn't deleted yet.
+  if (op.id !== undefined) syncingOpIds.add(op.id)
+
   try {
     if (op.type === 'CREATE_PRODUCT') {
       const result = await createProduct(op.payload as ProductPayload)
@@ -238,5 +242,7 @@ async function processSingleOp(
     // Transient error: leave the op in the queue so it can be retried on the next sync
     console.error('[SyncProvider] op failed, will retry on next sync', op)
     return false
+  } finally {
+    if (op.id !== undefined) syncingOpIds.delete(op.id)
   }
 }
