@@ -150,6 +150,13 @@ export default function Navbar() {
                     </div>
                   </div>
 
+                  <div className="my-1.5 border-t border-gray-100 dark:border-gray-700" />
+
+                  {/* Version label */}
+                  <p className="px-3 py-1 text-xs text-gray-400 dark:text-gray-600 text-center">
+                    v{__APP_VERSION__}
+                  </p>
+
                 </div>
               )}
             </div>
